@@ -632,12 +632,12 @@
       { name: 'Refrigerator (Large)', watts: 180, defaultQty: 0, defaultHours: 0 },
       { name: 'Washing Machine', watts: 500, defaultQty: 0, defaultHours: 0, note: 'Run during solar hours' },
       { name: 'Iron', watts: 1200, defaultQty: 0, defaultHours: 0, note: 'Heavy load — daytime only' },
-      { name: 'Water Pump (0.5HP)', watts: 370, defaultQty: 0, defaultHours: 0 },
-      { name: 'Water Pump (1HP)', watts: 750, defaultQty: 0, defaultHours: 0 },
+      { name: 'Water Pump (0.5HP)', watts: 370, defaultQty: 0, defaultHours: 0, surge: 3 },
+      { name: 'Water Pump (1HP)', watts: 750, defaultQty: 0, defaultHours: 0, surge: 3 },
       { name: 'Microwave', watts: 1000, defaultQty: 0, defaultHours: 0 },
       { name: 'Electric Kettle', watts: 1500, defaultQty: 0, defaultHours: 0 },
       { name: 'Router / WiFi', watts: 12, defaultQty: 0, defaultHours: 0 },
-      { name: 'Air Conditioner (9000 BTU)', watts: 900, defaultQty: 0, defaultHours: 0 },
+      { name: 'Air Conditioner (9000 BTU)', watts: 900, defaultQty: 0, defaultHours: 0, surge: 3 },
     ];
 
     let currentRegion = localStorage.getItem('soleverde_region') || 'AE';
@@ -670,17 +670,20 @@
     function calculateSize() {
       const battPref=document.getElementById('batteryType').value, sunHours=getCurrentRegion().sunHours, loss=1.25, heatDerate=0.9;
       let totalDailyWh=0, peakLoad=0, loads=[];
-      appliances.forEach((a,i)=>{const q=appState[i].qty,h=appState[i].hours;if(q>0&&h>0){const wh=a.watts*q*h;totalDailyWh+=wh;peakLoad+=a.watts*q;loads.push({name:a.name,watts:a.watts*q,wh});}});
+      let maxSurge=0;appliances.forEach((a,i)=>{const q=appState[i].qty,h=appState[i].hours;if(q>0&&h>0){const wh=a.watts*q*h;totalDailyWh+=wh;peakLoad+=a.watts*q;if(a.surge)maxSurge=Math.max(maxSurge,a.watts*q*a.surge);loads.push({name:a.name,watts:a.watts*q,wh});}});
       customApps.forEach(a=>{if(a.qty>0&&a.hours>0){const wh=a.watts*a.qty*a.hours;totalDailyWh+=wh;peakLoad+=a.watts*a.qty;loads.push({name:a.name,watts:a.watts*a.qty,wh});}});
       if(totalDailyWh===0){document.getElementById('sizingResults').innerHTML='<div class="section"><div class="result-box" style="border-color:var(--warning);"><p style="color:var(--warning);font-weight:600;">Please set at least one appliance with quantity > 0.</p></div></div>';return;}
-      const reqPanelW=(totalDailyWh*loss)/(sunHours*heatDerate), dod=battPref==='lithium'?0.9:0.5, totalBattWh=(totalDailyWh*2)/dod, reqInvW=peakLoad*1.25;
-      const invList=[{name:'SV EDGE 2kW',rated:2000,voltage:12,maxPV:2000},{name:'SV MAX 3kVA (2.4kW)',rated:2400,voltage:24,maxPV:3200},{name:'SV PRO 3kW',rated:3000,voltage:24,maxPV:5000},{name:'SV EDGE 3.2kW',rated:3200,voltage:24,maxPV:3000},{name:'SV EDGE 4.2kW',rated:4200,voltage:24,maxPV:5000},{name:'SV PRO 5.5kW',rated:5500,voltage:48,maxPV:6200},{name:'SV EDGE 6.2kW',rated:6200,voltage:48,maxPV:8500},{name:'SV PRO 11kW',rated:11000,voltage:48,maxPV:11000}];
-      let compatible=battPref==='lithium'?invList.filter(i=>i.voltage===48):invList;
-      let recInv=compatible[compatible.length-1]; for(const inv of compatible){if(inv.rated>=reqInvW){recInv=inv;break;}}
+      const reqPanelW=(totalDailyWh*loss)/(sunHours*heatDerate), dod=battPref==='lithium'?0.9:0.5, totalBattWh=(totalDailyWh*2)/dod, reqInvW=Math.max(peakLoad*1.25,maxSurge);
+      const invList=[{name:'SV EDGE 2kW',rated:1600,voltage:12,maxPV:2000},{name:'SV MAX 3kVA (2.4kW)',rated:2400,voltage:24,maxPV:3200},{name:'SV PRO 3kW',rated:3000,voltage:24,maxPV:5000},{name:'SV EDGE 3.2kW',rated:3000,voltage:24,maxPV:3000},{name:'SV EDGE 4.2kW',rated:3000,voltage:24,maxPV:5000},{name:'SV PRO 5.5kW',rated:5500,voltage:48,maxPV:6200},{name:'SV EDGE 6.2kW',rated:6200,voltage:48,maxPV:8500},{name:'SV PRO 11kW',rated:11000,voltage:48,maxPV:11000}];
+      const hasHeavy=loads.some(l=>l.watts>=500);const minVolt=hasHeavy?24:12;
+      let compatible=battPref==='lithium'?invList.filter(i=>i.voltage===48):invList.filter(i=>i.voltage>=minVolt);
+      function calcMinPanelW(inv){let mp=reqPanelW;if(battPref==='lithium'){const battCap=totalBattWh>10240?11776:totalBattWh>5120?10240:5120;mp=Math.max(mp,battCap/sunHours);}else{const battChargeW=totalBattWh*0.5/sunHours;mp=Math.max(mp,totalDailyWh/sunHours+battChargeW);}return mp;}
+      let recInv=compatible[compatible.length-1];
+      for(const inv of compatible){if(inv.rated>=reqInvW){const neededPV=calcMinPanelW(inv);if(neededPV<=inv.maxPV){recInv=inv;break;}}}
       let recBatt;
       if(battPref==='lithium'){if(totalBattWh<=5120)recBatt={name:'SV 5kWh Lithium',detail:'1× 51.2V 100Ah'};else if(totalBattWh<=10240)recBatt={name:'SV 5kWh Lithium',detail:'2× 51.2V 100Ah (parallel)'};else if(totalBattWh<=11776)recBatt={name:'SV 11.8kWh Lithium',detail:'1× 51.2V 230Ah'};else{const c=Math.ceil(totalBattWh/11776);recBatt={name:'SV 11.8kWh Lithium',detail:c+'× 51.2V 230Ah (parallel)'};}}
       else{const v=recInv.voltage||24,sc=v/12,sWh=2400*sc,sn=Math.ceil(totalBattWh/sWh),tb=sn*sc;recBatt={name:'SV 12V 200Ah AGM',detail:tb+'× batteries ('+sn+' string'+(sn>1?'s':'')+' of '+sc+' in series for '+v+'V)'};}
-      const maxPV=recInv.maxPV||5000;let minPanelW=reqPanelW;if(battPref==='lithium'){const battCap=totalBattWh>10240?11776:totalBattWh>5120?10240:5120;const chargeW=battCap/sunHours;minPanelW=Math.max(reqPanelW,chargeW);}else{const invMin=recInv.rated*0.3;minPanelW=Math.max(reqPanelW,invMin);}const effPV=Math.min(minPanelW,maxPV);let recPanel;
+      const minPanelW=calcMinPanelW(recInv);const effPV=Math.min(minPanelW,recInv.maxPV);let recPanel;
       if(effPV<=450){const c=1;recPanel={name:'SV 580W N-Type Panel',detail:c+'× panel (580W) — Higher efficiency, fewer panels needed'};}else{const c=Math.max(1,Math.ceil(effPV/580));recPanel={name:'SV 580W N-Type Panel',detail:c+'× panels ('+(c*580)+'W total) — 22.45% efficiency, N-Type TOPCon'};}
       let voltNote='';if(battPref!=='lithium')voltNote=`<div style="background:rgba(39,174,96,0.06);border:1px solid rgba(39,174,96,0.15);padding:10px;border-radius:8px;margin-bottom:12px;font-size:12px;color:var(--success);">✓ ${recInv.voltage}V inverter matched with 12V AGM lead-acid batteries</div>`;
       loads.sort((a,b)=>b.wh-a.wh);
