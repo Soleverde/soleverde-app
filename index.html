@@ -95,11 +95,11 @@
     .fault-beep { font-size:12px; color:var(--text-muted); margin-bottom:6px; }
     .fault-details { display:none; font-size:13px; line-height:1.65; color:var(--text); margin-top:12px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.06); }
     .fault-details.active { display:block; }
-    .tip-card { background:var(--card-bg); border:1px solid var(--border); border-left:3px solid var(--primary); padding:16px; border-radius:var(--radius-sm); margin-bottom:10px; transition:var(--transition); }
-    .tip-card:hover { box-shadow:var(--shadow-sm); }
-    .tip-icon { font-size:24px; margin-bottom:8px; display:block; }
-    .tip-title { font-weight:600; color:var(--secondary); margin-bottom:6px; font-size:14px; }
-    .tip-body { font-size:13px; line-height:1.65; color:var(--text); }
+    .batt-tip { background:var(--card-bg); border:1px solid var(--border); border-left:3px solid var(--primary); padding:16px; border-radius:var(--radius-sm); margin-bottom:10px; transition:var(--transition); }
+    .batt-tip:hover { box-shadow:var(--shadow-sm); }
+    .batt-tip .tip-icon { font-size:24px; margin-bottom:8px; display:block; }
+    .batt-tip .tip-title { font-weight:600; color:var(--secondary); margin-bottom:6px; font-size:14px; }
+    .batt-tip .tip-body { font-size:13px; line-height:1.65; color:var(--text); }
     .daily-tip { background:linear-gradient(135deg, var(--secondary) 0%, #1a4440 100%); color:var(--white); padding:18px; border-radius:var(--radius); margin-bottom:16px; font-size:14px; font-weight:400; line-height:1.65; position:relative; overflow:hidden; }
     .daily-tip::before { content:"\1F4A1"; margin-right:10px; font-size:18px; }
     .daily-tip::after { content:''; position:absolute; top:-20px; right:-20px; width:80px; height:80px; background:rgba(205,219,34,0.08); border-radius:50%; }
@@ -155,6 +155,28 @@
     .wiring-subsection h4 { color:var(--secondary); font-weight:600; margin-bottom:10px; font-size:14px; }
     .wiring-subsection ul,.wiring-subsection ol { margin-left:20px; margin-bottom:12px; }
     .wiring-subsection li { line-height:1.7; margin-bottom:6px; font-size:13px; color:var(--text); }
+    .tip-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:12px; cursor:pointer; transition:all 0.2s; }
+    .tip-card:hover { border-color:var(--primary); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+    .tip-card-header { display:flex; align-items:center; padding:16px; gap:14px; }
+    .tip-card-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+    .tip-card-info { flex:1; min-width:0; }
+    .tip-card-title { font-size:14px; font-weight:600; color:var(--secondary); margin:0 0 3px; }
+    .tip-card-subtitle { font-size:11px; color:var(--text-muted); margin:0; line-height:1.3; }
+    .tip-card-arrow { font-size:16px; color:var(--text-muted); transition:transform 0.3s; flex-shrink:0; }
+    .tip-card.open .tip-card-arrow { transform:rotate(180deg); }
+    .tip-card-body { max-height:0; overflow:hidden; transition:max-height 0.4s ease; }
+    .tip-card.open .tip-card-body { max-height:3000px; }
+    .tip-card-content { padding:0 16px 16px; font-size:13px; line-height:1.7; color:var(--text); }
+    .tip-card-content h4 { color:var(--secondary); font-size:13px; font-weight:700; margin:14px 0 6px; }
+    .tip-card-content ul,.tip-card-content ol { margin-left:18px; margin-bottom:10px; }
+    .tip-card-content li { margin-bottom:5px; }
+    .tip-card-content p { margin:8px 0; }
+    .tip-highlight { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; }
+    .tips-grid { display:grid; gap:12px; }
+    .tip-stat-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0; }
+    .tip-stat { text-align:center; padding:12px 8px; border-radius:10px; }
+    .tip-stat-value { font-size:20px; font-weight:800; display:block; }
+    .tip-stat-label { font-size:10px; text-transform:uppercase; letter-spacing:0.5px; opacity:0.7; }
     .danger-box { background:rgba(231,76,60,0.06); border:1px solid rgba(231,76,60,0.12); border-left:3px solid var(--error); padding:12px; border-radius:var(--radius-xs); margin-bottom:12px; }
     .danger-box strong { color:var(--error); }
     .cable-table { width:100%; border-collapse:collapse; font-size:12px; margin-bottom:12px; }
@@ -244,157 +266,184 @@
     </div>
 
     <div class="tab-content" id="tips">
-      <div class="section"><h1>Tips & Care</h1><p>Learn how to maximize efficiency and lifespan of your solar system.</p></div>
-      <div class="section">
-        <h2>Wiring & Installation Guidance</h2>
-        <div class="wiring-section">
-          <div class="wiring-subsection">
-            <h4>Cable Issues: Why DC Solar Cable Matters</h4>
-            <p><strong>Why It Matters:</strong> Many installers use 2×6mm² normal household cable from panels to inverter. While this works, it is not efficient and reduces your system's performance over time.</p>
-            <div style="background:rgba(243,156,18,0.06);border:1px solid rgba(243,156,18,0.12);padding:12px;border-radius:8px;margin:10px 0;">
-              <strong style="color:var(--warning);">Good to Know:</strong> Regular 2×6 cable works but is not designed for outdoor DC solar use. Over time, sun exposure breaks down the insulation and resistance causes power loss.
+      <div class="section" style="padding-bottom:8px;">
+        <h1 style="margin-bottom:4px;">Tips & Care</h1>
+        <p style="color:var(--text-muted);font-size:13px;">Tap any card to learn more</p>
+      </div>
+      <div class="tips-grid">
+
+        <!-- Card 1: Cables -->
+        <div class="tip-card" onclick="this.classList.toggle('open')">
+          <div class="tip-card-header">
+            <div class="tip-card-icon" style="background:rgba(243,156,18,0.1);">⚡</div>
+            <div class="tip-card-info">
+              <p class="tip-card-title">Use Proper Solar Cables</p>
+              <p class="tip-card-subtitle">Save 15–20% energy lost to wrong cables</p>
             </div>
-            <p><strong>Why Upgrading Makes a Difference:</strong></p>
-            <ul>
-              <li>Power loss from resistance — up to 15–20% of your solar energy wasted as heat</li>
-              <li>Insulation degrades in sun — regular cable isn't UV-rated, cracks after a few years</li>
-              <li>Higher resistance = more heat buildup in cables, especially on hot days</li>
-              <li>Warranty considerations — some manufacturers require proper solar cable</li>
-              <li>Long-term reliability — solar cable lasts 25+ years vs regular cable degrading in 3–5 years in sun</li>
-            </ul>
-            <p><strong>The Right Cable: PV1-F / H1Z2Z2-K DC Solar Cable</strong></p>
-            <ul>
-              <li>UV-resistant outer sheath — survives 15+ years in direct sun</li>
-              <li>Rated for 1500VDC — safe for panel voltages up to 1000VDC</li>
-              <li>Double-insulated — two layers of protection</li>
-              <li>Temperature range: -40°C to +90°C — works in extreme climates</li>
-              <li>Low resistance — 80mΩ/m ensures minimal power loss</li>
-              <li>MC4 connectors — industry standard, reliable contact</li>
-            </ul>
-            <p><strong>Our Recommendation:</strong> When you can, upgrade to certified solar DC cable (PV1-F rated) with MC4 connectors. It costs slightly more but saves you 15–20% of your solar power and lasts for the lifetime of your system.</p>
+            <div class="tip-card-arrow">▼</div>
           </div>
-          <div class="wiring-subsection">
-            <h4>Battery Ventilation — Critical for Safety</h4>
-            <p><strong>Lead-Acid Batteries (AGM) produce hydrogen gas during charging.</strong> Enclosed spaces = explosion risk.</p>
-            <div class="danger-box"><strong>Danger:</strong> Hydrogen gas is explosive. No sparks, flames, or cigarettes within 3 meters of battery.</div>
-            <p><strong>Minimum Requirements:</strong></p>
+          <div class="tip-card-body"><div class="tip-card-content">
+            <div class="tip-stat-row">
+              <div class="tip-stat" style="background:rgba(243,156,18,0.08);color:var(--warning);"><span class="tip-stat-value">15–20%</span><span class="tip-stat-label">Energy lost with wrong cable</span></div>
+              <div class="tip-stat" style="background:rgba(39,174,96,0.08);color:var(--success);"><span class="tip-stat-value">25+ yrs</span><span class="tip-stat-label">Solar cable lifespan</span></div>
+            </div>
+            <h4>The Problem</h4>
+            <p>Many installers use regular 2×6mm² household cable from panels to inverter. This causes power loss from resistance (up to 15–20% wasted as heat), and the insulation degrades in sun within 3–5 years.</p>
+            <h4>The Solution: PV1-F Solar Cable</h4>
             <ul>
-              <li><strong>Ventilated room</strong> — windows or vents allowing airflow</li>
-              <li><strong>No sparks/flames</strong> — keep away from welding, grinding, smoking</li>
-              <li><strong>Raised off floor</strong> — hydrogen rises; floor level is safest but air must circulate</li>
-              <li><strong>Temperature control</strong> — 15–25°C optimal; >45°C reduces lifespan</li>
-              <li><strong>No direct sunlight</strong> — causes heat and accelerates aging</li>
+              <li><strong>UV-resistant</strong> — survives 15+ years in direct sun</li>
+              <li><strong>Double-insulated</strong> — two layers of protection</li>
+              <li><strong>Low resistance</strong> — minimal power loss</li>
+              <li><strong>MC4 connectors</strong> — industry standard, reliable contact</li>
             </ul>
-            <p><strong>Lithium Batteries</strong> don't produce hydrogen but need cooling airflow to prevent thermal issues and maintain optimal performance.</p>
-          </div>
-          <div class="wiring-subsection">
-            <h4>Full System Wiring Diagram</h4>
-            <p><strong>Correct wiring sequence:</strong></p>
-            <ol>
-              <li><strong>Solar panels</strong> → DC solar cable (PV1-F) → MC4 connectors</li>
-              <li><strong>MC4 connectors</strong> → Inverter PV input (respect polarity)</li>
-              <li><strong>Battery terminals</strong> → Proper gauge cable (see table below)</li>
-              <li><strong>Battery cable</strong> → Inverter battery input</li>
-              <li><strong>Inverter AC output</strong> → Main distribution board/breaker</li>
-              <li><strong>Distribution board</strong> → Appliances</li>
-            </ol>
-            <p><strong>Essential Safety Components:</strong></p>
-            <ul>
-              <li><strong>Circuit breaker/fuse on battery side</strong> — typically 100A for 48V systems</li>
-              <li><strong>Circuit breaker/fuse on AC output side</strong> — protects inverter and grid</li>
-              <li><strong>Earth/ground connection</strong> — MUST be present for personal safety</li>
-              <li><strong>DC disconnect switch</strong> — allows safe maintenance</li>
-            </ul>
-            <p><strong>Cable Sizing Table (48V system, Copper)</strong></p>
-            <table class="cable-table">
-              <tr><th>Distance (m)</th><th>Max Loss</th><th>Cable Size</th><th>Fuse/Breaker</th></tr>
-              <tr><td>0–5m</td><td>&lt;1%</td><td>6–10mm²</td><td>63A</td></tr>
-              <tr><td>5–10m</td><td>&lt;1%</td><td>10–16mm²</td><td>100A</td></tr>
-              <tr><td>10–20m</td><td>&lt;1%</td><td>16–25mm²</td><td>125A</td></tr>
-              <tr><td>&gt;20m</td><td>&lt;1%</td><td>25–35mm²</td><td>150A</td></tr>
-            </table>
-            <p><strong>Golden Rule:</strong> Thicker cable = less power loss = cooler system = longer lifespan. Never mix cable gauges in a string.</p>
-          </div>
+            <div style="background:var(--primary-soft);padding:12px;border-radius:8px;font-size:12px;"><strong style="color:var(--secondary);">Bottom line:</strong> Costs slightly more but saves 15–20% of your solar power and lasts the lifetime of your system.</div>
+          </div></div>
         </div>
-      </div>
-      <div class="section">
-        <h2>Panel Cleaning Guide</h2>
-        <div class="wiring-section" style="border-left-color:var(--primary);background:rgba(205,219,34,0.04);">
-          <div class="wiring-subsection">
-            <h4>Why Cleaning Your Panels Matters</h4>
-            <p>Dust, sand, bird droppings, and pollen build up on your panels every day. Even a thin layer of dust can block 15–25% of sunlight from reaching the cells. That means your system produces less power, your batteries charge slower, and you run out of energy sooner. Regular cleaning is the easiest and cheapest way to get more from the system you already have.</p>
+
+        <!-- Card 2: Battery Ventilation -->
+        <div class="tip-card" onclick="this.classList.toggle('open')">
+          <div class="tip-card-header">
+            <div class="tip-card-icon" style="background:rgba(231,76,60,0.1);">🔋</div>
+            <div class="tip-card-info">
+              <p class="tip-card-title">Battery Ventilation & Safety</p>
+              <p class="tip-card-subtitle">Prevent explosion risk from hydrogen gas</p>
+            </div>
+            <div class="tip-card-arrow">▼</div>
           </div>
-          <div class="wiring-subsection">
-            <h4>How to Clean Your Panels</h4>
-            <ol>
-              <li><strong>When to clean:</strong> Early morning or late afternoon when panels are cool. Never clean hot panels in midday sun — cold water on hot glass can crack it.</li>
-              <li><strong>What you need:</strong> A bucket of clean water, a soft cloth or sponge, and optionally a soft-bristle brush with a long handle for rooftop panels.</li>
-              <li><strong>Step 1:</strong> Rinse the panel surface with water to remove loose dust and sand. Do not scrub dry panels — dry dust scratches the glass.</li>
-              <li><strong>Step 2:</strong> Gently wipe with a wet soft cloth or sponge. For stubborn spots (bird droppings, tree sap), let a wet cloth sit on the spot for a few minutes to soften it, then wipe.</li>
-              <li><strong>Step 3:</strong> Rinse again with clean water and let air dry.</li>
-            </ol>
-          </div>
-          <div class="wiring-subsection">
-            <h4>What NOT to Do</h4>
+          <div class="tip-card-body"><div class="tip-card-content">
+            <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);padding:12px;border-radius:8px;margin-bottom:12px;font-size:12px;color:var(--error);"><strong>⚠ Danger:</strong> Lead-acid batteries produce explosive hydrogen gas. No sparks, flames, or smoking within 3 meters.</div>
+            <h4>Requirements</h4>
             <ul>
-              <li><strong>No soap or detergent</strong> — it leaves a film that attracts more dust and reduces output</li>
-              <li><strong>No abrasive materials</strong> — steel wool, rough sponges, or dry rags will scratch the glass permanently</li>
-              <li><strong>No high-pressure water</strong> — it can damage seals and push water into the frame or junction box</li>
-              <li><strong>Never stand on panels</strong> — they will crack, even if they look strong</li>
+              <li><strong>Ventilated room</strong> — windows or vents for airflow</li>
+              <li><strong>Temperature 15–25°C</strong> — above 45°C reduces lifespan</li>
+              <li><strong>No direct sunlight</strong> — causes heat and aging</li>
+              <li><strong>Raised off floor</strong> — air must circulate</li>
             </ul>
-          </div>
-          <div class="wiring-subsection">
-            <h4>How Often to Clean</h4>
-            <ul>
-              <li><strong>Dusty or sandy areas:</strong> Every 1–2 weeks</li>
-              <li><strong>Urban or less dusty areas:</strong> Once a month</li>
-              <li><strong>After a dust storm or heavy winds:</strong> Clean as soon as possible</li>
-              <li><strong>After rainy season:</strong> Rain helps but often leaves mud streaks — clean once rain stops</li>
-            </ul>
-            <p><strong>A good habit:</strong> Check your panels every time you check your battery voltage. If they look dusty, clean them. 10 minutes of cleaning can give you 20% more energy that day.</p>
-          </div>
+            <p><strong>Lithium batteries</strong> don't produce hydrogen but still need cooling airflow to prevent thermal issues.</p>
+          </div></div>
         </div>
-      </div>
-      <div class="section">
-        <h2>Rainy Season Advice</h2>
-        <div class="wiring-section" style="border-left-color:var(--info);background:rgba(52,152,219,0.04);">
-          <div class="wiring-subsection">
-            <h4>Managing Your System During Rainy Season</h4>
-            <p>During the rainy season, cloud cover reduces solar panel output significantly — sometimes by 50–70%. Your system will generate less energy, so you need to adjust your usage to avoid draining your batteries too fast.</p>
+
+        <!-- Card 3: Wiring Diagram -->
+        <div class="tip-card" onclick="this.classList.toggle('open')">
+          <div class="tip-card-header">
+            <div class="tip-card-icon" style="background:rgba(52,152,219,0.1);">🔧</div>
+            <div class="tip-card-info">
+              <p class="tip-card-title">Wiring & Installation</p>
+              <p class="tip-card-subtitle">Correct wiring sequence & cable sizes</p>
+            </div>
+            <div class="tip-card-arrow">▼</div>
           </div>
-          <div class="wiring-subsection">
-            <h4>Reduce Your Energy Usage</h4>
+          <div class="tip-card-body"><div class="tip-card-content">
+            <h4>Wiring Sequence</h4>
+            <ol>
+              <li><strong>Solar panels</strong> → DC solar cable → MC4 connectors</li>
+              <li><strong>MC4</strong> → Inverter PV input (respect polarity)</li>
+              <li><strong>Battery</strong> → Proper gauge cable → Inverter battery input</li>
+              <li><strong>Inverter AC output</strong> → Distribution board → Appliances</li>
+            </ol>
+            <h4>Safety Components</h4>
             <ul>
-              <li><strong>Postpone heavy appliances</strong> — avoid running the iron, water pump, or washing machine on cloudy days. Wait for a sunny day or run them only when you see the sun is out.</li>
-              <li><strong>Use only essential appliances</strong> — lights, phone charging, and fridge. Everything else can wait.</li>
-              <li><strong>Turn off standby devices</strong> — TVs, decoders, and chargers left plugged in use power even when off.</li>
-              <li><strong>Limit nighttime usage</strong> — if batteries didn't fully charge during the day, use as little as possible at night.</li>
+              <li><strong>Circuit breaker</strong> on battery side (typically 100A for 48V)</li>
+              <li><strong>Circuit breaker</strong> on AC output side</li>
+              <li><strong>Earth/ground</strong> — MUST be present</li>
+              <li><strong>DC disconnect switch</strong> for safe maintenance</li>
             </ul>
+            <h4>Cable Sizing (48V, Copper)</h4>
+            <table class="cable-table"><tr><th>Distance</th><th>Cable Size</th><th>Fuse</th></tr><tr><td>0–5m</td><td>6–10mm²</td><td>63A</td></tr><tr><td>5–10m</td><td>10–16mm²</td><td>100A</td></tr><tr><td>10–20m</td><td>16–25mm²</td><td>125A</td></tr><tr><td>>20m</td><td>25–35mm²</td><td>150A</td></tr></table>
+            <div style="background:var(--primary-soft);padding:12px;border-radius:8px;margin-top:12px;font-size:12px;"><strong style="color:var(--secondary);">Golden Rule:</strong> Thicker cable = less power loss = cooler system = longer lifespan.</div>
+          </div></div>
+        </div>
+
+        <!-- Card 4: Panel Cleaning -->
+        <div class="tip-card" onclick="this.classList.toggle('open')">
+          <div class="tip-card-header">
+            <div class="tip-card-icon" style="background:rgba(205,219,34,0.15);">☀️</div>
+            <div class="tip-card-info">
+              <p class="tip-card-title">Panel Cleaning Guide</p>
+              <p class="tip-card-subtitle">Get up to 25% more power with clean panels</p>
+            </div>
+            <div class="tip-card-arrow">▼</div>
           </div>
-          <div class="wiring-subsection">
-            <h4>Protect Your Equipment</h4>
+          <div class="tip-card-body"><div class="tip-card-content">
+            <div class="tip-stat-row">
+              <div class="tip-stat" style="background:rgba(243,156,18,0.08);color:var(--warning);"><span class="tip-stat-value">15–25%</span><span class="tip-stat-label">Power blocked by dust</span></div>
+              <div class="tip-stat" style="background:rgba(39,174,96,0.08);color:var(--success);"><span class="tip-stat-value">10 min</span><span class="tip-stat-label">Time to clean</span></div>
+            </div>
+            <h4>How to Clean</h4>
+            <ol>
+              <li><strong>When:</strong> Early morning or late afternoon (never midday — cold water on hot glass cracks it)</li>
+              <li><strong>Rinse</strong> with water to remove loose dust</li>
+              <li><strong>Wipe gently</strong> with wet soft cloth</li>
+              <li><strong>Rinse again</strong> and air dry</li>
+            </ol>
+            <h4>Never Do This</h4>
             <ul>
-              <li><strong>Check all cable connections</strong> — rain and moisture can cause corrosion on exposed terminals. Inspect MC4 connectors and battery terminals.</li>
-              <li><strong>Keep water away from inverter and batteries</strong> — if your equipment room leaks, fix it before the rains come. Water and electricity are a deadly combination.</li>
-              <li><strong>Check roof mounting</strong> — strong winds during storms can loosen panel brackets. Tighten bolts and check frame integrity.</li>
-              <li><strong>Ventilation still matters</strong> — don't seal the battery room shut to keep rain out. Batteries still need airflow. Use rain covers, not sealed doors.</li>
+              <li>No soap/detergent — leaves film that attracts dust</li>
+              <li>No abrasive materials — scratches glass permanently</li>
+              <li>No high-pressure water — damages seals</li>
+              <li>Never stand on panels</li>
             </ul>
+            <h4>How Often</h4>
+            <ul>
+              <li><strong>Dusty areas:</strong> Every 1–2 weeks</li>
+              <li><strong>Urban areas:</strong> Once a month</li>
+              <li><strong>After dust storms:</strong> Clean ASAP</li>
+            </ul>
+          </div></div>
+        </div>
+
+        <!-- Card 5: Rainy Season -->
+        <div class="tip-card" onclick="this.classList.toggle('open')">
+          <div class="tip-card-header">
+            <div class="tip-card-icon" style="background:rgba(52,152,219,0.1);">🌧️</div>
+            <div class="tip-card-info">
+              <p class="tip-card-title">Rainy Season Advice</p>
+              <p class="tip-card-subtitle">Manage 50–70% less solar during rains</p>
+            </div>
+            <div class="tip-card-arrow">▼</div>
           </div>
-          <div class="wiring-subsection">
+          <div class="tip-card-body"><div class="tip-card-content">
+            <h4>Reduce Usage</h4>
+            <ul>
+              <li><strong>Skip heavy appliances</strong> on cloudy days (iron, pump, washing machine)</li>
+              <li><strong>Essentials only</strong> — lights, phone charging, fridge</li>
+              <li><strong>Turn off standby</strong> — TVs and chargers use power even when off</li>
+              <li><strong>Limit nighttime use</strong> if batteries didn't fully charge</li>
+            </ul>
+            <h4>Protect Equipment</h4>
+            <ul>
+              <li>Check cable connections for corrosion</li>
+              <li>Keep water away from inverter and batteries</li>
+              <li>Tighten roof mounting bolts</li>
+              <li>Use rain covers, not sealed doors (batteries still need airflow)</li>
+            </ul>
             <h4>After the Rains</h4>
             <ul>
-              <li><strong>Clean your panels</strong> — rain washes away some dust but leaves mud streaks and water marks. Clean panels properly once the rain stops.</li>
-              <li><strong>Inspect for rust or corrosion</strong> — check all metal parts, brackets, and cable connectors.</li>
-              <li><strong>Fully charge your batteries</strong> — after a period of low charging, give your batteries a full charge on the first sunny day. This is especially important for AGM batteries to prevent sulfation.</li>
+              <li>Clean panels — rain leaves mud streaks</li>
+              <li>Inspect for rust on brackets and connectors</li>
+              <li>Check battery voltage is recovering properly</li>
             </ul>
-          </div>
+          </div></div>
         </div>
+
+        <!-- Card 6: Battery Care -->
+        <div class="tip-card" onclick="this.classList.toggle('open')">
+          <div class="tip-card-header">
+            <div class="tip-card-icon" style="background:rgba(155,89,182,0.1);">🛡️</div>
+            <div class="tip-card-info">
+              <p class="tip-card-title">Battery Care Guide</p>
+              <p class="tip-card-subtitle">Maximize battery lifespan and performance</p>
+            </div>
+            <div class="tip-card-arrow">▼</div>
+          </div>
+          <div class="tip-card-body"><div class="tip-card-content" id="batteryTipsContainer"></div></div>
+        </div>
+
       </div>
-      <div class="section"><h2>Battery Care Guide</h2><div id="batteryTipsContainer"></div></div>
       <div class="tab-footer"><img src="data:image/png;base64,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" alt="SoleVerde"></div>
     </div>
 
-    <div class="tab-content" id="products">
+        <div class="tab-content" id="products">
       <div class="section"><h1>Soleverde Products</h1><p>Premium hybrid inverters, reliable batteries, and high-efficiency panels engineered in Italy.</p><div style="background:var(--primary-soft);border:1px solid rgba(205,219,34,0.2);border-radius:8px;padding:12px;margin-top:10px;"><p style="font-size:12px;color:var(--secondary);margin:0;line-height:1.6;"><strong>Best Performance Tip:</strong> Soleverde products are engineered to work as a complete system. Using a Soleverde inverter with Soleverde batteries and panels ensures seamless BMS communication, optimized charging profiles, and full warranty coverage.</p></div></div>
       <div class="section"><h2>Hybrid Inverters</h2><div class="product-grid" id="invertersGrid"></div></div>
       <div class="section"><h2>Battery Systems</h2><div class="product-grid" id="batteriesGrid"></div></div>
@@ -570,25 +619,25 @@
     ];
 
     const appliances = [
-      { name: 'LED Light', watts: 10, defaultQty: 0, defaultHours: 8 },
-      { name: 'CFL / Fluorescent Light', watts: 25, defaultQty: 0, defaultHours: 6 },
-      { name: 'TV (LED 32")', watts: 60, defaultQty: 0, defaultHours: 6 },
-      { name: 'TV (LED 43")', watts: 100, defaultQty: 0, defaultHours: 5 },
-      { name: 'Satellite Receiver', watts: 30, defaultQty: 0, defaultHours: 6 },
-      { name: 'Phone Charger', watts: 10, defaultQty: 0, defaultHours: 3 },
-      { name: 'Laptop', watts: 65, defaultQty: 0, defaultHours: 4 },
-      { name: 'Ceiling Fan', watts: 75, defaultQty: 0, defaultHours: 10 },
-      { name: 'Standing Fan', watts: 55, defaultQty: 0, defaultHours: 8 },
-      { name: 'Refrigerator (Small)', watts: 100, defaultQty: 0, defaultHours: 8, note: 'Compressor cycles ~8h effective' },
-      { name: 'Refrigerator (Large)', watts: 180, defaultQty: 0, defaultHours: 8 },
-      { name: 'Washing Machine', watts: 500, defaultQty: 0, defaultHours: 1, note: 'Run during solar hours' },
-      { name: 'Iron', watts: 1200, defaultQty: 0, defaultHours: 0.5, note: 'Heavy load — daytime only' },
-      { name: 'Water Pump (0.5HP)', watts: 370, defaultQty: 0, defaultHours: 1 },
-      { name: 'Water Pump (1HP)', watts: 750, defaultQty: 0, defaultHours: 1 },
-      { name: 'Microwave', watts: 1000, defaultQty: 0, defaultHours: 0.3 },
-      { name: 'Electric Kettle', watts: 1500, defaultQty: 0, defaultHours: 0.2 },
-      { name: 'Router / WiFi', watts: 12, defaultQty: 0, defaultHours: 24 },
-      { name: 'Air Conditioner (9000 BTU)', watts: 900, defaultQty: 0, defaultHours: 6 },
+      { name: 'LED Light', watts: 10, defaultQty: 0, defaultHours: 0 },
+      { name: 'CFL / Fluorescent Light', watts: 25, defaultQty: 0, defaultHours: 0 },
+      { name: 'TV (LED 32")', watts: 60, defaultQty: 0, defaultHours: 0 },
+      { name: 'TV (LED 43")', watts: 100, defaultQty: 0, defaultHours: 0 },
+      { name: 'Satellite Receiver', watts: 30, defaultQty: 0, defaultHours: 0 },
+      { name: 'Phone Charger', watts: 10, defaultQty: 0, defaultHours: 0 },
+      { name: 'Laptop', watts: 65, defaultQty: 0, defaultHours: 0 },
+      { name: 'Ceiling Fan', watts: 75, defaultQty: 0, defaultHours: 0 },
+      { name: 'Standing Fan', watts: 55, defaultQty: 0, defaultHours: 0 },
+      { name: 'Refrigerator (Small)', watts: 100, defaultQty: 0, defaultHours: 0, note: 'Compressor cycles ~8h effective' },
+      { name: 'Refrigerator (Large)', watts: 180, defaultQty: 0, defaultHours: 0 },
+      { name: 'Washing Machine', watts: 500, defaultQty: 0, defaultHours: 0, note: 'Run during solar hours' },
+      { name: 'Iron', watts: 1200, defaultQty: 0, defaultHours: 0, note: 'Heavy load — daytime only' },
+      { name: 'Water Pump (0.5HP)', watts: 370, defaultQty: 0, defaultHours: 0 },
+      { name: 'Water Pump (1HP)', watts: 750, defaultQty: 0, defaultHours: 0 },
+      { name: 'Microwave', watts: 1000, defaultQty: 0, defaultHours: 0 },
+      { name: 'Electric Kettle', watts: 1500, defaultQty: 0, defaultHours: 0 },
+      { name: 'Router / WiFi', watts: 12, defaultQty: 0, defaultHours: 0 },
+      { name: 'Air Conditioner (9000 BTU)', watts: 900, defaultQty: 0, defaultHours: 0 },
     ];
 
     let currentRegion = localStorage.getItem('soleverde_region') || 'AE';
@@ -643,7 +692,7 @@
     function renderFaultCodes(){const c=document.getElementById('allFaultsContainer');c.innerHTML='';const cats={'alarm':'Alarms (Yellow Light)','fault':'Faults (Red Light)','parallel':'Parallel Configuration','bms':'BMS Communication'};Object.keys(cats).forEach(cat=>{const codes=Object.entries(FC).filter(([k,v])=>v.t===cat);const s=document.createElement('div');s.innerHTML=`<h3 style="margin-top:16px;color:var(--secondary);font-size:15px;font-weight:600;">${cats[cat]}</h3>`;codes.forEach(([code,data])=>{const d=document.createElement('div');d.className='fault-card';d.innerHTML=`<div class="fault-code">${code}</div><span class="fault-type ${data.t}">${data.t.toUpperCase()}</span><div class="fault-title">${data.d}</div>${data.b?`<div class="fault-beep"><strong>Sound:</strong> ${data.b}</div>`:''}<div class="fault-details">${data.f}</div>`;d.onclick=()=>d.querySelector('.fault-details').classList.toggle('active');s.appendChild(d);});c.appendChild(s);});}
     function searchFaults(){const q=document.getElementById('faultSearch').value.toLowerCase().trim(),r=document.getElementById('faultResults');r.innerHTML='';if(!q)return;const m=Object.entries(FC).filter(([k,v])=>k.toLowerCase().includes(q)||v.d.toLowerCase().includes(q));if(m.length===0){r.innerHTML='<div class="section"><p style="color:var(--text-muted);">No fault codes found. Try searching for "F3" or "overload".</p></div>';return;}const s=document.createElement('div');s.className='section';s.innerHTML=`<h2>Search Results (${m.length} match${m.length!==1?'es':''})</h2>`;m.forEach(([code,data])=>{const d=document.createElement('div');d.className='fault-card';d.innerHTML=`<div class="fault-code">${code}</div><span class="fault-type ${data.t}">${data.t.toUpperCase()}</span><div class="fault-title">${data.d}</div>${data.b?`<div class="fault-beep"><strong>Sound:</strong> ${data.b}</div>`:''}<div class="fault-details">${data.f}</div>`;d.onclick=()=>d.querySelector('.fault-details').classList.toggle('active');s.appendChild(d);});r.appendChild(s);}
     function toggleAllFaults(){const d=document.querySelectorAll('.fault-details');const a=Array.from(d).every(x=>x.classList.contains('active'));d.forEach(x=>a?x.classList.remove('active'):x.classList.add('active'));}
-    function renderBatteryTips(){const c=document.getElementById('batteryTipsContainer');c.innerHTML='';btips.forEach(t=>{const d=document.createElement('div');d.className='tip-card';d.innerHTML=`<span class="tip-icon">${t.i}</span><div class="tip-title">${t.t}</div><div class="tip-body">${t.b}</div>`;c.appendChild(d);});}
+    function renderBatteryTips(){const c=document.getElementById('batteryTipsContainer');c.innerHTML='';btips.forEach(t=>{const d=document.createElement('div');d.className='batt-tip';d.innerHTML=`<span class="tip-icon">${t.i}</span><div class="tip-title">${t.t}</div><div class="tip-body">${t.b}</div>`;c.appendChild(d);});}
     function renderProducts(){renderProductGrid('invertersGrid',prods.inverters);renderProductGrid('batteriesGrid',prods.batteries);renderProductGrid('panelsGrid',prods.panels);}
     function renderProductGrid(gid,products){const g=document.getElementById(gid);g.innerHTML='';products.forEach(p=>{const c=document.createElement('div');c.className='product-card';c.innerHTML=`<div class="product-image"><img src="${encodeURI(p.img)}" alt="${p.name}" onerror="this.parentElement.innerHTML='<div style=\\'text-align:center;color:var(--text-muted);font-size:12px;padding:20px;\\'>Image not available</div>'"></div><div class="product-info"><div class="product-series">${p.series}</div><div class="product-name">${p.name}</div><div class="product-specs">${Object.entries(p.s).map(([k,v])=>`<div class="spec-row"><span class="spec-label">${k}</span><span class="spec-value">${v}</span></div>`).join('')}</div></div>`;g.appendChild(c);});}
     function setupTabNavigation(){document.querySelectorAll('.tab-btn').forEach(b=>{b.addEventListener('click',()=>switchTab(b.getAttribute('data-tab')));});}
