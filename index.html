@@ -376,36 +376,36 @@
     };
 
     const tips = [
-      "Never run your iron and water pump at the same time. Each one can use more than half your inverter's capacity. Stagger heavy appliances.",
-      "Clean your solar panels every 2 weeks with water and a soft cloth. Dust can reduce output by 15–25%.",
-      "Run your washing machine during peak solar hours (10am–2pm) so the power comes directly from panels, not batteries.",
-      "AGM batteries should never be discharged below 50%. Going below regularly can reduce lifespan from 5+ years to just 1–2.",
-      "Your fridge compressor cycles on and off. A typical small fridge uses about 800Wh per day, not the full rated watts × 24.",
-      "Fast beeping (every half second) means overload. Turn off the heaviest appliance immediately.",
-      "Lithium batteries last 6,000+ cycles vs 500–800 for AGM. More expensive upfront, but much cheaper over their lifetime.",
-      "Place your inverter in a ventilated, shaded area. Never in an enclosed cabinet without airflow.",
-      "LED lights use 80% less energy than incandescent bulbs. Switching to LEDs is the easiest way to cut consumption.",
-      "If using lithium batteries, always connect the BMS communication cable to the inverter for proper protection.",
-      "During dusty or sandy conditions, check your MC4 connectors for buildup that can cause poor contact.",
-      "A 5kWh lithium battery can power 6 LED lights and a TV for about 12 hours without solar input.",
-      "Never mix batteries of different ages, types, or capacities. This damages all of them.",
-      "Your inverter's rated wattage is continuous output. Starting a fridge or pump creates a 3–5x surge for a split second.",
-      "If your system suddenly stops, check the battery fuse first — it's the most commonly overlooked simple fix.",
-      "Use a timer for water pumps: fill a tank during peak solar hours for later use.",
-      "30 minutes of ironing uses ~600Wh — equivalent to running 10 LED lights for 6 hours. Iron during daytime.",
-      "Check battery terminals every few months for corrosion. Clean with a wire brush and apply petroleum jelly.",
-      "Optimal panel tilt angle depends on your latitude. Use the region selector for guidance.",
-      "A ceiling fan running 10 hours uses 750Wh per day. Use only when needed.",
-      "Track battery voltage at sunset and sunrise. If it drops faster than usual, usage increased or battery is aging.",
-      "Don't oversize panels beyond your inverter's max PV input. Check the datasheet.",
-      "For AGM, float voltage should be 13.6–13.8V per 12V battery. Wrong settings can destroy the battery.",
-      "Set inverter to solar-first mode to prioritize panel energy and preserve battery life.",
-      "A small inverter at 80% capacity is more efficient than a large one at 20%. Right-size your system.",
-      "Don't put anything on top of batteries or inverter. Good airflow is essential.",
-      "If using a generator, let the inverter manage charging — don't connect generator directly to battery.",
-      "If your AGM batteries are 4+ years old and not holding charge like before, have them tested. Aging batteries charge slower and hold less — your panels work harder for less stored energy.",
-      "During rainy season, check wiring for water damage. Moisture causes corrosion and shorts.",
-      "Keep this app saved on your phone. Share it with family and neighbours via ShareIt or Bluetooth."
+      { en: "Never run your iron and water pump at the same time. Stagger heavy appliances.", ti: "ምስሪ (iron) ን ፓምፓ ማይን ብሓንሳብ ኣይትስርሑ። ከበድቲ ኣቑሑ ብተራ ስርሑ።", ar: "لا تشغّل المكواة ومضخة الماء في نفس الوقت. شغّل الأجهزة الثقيلة بالتناوب." },
+      { en: "Clean solar panels every 2 weeks with water and a soft cloth. Dust reduces output by 15–25%.", ti: "ፓነላት ኣብ ክልተ ሰሙን ሓደ ግዜ ብማይን ልስሉስ ጨርቅን ኣጽርዩ። ሓመድ 15–25% ሓይሊ ይንኪ።", ar: "نظّف الألواح كل أسبوعين بماء وقماش ناعم. الغبار يقلل الإنتاج 15-25%." },
+      { en: "Run your washing machine during peak solar hours (10am–2pm) so power comes from panels, not batteries.", ti: "ማሽን ሕጽቦ ኣብ ዝለዓለ ሰዓታት ጸሓይ (10am–2pm) ስርሑ — ሓይሊ ካብ ፓነል ይመጽእ።", ar: "شغّل الغسالة خلال ذروة الشمس (10ص-2م) لاستخدام طاقة الألواح مباشرة." },
+      { en: "AGM batteries should never discharge below 50%. Going below regularly reduces lifespan from 5+ years to 1–2.", ti: "AGM ባተሪ ካብ 50% ትሕቲ ኣይተውርዱ። ብተደጋጋሚ ምውራድ ዕድመ ባተሪ ካብ 5+ ናብ 1–2 ዓመት ይሓጽሮ።", ar: "بطاريات AGM يجب ألا تنخفض عن 50%. الاستنزاف المتكرر يقلل العمر من 5+ سنوات إلى 1-2." },
+      { en: "Your fridge compressor cycles on and off. A small fridge uses ~800Wh/day, not full rated watts × 24.", ti: "ፍሪጅ ይወልዕን ይጠፍእን። ንእሽቶ ፍሪጅ ~800Wh ኣብ መዓልቲ ይጥቀም።", ar: "ضاغط الثلاجة يعمل ويتوقف. ثلاجة صغيرة تستهلك ~800Wh يومياً." },
+      { en: "Fast beeping (every half second) means overload. Turn off the heaviest appliance immediately.", ti: "ቅልጡፍ ድምጺ (ኣብ ፍርቂ ሰከንድ) ኦቨርሎድ ማለት እዩ። ዝኸበደ ኣቕሓ ሽዑ ንሽዑ ኣጥፍኡ።", ar: "صفير سريع (كل نصف ثانية) يعني حمل زائد. أطفئ أثقل جهاز فوراً." },
+      { en: "Lithium batteries last 6,000+ cycles vs 500–800 for AGM. More upfront, cheaper over lifetime.", ti: "ሊቲየም ባተሪ 6,000+ ዙር ይገልግል — AGM 500–800 ጥራይ። ዝያዳ ይኽፈል ግን ኣብ ነዊሕ ይሓስር።", ar: "بطاريات الليثيوم تدوم 6000+ دورة مقابل 500-800 للـAGM. أغلى مبدئياً لكن أوفر على المدى الطويل." },
+      { en: "Place your inverter in a ventilated, shaded area. Never in an enclosed cabinet without airflow.", ti: "Inverter ኣብ ንፋስ ዝረኽቦ ጽላሎት ግበሩ። ኣብ ዕጹው ቦታ ኣይትግበሩ።", ar: "ضع الإنفرتر في مكان مظلل وجيد التهوية. لا تضعه في خزانة مغلقة." },
+      { en: "LED lights use 80% less energy than incandescent bulbs. Switching to LEDs is the easiest way to cut consumption.", ti: "LED 80% ዝወሓደ ሓይሊ ይጥቀም። ናብ LED ምቕያር ቀሊል መንገዲ ምቕናስ እዩ።", ar: "إضاءة LED تستهلك 80% أقل. التحويل لـLED أسهل طريقة لتقليل الاستهلاك." },
+      { en: "If using lithium batteries, always connect the BMS communication cable to the inverter.", ti: "ሊቲየም ባተሪ ትጥቀሙ እንተሃሊኹም BMS ኬብል ናብ inverter ኣራኽቡ።", ar: "إذا كنت تستخدم بطاريات ليثيوم، اربط كابل BMS بالإنفرتر دائماً." },
+      { en: "During dusty conditions, check MC4 connectors for buildup that can cause poor contact.", ti: "ኣብ ሓመድ ዝበዝሖ ግዜ MC4 connectors ኣጽርዩ።", ar: "في الأجواء المغبرة، افحص موصلات MC4 من التراكمات." },
+      { en: "A 5kWh lithium battery can power 6 LED lights and a TV for about 12 hours without solar.", ti: "5kWh ሊቲየም ባተሪ 6 LED ን TV ን ንኣስታት 12 ሰዓት ይኸውን።", ar: "بطارية ليثيوم 5kWh تشغّل 6 إضاءات LED وتلفاز لمدة 12 ساعة بدون شمس." },
+      { en: "Never mix batteries of different ages, types, or capacities. This damages all of them.", ti: "ዝተፈላለየ ዕድመ፣ ዓይነት ወይ ዓቐን ባተሪ ኣይትሓዋውሱ — ንኹለን ይበላሽወን።", ar: "لا تخلط بطاريات مختلفة العمر أو النوع أو السعة — هذا يتلفها جميعاً." },
+      { en: "Starting a fridge or pump creates a 3–5x surge for a split second. Size your inverter accordingly.", ti: "ፍሪጅ ወይ ፓምፓ ክጅምር 3–5x ሓይሊ ይሓትት። Inverter ብግቡእ ምረጹ።", ar: "تشغيل الثلاجة أو المضخة يسبب ارتفاعاً 3-5 أضعاف لحظياً." },
+      { en: "If your system suddenly stops, check the battery fuse first — it's the most commonly overlooked fix.", ti: "ስርዓት ሃንደበት ጠፊኡ? ቅድም ባተሪ ፊውዝ ርኣዩ።", ar: "إذا توقف النظام فجأة، افحص فيوز البطارية أولاً." },
+      { en: "Use a timer for water pumps: fill a tank during peak solar hours for later use.", ti: "ፓምፓ ማይ ብ timer ተጠቐሙ — ታንኪ ኣብ ሰዓታት ጸሓይ ምልኡ።", ar: "استخدم مؤقت لمضخة الماء: املأ خزان خلال ذروة الشمس." },
+      { en: "30 minutes of ironing uses ~600Wh — equivalent to 10 LED lights for 6 hours. Iron during daytime.", ti: "30 ደቒቕ ምስራይ ~600Wh ይጥቀም — 10 LED ን 6 ሰዓት ማለት እዩ። ኣብ ቀትሪ ስርሑ።", ar: "30 دقيقة كي تستهلك ~600Wh — تعادل 10 إضاءات LED لمدة 6 ساعات. استخدم المكواة نهاراً." },
+      { en: "Check battery terminals every few months for corrosion. Clean with a wire brush and apply petroleum jelly.", ti: "ናይ ባተሪ ተርሚናል ኣብ ገለ ኣዋርሕ ርኣዩ — ብ wire brush ኣጽርዩ።", ar: "افحص أطراف البطارية كل بضعة أشهر. نظّفها بفرشاة سلكية وضع فازلين." },
+      { en: "Optimal panel tilt depends on your latitude. Use the region selector for guidance.", ti: "ዝንባለ ፓነል ኣብ ኬክሮስ ይምርኮስ። ዞባ ብምምራጽ ሓገዝ ርኸቡ።", ar: "ميل اللوح الأمثل يعتمد على خط العرض. استخدم اختيار المنطقة للتوجيه." },
+      { en: "A ceiling fan running 10 hours uses 750Wh per day. Use only when needed.", ti: "ናሕሲ ፋን 10 ሰዓት 750Wh ኣብ መዓልቲ ይጥቀም። ኣብ ዘድልየኩም ጥራይ ስርሑ።", ar: "مروحة سقف تعمل 10 ساعات تستهلك 750Wh يومياً. استخدمها عند الحاجة فقط." },
+      { en: "Track battery voltage at sunset and sunrise. If it drops faster than usual, battery may be aging.", ti: "ቮልቴጅ ባተሪ ኣብ ጸሓይ ዕራብን ምብራቕን ተኸታተሉ።", ar: "تتبع فولتية البطارية عند الغروب والشروق. إذا انخفضت أسرع من المعتاد، البطارية قد تتقادم." },
+      { en: "Don't oversize panels beyond your inverter's max PV input. Check the datasheet.", ti: "ፓነል ካብ ዝለዓለ PV input ናይ inverter ኣይትበዝሑ።", ar: "لا تزد حجم الألواح عن أقصى مدخل PV للإنفرتر." },
+      { en: "For AGM, float voltage should be 13.6–13.8V per 12V battery. Wrong settings destroy the battery.", ti: "AGM float voltage 13.6–13.8V ኣብ 12V ባተሪ ክኸውን ኣለዎ።", ar: "لبطاريات AGM، فولتية التعويم 13.6-13.8V لكل 12V. الإعدادات الخاطئة تدمر البطارية." },
+      { en: "Set inverter to solar-first mode to prioritize panel energy and preserve battery life.", ti: "Inverter ናብ solar-first mode ግበሩ — ሓይሊ ፓነል ቅድሚ ባተሪ ይጥቀም።", ar: "اضبط الإنفرتر على وضع الشمس أولاً لتوفير عمر البطارية." },
+      { en: "A small inverter at 80% capacity is more efficient than a large one at 20%. Right-size your system.", ti: "ንእሽቶ inverter ኣብ 80% capacity ካብ ዓቢ ኣብ 20% ይሓይሽ።", ar: "إنفرتر صغير بسعة 80% أكفأ من كبير بسعة 20%. اختر الحجم المناسب." },
+      { en: "Don't put anything on top of batteries or inverter. Good airflow is essential.", ti: "ኣብ ልዕሊ ባተሪ ወይ inverter ገለ ነገር ኣይትግበሩ። ንፋስ ኣገዳሲ እዩ።", ar: "لا تضع أي شيء فوق البطاريات أو الإنفرتر. التهوية الجيدة ضرورية." },
+      { en: "If using a generator, let the inverter manage charging — don't connect generator directly to battery.", ti: "ጀነሬተር ትጥቀሙ እንተሃሊኹም inverter ክቻርጅ ሕደግዎ — ጀነሬተር ብቐጥታ ናብ ባተሪ ኣይተራኽቡ።", ar: "إذا استخدمت مولد، دع الإنفرتر يدير الشحن — لا تربط المولد بالبطارية مباشرة." },
+      { en: "If AGM batteries are 4+ years old and not holding charge, have them tested. They may need replacing.", ti: "AGM ባተሪ 4+ ዓመት ኮይኑ ቻርጅ ዘይሕዝ? ኣፈትሹ — ምቕያር ከድልየኩም ይኽእል።", ar: "إذا كانت بطاريات AGM عمرها 4+ سنوات ولا تحتفظ بالشحن، افحصها. قد تحتاج استبدال." },
+      { en: "During rainy season, check wiring for water damage. Moisture causes corrosion and shorts.", ti: "ኣብ ክረምቲ ዋየር ኣፈትሹ — ማይ ኣብ ኬብል ምብስባስን ሾርት ሰርኪትን ይፈጥር።", ar: "في موسم الأمطار، افحص الأسلاك من أضرار الماء. الرطوبة تسبب التآكل والماس الكهربائي." },
+      { en: "Keep this app saved on your phone. Share it with family and neighbours via ShareIt or Bluetooth.", ti: "ነዚ app ኣብ ተሌፎንኩም ዓቅቡ። ንስድራን ጎረባብትን ብ ShareIt ወይ Bluetooth ኣካፍሉ።", ar: "احفظ هذا التطبيق على هاتفك. شاركه مع العائلة والجيران عبر ShareIt أو Bluetooth." }
     ];
 
     const btips = [
@@ -491,6 +491,9 @@
       sizing_title: { en: 'System Sizing Calculator', ti: 'ስርዓት ጸሓይ ሓይሊ ምምራጽ', ar: 'حاسبة حجم النظام الشمسي' },
       sizing_desc: { en: 'Select the appliances you use daily and we\'ll recommend the right inverter, battery, and panels for your needs.', ti: 'መዓልታዊ ትጥቀሙሎም ኣቑሑ ምረጹ — ብቑዕ inverter፣ ባተሪ፣ ከምኡ እውን ፓነል ክንመኽረኩም።', ar: 'اختر الأجهزة التي تستخدمها يومياً وسنوصي بالإنفرتر والبطارية والألواح المناسبة.' },
       daily_appliances: { en: 'Your Daily Appliances', ti: 'መዓልታዊ ኣቑሑ ኤለትሪክ', ar: 'أجهزتك اليومية' },
+      hdr_appliance: { en: 'Appliance', ti: 'ኣቑሑ', ar: 'الجهاز' },
+      hdr_qty: { en: 'Qty', ti: 'ብዝሒ', ar: 'العدد' },
+      hdr_hrs: { en: 'Hrs/day', ti: 'ሰዓት', ar: 'ساعات/يوم' },
       qty: { en: 'Qty', ti: 'ብዝሒ', ar: 'العدد' },
       hours_day: { en: 'Hrs/Day', ti: 'ሰዓት', ar: 'ساعات/يوم' },
       battery_pref: { en: 'Battery Preference', ti: 'ዓይነት ባተሪ', ar: 'نوع البطارية' },
@@ -632,6 +635,8 @@
       renderTips();
       renderBatteryTips();
       renderFaultCodes();
+      displayDailyTip();
+      displaySunHours();
       // Update static text with data-i18n
       document.querySelectorAll('[data-i18n]').forEach(el=>{
         const k=el.getAttribute('data-i18n');
@@ -647,7 +652,25 @@
     }
 
     const appliances = [
-      { name: 'LED Light', watts: 10, defaultQty: 0, defaultHours: 0 }
+      { name: 'LED Light', watts: 10, defaultQty: 0, defaultHours: 0 },
+      { name: 'CFL Light', watts: 20, defaultQty: 0, defaultHours: 0 },
+      { name: 'TV 32"', watts: 50, defaultQty: 0, defaultHours: 0 },
+      { name: 'TV 43"', watts: 80, defaultQty: 0, defaultHours: 0 },
+      { name: 'Satellite Receiver', watts: 25, defaultQty: 0, defaultHours: 0 },
+      { name: 'Phone Charger', watts: 10, defaultQty: 0, defaultHours: 0 },
+      { name: 'Laptop', watts: 65, defaultQty: 0, defaultHours: 0 },
+      { name: 'Ceiling Fan', watts: 75, defaultQty: 0, defaultHours: 0 },
+      { name: 'Standing Fan', watts: 55, defaultQty: 0, defaultHours: 0 },
+      { name: 'Fridge (Small)', watts: 100, defaultQty: 0, defaultHours: 0, note: 'runs ~8hrs/day' },
+      { name: 'Fridge (Large)', watts: 150, defaultQty: 0, defaultHours: 0, note: 'runs ~8hrs/day' },
+      { name: 'Washing Machine', watts: 500, defaultQty: 0, defaultHours: 0 },
+      { name: 'Iron', watts: 1200, defaultQty: 0, defaultHours: 0 },
+      { name: 'Water Pump 0.5HP', watts: 370, defaultQty: 0, defaultHours: 0 },
+      { name: 'Water Pump 1HP', watts: 750, defaultQty: 0, defaultHours: 0 },
+      { name: 'Microwave', watts: 1000, defaultQty: 0, defaultHours: 0 },
+      { name: 'Electric Kettle', watts: 1500, defaultQty: 0, defaultHours: 0 },
+      { name: 'Router/Modem', watts: 15, defaultQty: 0, defaultHours: 0 },
+      { name: 'AC Unit', watts: 1200, defaultQty: 0, defaultHours: 0 }
     ];
     const tipsData = [
       {
@@ -839,18 +862,18 @@
     }
 
 
-    function init() { renderRegions(); renderAppliances(); renderTips(); renderBatteryTips(); renderFaultCodes(); renderProducts(); displayDailyTip(); displaySunHours(); setupTabNavigation(); setupHealthForm(); document.getElementById('langSelect').value=currentLang; if(currentLang!=='en') applyLang(); }
+    function init() { try { renderRegions(); renderAppliances(); renderTips(); renderBatteryTips(); renderFaultCodes(); renderProducts(); displayDailyTip(); displaySunHours(); } catch(e) { console.error('Init render error:', e); } setupTabNavigation(); setupHealthForm(); document.getElementById('langSelect').value=currentLang; if(currentLang!=='en') applyLang(); }
 
     function renderRegions() { const g=document.getElementById('regionGrid'); g.innerHTML=''; regions.forEach(r=>{const b=document.createElement('button');b.type='button';b.className=`region-btn ${r.code===currentRegion?'active':''}`;b.innerHTML=`<span class="flag">${r.flag}</span>${r.name}`;b.onclick=()=>selectRegion(r.code);g.appendChild(b);}); }
     function selectRegion(c) { currentRegion=c; localStorage.setItem('soleverde_region',c); renderRegions(); displaySunHours(); displayDailyTip(); setTimeout(()=>switchTab('sizing'),500); }
     function getCurrentRegion() { return regions.find(r=>r.code===currentRegion)||regions[0]; }
     function displaySunHours() { const r=getCurrentRegion(); document.getElementById('sunHoursDisplay').innerHTML=`<h2>${t('sun_hours')}</h2><div class="result-box"><div class="result-value">${r.sunHours}</div><div class="result-label">${t('peak_sun')}</div><p style="margin-top:12px;font-size:13px;">${t('panel_tilt')}: <strong>${r.tilt}°</strong></p><p style="font-size:13px;color:var(--text-muted);">${r.detail}</p></div>`; }
-    function displayDailyTip() { const i=new Date().getDate()%tips.length; document.getElementById('dailyTipDisplay').innerHTML=`<div class="daily-tip">${tips[i]}</div>`; }
+    function displayDailyTip() { const i=new Date().getDate()%tips.length; const tip=tips[i]; const text=typeof tip==='object'?(tip[currentLang]||tip.en):tip; document.getElementById('dailyTipDisplay').innerHTML=`<div class="daily-tip">${text}</div>`; }
 
     function renderAppliances() {
       appState=appliances.map(a=>({qty:a.defaultQty,hours:a.defaultHours}));
       const l=document.getElementById('applianceList');
-      l.innerHTML='<div class="appliance-header"><span>Appliance</span><span style="text-align:center;">Qty</span><span style="text-align:center;">Hrs/day</span></div>';
+      l.innerHTML=`<div class="appliance-header"><span>${t('hdr_appliance')}</span><span style="text-align:center;">${t('hdr_qty')}</span><span style="text-align:center;">${t('hdr_hrs')}</span></div>`;
       appliances.forEach((a,i)=>{const r=document.createElement('div');r.className='appliance-row';r.innerHTML=`<div><div class="app-name">${appKeys[i]?t(appKeys[i]):a.name}</div><div class="app-watts">${a.watts}W${a.note?' — '+a.note:''}</div></div><div class="qty-control"><button type="button" class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-val" id="qty${i}">${a.defaultQty}</span><button type="button" class="qty-btn" onclick="changeQty(${i},1)">+</button></div><div style="text-align:center;"><input type="number" class="hrs-input" id="hrs${i}" value="${a.defaultHours}" min="0" max="24" step="0.5" onchange="changeHours(${i},this.value)"></div>`;l.appendChild(r);});
     }
     function changeQty(i,d) { appState[i].qty=Math.max(0,Math.min(20,appState[i].qty+d)); document.getElementById('qty'+i).textContent=appState[i].qty; }
@@ -900,14 +923,14 @@
       }
     }
 
-    function renderFaultCodes(){const c=document.getElementById('allFaultsContainer');c.innerHTML='';const cats={'alarm':'Alarms (Yellow Light)','fault':'Faults (Red Light)','parallel':'Parallel Configuration','bms':'BMS Communication'};Object.keys(cats).forEach(cat=>{const codes=Object.entries(FC).filter(([k,v])=>v.t===cat);const s=document.createElement('div');s.innerHTML=`<h3 style="margin-top:16px;color:var(--secondary);font-size:15px;font-weight:600;">${cats[cat]}</h3>`;codes.forEach(([code,data])=>{const d=document.createElement('div');d.className='fault-card';d.innerHTML=`<div class="fault-code">${code}</div><span class="fault-type ${data.t}">${data.t.toUpperCase()}</span><div class="fault-title">${data.d}</div>${data.b?`<div class="fault-beep"><strong>Sound:</strong> ${data.b}</div>`:''}<div class="fault-details">${data.f}</div>`;d.onclick=()=>d.querySelector('.fault-details').classList.toggle('active');s.appendChild(d);});c.appendChild(s);});}
+    function renderFaultCodes(){const c=document.getElementById('allFaultsContainer');if(!c)return;c.innerHTML='';const cats={'alarm':'Alarms (Yellow Light)','fault':'Faults (Red Light)','parallel':'Parallel Configuration','bms':'BMS Communication'};Object.keys(cats).forEach(cat=>{const codes=Object.entries(FC).filter(([k,v])=>v.t===cat);const s=document.createElement('div');s.innerHTML=`<h3 style="margin-top:16px;color:var(--secondary);font-size:15px;font-weight:600;">${cats[cat]}</h3>`;codes.forEach(([code,data])=>{const d=document.createElement('div');d.className='fault-card';d.innerHTML=`<div class="fault-code">${code}</div><span class="fault-type ${data.t}">${data.t.toUpperCase()}</span><div class="fault-title">${data.d}</div>${data.b?`<div class="fault-beep"><strong>Sound:</strong> ${data.b}</div>`:''}<div class="fault-details">${data.f}</div>`;d.onclick=()=>d.querySelector('.fault-details').classList.toggle('active');s.appendChild(d);});c.appendChild(s);});}
     function searchFaults(){const q=document.getElementById('faultSearch').value.toLowerCase().trim(),r=document.getElementById('faultResults');r.innerHTML='';if(!q)return;const m=Object.entries(FC).filter(([k,v])=>k.toLowerCase().includes(q)||v.d.toLowerCase().includes(q));if(m.length===0){r.innerHTML='<div class="section"><p style="color:var(--text-muted);">No fault codes found. Try searching for "F3" or "overload".</p></div>';return;}const s=document.createElement('div');s.className='section';s.innerHTML=`<h2>Search Results (${m.length} match${m.length!==1?'es':''})</h2>`;m.forEach(([code,data])=>{const d=document.createElement('div');d.className='fault-card';d.innerHTML=`<div class="fault-code">${code}</div><span class="fault-type ${data.t}">${data.t.toUpperCase()}</span><div class="fault-title">${data.d}</div>${data.b?`<div class="fault-beep"><strong>Sound:</strong> ${data.b}</div>`:''}<div class="fault-details">${data.f}</div>`;d.onclick=()=>d.querySelector('.fault-details').classList.toggle('active');s.appendChild(d);});r.appendChild(s);}
     function toggleAllFaults(){const d=document.querySelectorAll('.fault-details');const a=Array.from(d).every(x=>x.classList.contains('active'));d.forEach(x=>a?x.classList.remove('active'):x.classList.add('active'));}
     function renderBatteryTips(){const c=document.getElementById('batteryTipsContainer');if(!c)return;c.innerHTML='';btips.forEach(bt=>{const d=document.createElement('div');d.className='batt-tip';const title=typeof bt.t==='object'?(bt.t[currentLang]||bt.t.en):bt.t;const body=typeof bt.b==='object'?(bt.b[currentLang]||bt.b.en):bt.b;d.innerHTML=`<span class="tip-icon">${bt.i}</span><div class="tip-title">${title}</div><div class="tip-body">${body}</div>`;c.appendChild(d);});}
     function renderProducts(){renderProductGrid('invertersGrid',prods.inverters);renderProductGrid('batteriesGrid',prods.batteries);renderProductGrid('panelsGrid',prods.panels);}
-    function renderProductGrid(gid,products){const g=document.getElementById(gid);g.innerHTML='';products.forEach(p=>{const c=document.createElement('div');c.className='product-card';c.innerHTML=`<div class="product-image"><img src="${encodeURI(p.img)}" alt="${p.name}" onerror="this.parentElement.innerHTML='<div style=\\'text-align:center;color:var(--text-muted);font-size:12px;padding:20px;\\'>Image not available</div>'"></div><div class="product-info"><div class="product-series">${p.series}</div><div class="product-name">${p.name}</div><div class="product-specs">${Object.entries(p.s).map(([k,v])=>`<div class="spec-row"><span class="spec-label">${k}</span><span class="spec-value">${v}</span></div>`).join('')}</div></div>`;g.appendChild(c);});}
+    function renderProductGrid(gid,products){const g=document.getElementById(gid);if(!g)return;g.innerHTML='';products.forEach(p=>{const c=document.createElement('div');c.className='product-card';c.innerHTML=`<div class="product-image"><img src="${encodeURI(p.img)}" alt="${p.name}" onerror="this.parentElement.innerHTML='<div style=\\'text-align:center;color:var(--text-muted);font-size:12px;padding:20px;\\'>Image not available</div>'"></div><div class="product-info"><div class="product-series">${p.series}</div><div class="product-name">${p.name}</div><div class="product-specs">${Object.entries(p.s).map(([k,v])=>`<div class="spec-row"><span class="spec-label">${k}</span><span class="spec-value">${v}</span></div>`).join('')}</div></div>`;g.appendChild(c);});}
     function setupTabNavigation(){document.querySelectorAll('.tab-btn').forEach(b=>{b.addEventListener('click',()=>switchTab(b.getAttribute('data-tab')));});}
-    function switchTab(t){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.querySelector(`[data-tab="${t}"]`).classList.add('active');document.getElementById(t).classList.add('active');document.querySelector('.main-content').scrollTop=0;}
+    function switchTab(tabId){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');document.getElementById(tabId).classList.add('active');document.querySelector('.main-content').scrollTop=0;}
     function setupHealthForm(){document.getElementById('healthInverterModel').addEventListener('change',function(){document.getElementById('customWattageGroup').style.display=this.value==='other'?'block':'none';});document.getElementById('healthPanelWattage').addEventListener('change',function(){document.getElementById('customPanelWGroup').style.display=this.value==='other'?'block':'none';});}
 
     function analyzeHealth(){
