@@ -210,6 +210,20 @@
     [dir="rtl"] .region-btn { direction: ltr; }
     [dir="rtl"] #langSelect { direction: ltr; }
     [dir="rtl"] .result-box { direction: rtl; }
+    [dir="rtl"] .radio-item input[type="radio"], [dir="rtl"] .checkbox-item input[type="checkbox"] { margin-right:0; margin-left:10px; }
+    [dir="rtl"] .remove-custom { margin-left:0; margin-right:4px; }
+    [dir="rtl"] .custom-tag { margin-left:0; margin-right:6px; }
+    [dir="rtl"] .check-icon { margin-right:0; margin-left:8px; }
+    [dir="rtl"] .fault-card { border-left:none; border-right:3px solid var(--primary); }
+    [dir="rtl"] .batt-tip { border-left:none; border-right:3px solid var(--primary); }
+    [dir="rtl"] .check-card.green { border-left:none; border-right:4px solid var(--success); }
+    [dir="rtl"] .check-card.yellow { border-left:none; border-right:4px solid var(--warning); }
+    [dir="rtl"] .check-card.orange { border-left:none; border-right:4px solid var(--warning); }
+    [dir="rtl"] .check-card.red { border-left:none; border-right:4px solid var(--error); }
+    [dir="rtl"] .wiring-section { border-left:none; border-right:3px solid var(--warning); }
+    [dir="rtl"] .appliance-row { direction: rtl; }
+    [dir="rtl"] .appliance-header { direction: rtl; }
+    [dir="rtl"] .daily-tip::before { margin-right:0; margin-left:10px; }
 
   </style>
 </head>
@@ -249,7 +263,7 @@
     </div>
 
     <div class="tab-content" id="sizing">
-      <div class="section"><h1 data-i18n="sizing_title">System Sizing Calculator</h1><p data-i18n="sizing_desc">Select the appliances you use daily and we'll recommend the right inverter, battery, and panels for your needs.</p></div>
+      <div class="section"><h1 data-i18n="sizing_title">System Sizing Calculator</h1><p data-i18n="sizing_desc">Select the appliances you use daily and we'll recommend the right inverter, battery, and panels for your needs.</p><p style="font-size:12px;color:var(--primary);background:var(--secondary);padding:10px 14px;border-radius:8px;margin-top:10px;margin-bottom:0;line-height:1.5;" data-i18n="sizing_step1">Step 1: Set your appliances and hours below</p></div>
       <div class="section">
         <h2 data-i18n="daily_appliances">Your Daily Appliances</h2>
         <div id="applianceList"></div>
@@ -261,6 +275,7 @@
         </div>
       </div>
       <div class="section">
+        <p style="font-size:12px;color:var(--primary);background:var(--secondary);padding:10px 14px;border-radius:8px;margin-bottom:14px;line-height:1.5;" data-i18n="sizing_step2">Step 2: Choose battery type and calculate</p>
         <h2 data-i18n="battery_pref">Battery Preference</h2>
         <div class="form-group"><label for="batteryType" data-i18n="choose_battery">Choose battery type:</label>
           <select id="batteryType">
@@ -460,6 +475,8 @@
 
     let currentRegion = localStorage.getItem('soleverde_region') || null;
     let currentLang = localStorage.getItem('soleverde_lang') || 'en';
+    let appState = null;
+    let customApps = [];
     const T = {
       // Tabs
       tab_home: { en: 'Home', ti: 'መበገሲ', ar: 'الرئيسية' },
@@ -633,7 +650,16 @@
       faults_search_placeholder: { en: 'Search fault code (e.g., F3, 7, 61)...', ti: 'ኮድ ጸገም ፈትሹ (ኣብነት: F3, 7, 61)...', ar: 'ابحث عن رمز العطل (مثال: F3, 7, 61)...' },
       faults_search_btn: { en: 'Search', ti: 'ፈትሽ', ar: 'بحث' },
       faults_all_codes: { en: 'All Codes by Category', ti: 'ኩሎም ኮዳት ብዓይነት', ar: 'جميع الرموز حسب الفئة' },
-      faults_expand: { en: 'Expand All', ti: 'ኩሉ ክፈት', ar: 'عرض الكل' }
+      faults_expand: { en: 'Expand All', ti: 'ኩሉ ክፈት', ar: 'عرض الكل' },
+      fault_cat_alarm: { en: 'Alarms (Yellow Light)', ti: 'ማንቃዕታ (ብጫ መብራህቲ)', ar: 'إنذارات (ضوء أصفر)' },
+      fault_cat_fault: { en: 'Faults (Red Light)', ti: 'ጸገማት (ቀይሕ መብራህቲ)', ar: 'أعطال (ضوء أحمر)' },
+      fault_cat_parallel: { en: 'Parallel Configuration', ti: 'ናይ ፓራለል ኣወዳድባ', ar: 'إعدادات التوازي' },
+      fault_cat_bms: { en: 'BMS Communication', ti: 'ርክብ BMS', ar: 'اتصال BMS' },
+      fault_sound: { en: 'Sound:', ti: 'ድምጺ:', ar: 'الصوت:' },
+      health_copy_btn: { en: 'Copy Health Report', ti: 'ናይ ጥዕና ጸብጻብ ቅዳሕ', ar: 'نسخ تقرير الصحة' },
+      no_region_warning: { en: 'Please select your region first on the Home tab.', ti: 'ኣቐዲምኩም ዞባኹም ኣብ መበገሲ ገጽ ምረጹ።', ar: 'يرجى اختيار منطقتك أولاً في الصفحة الرئيسية.' },
+      sizing_step1: { en: 'Step 1: Set your appliances and hours below', ti: 'ስጉምቲ 1: ኣቕሑኹምን ሰዓታትን ኣብ ታሕቲ ኣቐምጡ', ar: 'الخطوة 1: حدد أجهزتك وساعات الاستخدام أدناه' },
+      sizing_step2: { en: 'Step 2: Choose battery type and calculate', ti: 'ስጉምቲ 2: ዓይነት ባተሪ ምረጹ ሕሰቡ', ar: 'الخطوة 2: اختر نوع البطارية واحسب' }
     };
     const appKeys=['app_led','app_cfl','app_tv32','app_tv43','app_satellite','app_phone','app_laptop','app_cfan','app_sfan','app_fridge_s','app_fridge_l','app_washing','app_iron','app_pump05','app_pump1','app_microwave','app_kettle','app_router','app_ac'];
     function t(key){ return (T[key]&&T[key][currentLang]) || (T[key]&&T[key].en) || key; }
@@ -888,10 +914,10 @@
     function displayDailyTip() { const i=new Date().getDate()%tips.length; const tip=tips[i]; const text=typeof tip==='object'?(tip[currentLang]||tip.en):tip; document.getElementById('dailyTipDisplay').innerHTML=`<div class="daily-tip">${text}</div>`; }
 
     function renderAppliances() {
-      appState=appliances.map(a=>({qty:a.defaultQty,hours:a.defaultHours}));
+      if(!appState||appState.length!==appliances.length){appState=appliances.map(a=>({qty:a.defaultQty,hours:a.defaultHours}));}
       const l=document.getElementById('applianceList');
       l.innerHTML=`<div class="appliance-header"><span>${t('hdr_appliance')}</span><span style="text-align:center;">${t('hdr_qty')}</span><span style="text-align:center;">${t('hdr_hrs')}</span></div>`;
-      appliances.forEach((a,i)=>{const r=document.createElement('div');r.className='appliance-row';r.innerHTML=`<div><div class="app-name">${appKeys[i]?t(appKeys[i]):a.name}</div><div class="app-watts">${a.watts}W${a.note?' — '+a.note:''}</div></div><div class="qty-control"><button type="button" class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-val" id="qty${i}">${a.defaultQty}</span><button type="button" class="qty-btn" onclick="changeQty(${i},1)">+</button></div><div style="text-align:center;"><input type="number" class="hrs-input" id="hrs${i}" value="${a.defaultHours}" min="0" max="24" step="0.5" onchange="changeHours(${i},this.value)"></div>`;l.appendChild(r);});
+      appliances.forEach((a,i)=>{const r=document.createElement('div');r.className='appliance-row';r.innerHTML=`<div><div class="app-name">${appKeys[i]?t(appKeys[i]):a.name}</div><div class="app-watts">${a.watts}W${a.note?' — '+a.note:''}</div></div><div class="qty-control"><button type="button" class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-val" id="qty${i}">${appState[i].qty}</span><button type="button" class="qty-btn" onclick="changeQty(${i},1)">+</button></div><div style="text-align:center;"><input type="number" class="hrs-input" id="hrs${i}" value="${appState[i].hours}" min="0" max="24" step="0.5" onchange="changeHours(${i},this.value)"></div>`;l.appendChild(r);});
     }
     function changeQty(i,d) { appState[i].qty=Math.max(0,Math.min(20,appState[i].qty+d)); document.getElementById('qty'+i).textContent=appState[i].qty; }
     function changeHours(i,v) { appState[i].hours=Math.max(0,Math.min(24,parseFloat(v)||0)); }
@@ -903,6 +929,7 @@
     function renderCustomAppliances() { const c=document.getElementById('customAppliancesList'); c.innerHTML=''; customApps.forEach((a,i)=>{const r=document.createElement('div');r.className='appliance-row';r.innerHTML=`<div><div class="app-name">${a.name}<span class="custom-tag">Custom</span><button class="remove-custom" onclick="removeCustomAppliance(${i})" title="Remove">×</button></div><div class="app-watts">${a.watts}W</div></div><div class="qty-control"><button type="button" class="qty-btn" onclick="changeCustomQty(${i},-1)">−</button><span class="qty-val" id="cqty${i}">${a.qty}</span><button type="button" class="qty-btn" onclick="changeCustomQty(${i},1)">+</button></div><div style="text-align:center;"><input type="number" class="hrs-input" id="chrs${i}" value="${a.hours}" min="0" max="24" step="0.5" onchange="changeCustomHours(${i},this.value)"></div>`;c.appendChild(r);}); }
 
     function calculateSize() {
+      if(!currentRegion){document.getElementById('sizingResults').innerHTML=`<div class="section"><div class="result-box" style="border-color:var(--warning);"><p style="color:var(--warning);font-weight:600;">${t('no_region_warning')}</p></div></div>`;return;}
       const battPref=document.getElementById('batteryType').value, sunHours=getCurrentRegion().sunHours, loss=1.25, heatDerate=0.9;
       let totalDailyWh=0, peakLoad=0, loads=[];
       let maxSurge=0;appliances.forEach((a,i)=>{const q=appState[i].qty,h=appState[i].hours;if(q>0&&h>0){const wh=a.watts*q*h;totalDailyWh+=wh;peakLoad+=a.watts*q;if(a.surge)maxSurge=Math.max(maxSurge,a.watts*q*a.surge);loads.push({name:a.name,watts:a.watts*q,wh});}});
@@ -940,8 +967,18 @@
       }
     }
 
-    function renderFaultCodes(){const c=document.getElementById('allFaultsContainer');if(!c)return;c.innerHTML='';const cats={'alarm':'Alarms (Yellow Light)','fault':'Faults (Red Light)','parallel':'Parallel Configuration','bms':'BMS Communication'};Object.keys(cats).forEach(cat=>{const codes=Object.entries(FC).filter(([k,v])=>v.t===cat);const s=document.createElement('div');s.innerHTML=`<h3 style="margin-top:16px;color:var(--secondary);font-size:15px;font-weight:600;">${cats[cat]}</h3>`;codes.forEach(([code,data])=>{const d=document.createElement('div');d.className='fault-card';d.innerHTML=`<div class="fault-code">${code}</div><span class="fault-type ${data.t}">${data.t.toUpperCase()}</span><div class="fault-title">${data.d}</div>${data.b?`<div class="fault-beep"><strong>Sound:</strong> ${data.b}</div>`:''}<div class="fault-details">${data.f}</div>`;d.onclick=()=>d.querySelector('.fault-details').classList.toggle('active');s.appendChild(d);});c.appendChild(s);});}
-    function searchFaults(){const q=document.getElementById('faultSearch').value.toLowerCase().trim(),r=document.getElementById('faultResults');r.innerHTML='';if(!q)return;const m=Object.entries(FC).filter(([k,v])=>k.toLowerCase().includes(q)||v.d.toLowerCase().includes(q));if(m.length===0){r.innerHTML='<div class="section"><p style="color:var(--text-muted);">No fault codes found. Try searching for "F3" or "overload".</p></div>';return;}const s=document.createElement('div');s.className='section';s.innerHTML=`<h2>Search Results (${m.length} match${m.length!==1?'es':''})</h2>`;m.forEach(([code,data])=>{const d=document.createElement('div');d.className='fault-card';d.innerHTML=`<div class="fault-code">${code}</div><span class="fault-type ${data.t}">${data.t.toUpperCase()}</span><div class="fault-title">${data.d}</div>${data.b?`<div class="fault-beep"><strong>Sound:</strong> ${data.b}</div>`:''}<div class="fault-details">${data.f}</div>`;d.onclick=()=>d.querySelector('.fault-details').classList.toggle('active');s.appendChild(d);});r.appendChild(s);}
+    function copyHealthResult(){
+      const r=document.getElementById('healthResults');
+      if(!r||!r.textContent.trim())return;
+      const allText=r.innerText;
+      let txt=`☀️ Soleverde - ${t('hr_title')}\n━━━━━━━━━━━━━━━━━━━━\n${allText.split(t('hr_need_help'))[0].trim()}\n━━━━━━━━━━━━━━━━━━━━\nsoleverde.github.io/soleverde-app`;
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(()=>{const b=document.getElementById('copyHealthBtn');b.textContent=t('copied');setTimeout(()=>{b.textContent=t('health_copy_btn');},2000);});}else{
+        const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+        const b=document.getElementById('copyHealthBtn');b.textContent=t('copied');setTimeout(()=>{b.textContent=t('health_copy_btn');},2000);
+      }
+    }
+    function renderFaultCodes(){const c=document.getElementById('allFaultsContainer');if(!c)return;c.innerHTML='';const cats={'alarm':'fault_cat_alarm','fault':'fault_cat_fault','parallel':'fault_cat_parallel','bms':'fault_cat_bms'};Object.keys(cats).forEach(cat=>{const codes=Object.entries(FC).filter(([k,v])=>v.t===cat);const s=document.createElement('div');s.innerHTML=`<h3 style="margin-top:16px;color:var(--secondary);font-size:15px;font-weight:600;">${t(cats[cat])}</h3>`;codes.forEach(([code,data])=>{const d=document.createElement('div');d.className='fault-card';d.innerHTML=`<div class="fault-code">${code}</div><span class="fault-type ${data.t}">${data.t.toUpperCase()}</span><div class="fault-title">${data.d}</div>${data.b?`<div class="fault-beep"><strong>${t('fault_sound')}</strong> ${data.b}</div>`:''}<div class="fault-details">${data.f}</div>`;d.onclick=()=>d.querySelector('.fault-details').classList.toggle('active');s.appendChild(d);});c.appendChild(s);});}
+    function searchFaults(){const q=document.getElementById('faultSearch').value.toLowerCase().trim(),r=document.getElementById('faultResults');r.innerHTML='';if(!q)return;const m=Object.entries(FC).filter(([k,v])=>k.toLowerCase().includes(q)||v.d.toLowerCase().includes(q));if(m.length===0){r.innerHTML='<div class="section"><p style="color:var(--text-muted);">No fault codes found.</p></div>';return;}const s=document.createElement('div');s.className='section';s.innerHTML=`<h2>${m.length} result${m.length!==1?'s':''}</h2>`;m.forEach(([code,data])=>{const d=document.createElement('div');d.className='fault-card';d.innerHTML=`<div class="fault-code">${code}</div><span class="fault-type ${data.t}">${data.t.toUpperCase()}</span><div class="fault-title">${data.d}</div>${data.b?`<div class="fault-beep"><strong>${t('fault_sound')}</strong> ${data.b}</div>`:''}<div class="fault-details">${data.f}</div>`;d.onclick=()=>d.querySelector('.fault-details').classList.toggle('active');s.appendChild(d);});r.appendChild(s);}
     function toggleAllFaults(){const d=document.querySelectorAll('.fault-details');const a=Array.from(d).every(x=>x.classList.contains('active'));d.forEach(x=>a?x.classList.remove('active'):x.classList.add('active'));}
     function renderBatteryTips(){const c=document.getElementById('batteryTipsContainer');if(!c)return;c.innerHTML='';btips.forEach(bt=>{const d=document.createElement('div');d.className='batt-tip';const title=typeof bt.t==='object'?(bt.t[currentLang]||bt.t.en):bt.t;const body=typeof bt.b==='object'?(bt.b[currentLang]||bt.b.en):bt.b;d.innerHTML=`<span class="tip-icon">${bt.i}</span><div class="tip-title">${title}</div><div class="tip-body">${body}</div>`;c.appendChild(d);});}
     function renderProducts(){renderProductGrid('invertersGrid',prods.inverters);renderProductGrid('batteriesGrid',prods.batteries);renderProductGrid('panelsGrid',prods.panels);}
@@ -991,7 +1028,7 @@
       const sc={'red':20,'orange':50,'yellow':70,'green':100};
       const hs=Math.round((sc[r.wiring.status]+sc[r.ventilation.status]+sc[r.sizing.status]+sc[r.batteryCapacity.status]+sc[r.nightLoad.status]+sc[r.batteryAge.status]+sc[r.errorCodes.status]+sc[r.grounding.status]+sc[r.panelMatch.status])/9);
       let ss='green',sm=t('hr_score_good');if(hs>=80){ss='green';sm=t('hr_score_good');}else if(hs>=60){ss='yellow';sm=t('hr_score_improve');}else if(hs>=40){ss='orange';sm=t('hr_score_attention');}else{ss='red';sm=t('hr_score_critical');}
-      document.getElementById('healthResults').innerHTML=`<div class="section"><h2>${t('hr_title')}</h2><div class="health-score health-score-${ss} ${ss}"><div class="health-score-number">${hs}</div><div class="health-score-text">${sm}</div><div class="health-score-subtext">${t('hr_score_sub')}</div></div><h3 style="margin-top:20px;margin-bottom:12px;">${t('hr_detailed')}</h3>${rcc(r.wiring)}${rcc(r.ventilation)}${rcc(r.grounding)}${rcc(r.sizing)}${rcc(r.batteryCapacity)}${rcc(r.panelMatch)}${rcc(r.nightLoad)}${rcc(r.batteryAge)}${rcc(r.errorCodes)}<div class="contact-section"><h3>${t('hr_need_help')}</h3><p style="margin-bottom:12px;color:rgba(255,255,255,0.7);">${t('hr_contact')}</p><div class="contact-links"><a href="mailto:info@sole-verde.com">Email: info@sole-verde.com</a><a href="https://wa.me/971526342426?text=Hello%20Soleverde%21%20I%20have%20a%20question%20about%20my%20solar%20system" target="_blank" data-i18n="faults_whatsapp">WhatsApp Support</a></div></div></div>`;
+      document.getElementById('healthResults').innerHTML=`<div class="section"><h2>${t('hr_title')}</h2><div class="health-score health-score-${ss} ${ss}"><div class="health-score-number">${hs}</div><div class="health-score-text">${sm}</div><div class="health-score-subtext">${t('hr_score_sub')}</div></div><h3 style="margin-top:20px;margin-bottom:12px;">${t('hr_detailed')}</h3>${rcc(r.wiring)}${rcc(r.ventilation)}${rcc(r.grounding)}${rcc(r.sizing)}${rcc(r.batteryCapacity)}${rcc(r.panelMatch)}${rcc(r.nightLoad)}${rcc(r.batteryAge)}${rcc(r.errorCodes)}<button onclick="copyHealthResult()" id="copyHealthBtn" style="width:100%;margin-top:14px;margin-bottom:14px;padding:14px;font-size:14px;font-weight:600;background:var(--secondary);color:var(--white);border:none;border-radius:10px;cursor:pointer;">${t('health_copy_btn')}</button><div class="contact-section"><h3>${t('hr_need_help')}</h3><p style="margin-bottom:12px;color:rgba(255,255,255,0.7);">${t('hr_contact')}</p><div class="contact-links"><a href="mailto:info@sole-verde.com">Email: info@sole-verde.com</a><a href="https://wa.me/971526342426?text=Hello%20Soleverde%21%20I%20have%20a%20question%20about%20my%20solar%20system" target="_blank" data-i18n="faults_whatsapp">WhatsApp Support</a></div></div></div>`;
     }
     function rcc(c){const ic={'green':'✅','yellow':'⚠️','orange':'⚠️','red':'🔴'};const title=typeof c.title==='object'?(c.title[currentLang]||c.title.en):c.title;const expl=typeof c.explanation==='object'?(c.explanation[currentLang]||c.explanation.en):c.explanation;const rec=typeof c.recommendation==='object'?(c.recommendation[currentLang]||c.recommendation.en):c.recommendation;return`<div class="check-card ${c.status}"><span class="check-icon">${ic[c.status]}</span><div class="check-title">${title}</div><div class="check-explanation">${expl}</div><div class="check-recommendation"><strong>${t('hr_recommendation')}</strong> ${rec}</div></div>`;}
 
