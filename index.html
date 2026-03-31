@@ -660,7 +660,16 @@
       health_copy_btn: { en: 'Copy Health Report', ti: 'ናይ ጥዕና ጸብጻብ ቅዳሕ', ar: 'نسخ تقرير الصحة' },
       no_region_warning: { en: 'Please select your region first on the Home tab.', ti: 'ኣቐዲምኩም ዞባኹም ኣብ መበገሲ ገጽ ምረጹ።', ar: 'يرجى اختيار منطقتك أولاً في الصفحة الرئيسية.' },
       sizing_step1: { en: 'Step 1: Set your appliances and hours below', ti: 'ስጉምቲ 1: ኣቕሑኹምን ሰዓታትን ኣብ ታሕቲ ኣቐምጡ', ar: 'الخطوة 1: حدد أجهزتك وساعات الاستخدام أدناه' },
-      sizing_step2: { en: 'Step 2: Choose battery type and calculate', ti: 'ስጉምቲ 2: ዓይነት ባተሪ ምረጹ ሕሰቡ', ar: 'الخطوة 2: اختر نوع البطارية واحسب' }
+      sizing_step2: { en: 'Step 2: Choose battery type and calculate', ti: 'ስጉምቲ 2: ዓይነት ባተሪ ምረጹ ሕሰቡ', ar: 'الخطوة 2: اختر نوع البطارية واحسب' },
+      lead_results_ready: { en: 'Your results are ready!', ti: 'ውጽኢትኩም ድሉው እዩ!', ar: 'نتائجك جاهزة!' },
+      lead_unlock_desc: { en: 'Enter your details below to see your personalized solar system recommendation.', ti: 'ውጽኢትኩም ንምርኣይ ዝርዝርኩም ኣእትዉ።', ar: 'أدخل بياناتك أدناه لعرض توصية نظامك الشمسي.' },
+      lead_see_results: { en: 'See My Results', ti: 'ውጽኢተይ ኣርእየኒ', ar: 'عرض نتائجي' },
+      lead_name: { en: 'Your name', ti: 'ስምኩም', ar: 'اسمك' },
+      lead_phone: { en: 'Phone / WhatsApp', ti: 'ተሌፎን / ዋትስኣፕ', ar: 'الهاتف / واتساب' },
+      lead_city: { en: 'City (optional)', ti: 'ከተማ (ኣማራጺ)', ar: 'المدينة (اختياري)' },
+      lead_submit: { en: 'Contact Me', ti: 'ረኸቡኒ', ar: 'تواصل معي' },
+      lead_sent: { en: 'Sent! We\'ll be in touch soon.', ti: 'ተላኢኹ! ቀልጢፍና ክንራኸበኩም ኢና።', ar: 'تم الإرسال! سنتواصل معك قريباً.' },
+      lead_saved_offline: { en: 'Saved! Will send when you\'re back online.', ti: 'ተዓቂቡ! ኢንተርነት ምስ ዝርከብ ይለኣኽ።', ar: 'تم الحفظ! سيُرسل عند الاتصال بالإنترنت.' }
     };
     const appKeys=['app_led','app_cfl','app_tv32','app_tv43','app_satellite','app_phone','app_laptop','app_cfan','app_sfan','app_fridge_s','app_fridge_l','app_washing','app_iron','app_pump05','app_pump1','app_microwave','app_kettle','app_router','app_ac'];
     function t(key){ return (T[key]&&T[key][currentLang]) || (T[key]&&T[key].en) || key; }
@@ -909,7 +918,7 @@
     function init() { try { renderRegions(); renderAppliances(); renderTips(); renderBatteryTips(); renderFaultCodes(); renderProducts(); displayDailyTip(); displaySunHours(); } catch(e) { console.error('Init render error:', e); } setupTabNavigation(); setupHealthForm(); document.getElementById('langSelect').value=currentLang; if(currentLang!=='en') applyLang(); }
 
     function renderRegions() { const g=document.getElementById('regionGrid'); g.innerHTML=''; regions.forEach(r=>{const b=document.createElement('button');b.type='button';b.className=`region-btn ${r.code===currentRegion?'active':''}`;b.innerHTML=`<span class="flag">${r.flag}</span>${r.name}`;b.onclick=()=>selectRegion(r.code);g.appendChild(b);}); }
-    function selectRegion(c) { currentRegion=c; localStorage.setItem('soleverde_region',c); renderRegions(); displaySunHours(); displayDailyTip(); setTimeout(()=>switchTab('sizing'),500); }
+    function selectRegion(c) { currentRegion=c; localStorage.setItem('soleverde_region',c); renderRegions(); displaySunHours(); displayDailyTip(); svTrack('region_select',{region:c}); setTimeout(()=>switchTab('sizing'),500); }
     function getCurrentRegion() { return regions.find(r=>r.code===currentRegion)||regions[0]; }
     function displaySunHours() { const r=getCurrentRegion(); document.getElementById('sunHoursDisplay').innerHTML=`<h2>${t('sun_hours')}</h2><div class="result-box"><div class="result-value">${r.sunHours}</div><div class="result-label">${t('peak_sun')}</div><p style="margin-top:12px;font-size:13px;">${t('panel_tilt')}: <strong>${r.tilt}°</strong></p><p style="font-size:13px;color:var(--text-muted);">${r.detail}</p></div>`; }
     function displayDailyTip() { const i=new Date().getDate()%tips.length; const tip=tips[i]; const text=typeof tip==='object'?(tip[currentLang]||tip.en):tip; document.getElementById('dailyTipDisplay').innerHTML=`<div class="daily-tip">${text}</div>`; }
@@ -929,8 +938,112 @@
     function changeCustomHours(i,v) { customApps[i].hours=Math.max(0,Math.min(24,parseFloat(v)||0)); }
     function renderCustomAppliances() { const c=document.getElementById('customAppliancesList'); c.innerHTML=''; customApps.forEach((a,i)=>{const r=document.createElement('div');r.className='appliance-row';r.innerHTML=`<div><div class="app-name">${a.name}<span class="custom-tag">Custom</span><button class="remove-custom" onclick="removeCustomAppliance(${i})" title="Remove">×</button></div><div class="app-watts">${a.watts}W</div></div><div class="qty-control"><button type="button" class="qty-btn" onclick="changeCustomQty(${i},-1)">−</button><span class="qty-val" id="cqty${i}">${a.qty}</span><button type="button" class="qty-btn" onclick="changeCustomQty(${i},1)">+</button></div><div style="text-align:center;"><input type="number" class="hrs-input" id="chrs${i}" value="${a.hours}" min="0" max="24" step="0.5" onchange="changeCustomHours(${i},this.value)"></div>`;c.appendChild(r);}); }
 
+    // ===== SOLEVERDE DATA COLLECTION SYSTEM =====
+    // Offline-first: stores everything locally, syncs when internet appears
+    // Works with ShareIt distribution — data accumulates until sync
+
+    // >>> PASTE YOUR GOOGLE APPS SCRIPT URL HERE <<<
+    const SV_SYNC_URL = 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE';
+
+    function svQueue(key) {
+      return {
+        get: function() { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) { return []; } },
+        add: function(item) { const q = this.get(); q.push(item); localStorage.setItem(key, JSON.stringify(q)); },
+        clear: function() { localStorage.setItem(key, '[]'); },
+        count: function() { return this.get().length; }
+      };
+    }
+    const leadQ = svQueue('sv_leads');
+    const eventQ = svQueue('sv_events');
+
+    // Track any event silently
+    function svTrack(eventType, data) {
+      eventQ.add({
+        e: eventType,
+        ts: new Date().toISOString(),
+        r: currentRegion || 'none',
+        l: currentLang,
+        d: data || {}
+      });
+      svTrySync();
+    }
+
+    // Save a lead (contact form)
+    function svSaveLead(name, phone, city, sizing) {
+      leadQ.add({
+        ts: new Date().toISOString(),
+        name: name,
+        phone: phone,
+        city: city,
+        region: currentRegion || 'none',
+        lang: currentLang,
+        sizing: sizing || {}
+      });
+      svTrySync();
+    }
+
+    // Sync to Google Sheet — aggressive retry for rare internet
+    let svSyncing = false;
+    function svTrySync() {
+      if (svSyncing) return;
+      if (SV_SYNC_URL === 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE') return;
+      if (!navigator.onLine) return;
+      const leads = leadQ.get();
+      const events = eventQ.get();
+      if (leads.length === 0 && events.length === 0) return;
+
+      svSyncing = true;
+      // Send in batches of 50 to avoid huge payloads
+      const batchLeads = leads.slice(0, 50);
+      const batchEvents = events.slice(0, 100);
+
+      fetch(SV_SYNC_URL, {
+        method: 'POST',
+        body: JSON.stringify({ leads: batchLeads, events: batchEvents }),
+        headers: { 'Content-Type': 'text/plain' }
+      }).then(r => {
+        if (r.ok || r.type === 'opaque') {
+          // Remove synced items from queue
+          const rl = leadQ.get(); rl.splice(0, batchLeads.length); localStorage.setItem('sv_leads', JSON.stringify(rl));
+          const re = eventQ.get(); re.splice(0, batchEvents.length); localStorage.setItem('sv_events', JSON.stringify(re));
+          svSyncing = false;
+          // If more data remains, sync again
+          if (rl.length > 0 || re.length > 0) setTimeout(svTrySync, 1000);
+        } else { svSyncing = false; }
+      }).catch(() => { svSyncing = false; });
+    }
+
+    // When internet appears (rare for these users), sync immediately
+    window.addEventListener('online', () => { setTimeout(svTrySync, 2000); });
+    // Also try on every page load
+    setTimeout(svTrySync, 5000);
+    // And try every 2 minutes in case they have brief connectivity
+    setInterval(svTrySync, 120000);
+
+    // Store last sizing result for lead form
+    let lastSizingData = null;
+
+    // Lead form submission handler
+    function submitLead() {
+      const name = document.getElementById('leadName').value.trim();
+      const phone = document.getElementById('leadPhone').value.trim();
+      const city = document.getElementById('leadCity').value.trim();
+      if (!name || !phone) {
+        if(!name) document.getElementById('leadName').focus();
+        else document.getElementById('leadPhone').focus();
+        return;
+      }
+      svSaveLead(name, phone, city, lastSizingData || {});
+      // Reveal the sizing results
+      if (window._pendingResultsHTML) {
+        document.getElementById('sizingResults').innerHTML = window._pendingResultsHTML;
+        window._pendingResultsHTML = null;
+        document.getElementById('sizingResults').scrollIntoView({behavior:'smooth',block:'start'});
+      }
+    }
+
     function calculateSize() {
-      if(!currentRegion){document.getElementById('sizingResults').innerHTML=`<div class="section"><div class="result-box" style="border-color:var(--warning);"><p style="color:var(--warning);font-weight:600;">${t('no_region_warning')}</p></div></div>`;return;}
+      if(!currentRegion){ currentRegion='ER'; localStorage.setItem('soleverde_region','ER'); renderRegions(); displaySunHours(); displayDailyTip(); }
       const battPref=document.getElementById('batteryType').value, sunHours=getCurrentRegion().sunHours, loss=1.25, heatDerate=0.9;
       let totalDailyWh=0, peakLoad=0, loads=[];
       let maxSurge=0;appliances.forEach((a,i)=>{const q=appState[i].qty,h=appState[i].hours;if(q>0&&h>0){const wh=a.watts*q*h;totalDailyWh+=wh;peakLoad+=a.watts*q;if(a.surge)maxSurge=Math.max(maxSurge,a.watts*q*a.surge);loads.push({name:a.name,watts:a.watts*q,wh});}});
@@ -952,7 +1065,17 @@
       loads.sort((a,b)=>b.wh-a.wh);
       let bh=loads.map(l=>{const p=l.wh/totalDailyWh*100,cl=p>40?'var(--error)':p>20?'var(--warning)':'var(--success)';return`<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;font-size:12px;"><span>${l.name}</span><span style="font-weight:600;">${(l.wh/1000).toFixed(1)} kWh (${p.toFixed(0)}%)</span></div><div style="height:4px;background:rgba(0,0,0,0.04);border-radius:3px;overflow:hidden;margin-top:3px;"><div style="height:100%;width:${p}%;background:${cl};border-radius:3px;"></div></div></div>`;}).join('');
       const heavy=loads.filter(l=>l.watts>=500);let hw='';if(heavy.length>0)hw=`<div style="background:rgba(243,156,18,0.06);border:1px solid rgba(243,156,18,0.12);padding:12px;border-radius:8px;margin-top:14px;font-size:12px;color:var(--warning);">${t('heavy_warning_pre')} (${heavy.map(l=>l.name).join(', ')}): ${t('heavy_warning_post')}</div>`;
-      document.getElementById('sizingResults').innerHTML=`<div class="section result-box"><h2>${t('recommendation')}</h2>${voltNote}<div class="result-box"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;"><div style="text-align:center;padding:14px;background:var(--primary-soft);border-radius:10px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;font-weight:600;letter-spacing:1px;">${t('daily_energy')}</div><div style="font-size:24px;font-weight:800;color:var(--secondary);letter-spacing:-0.5px;">${(totalDailyWh/1000).toFixed(1)} kWh</div></div><div style="text-align:center;padding:14px;background:var(--primary-soft);border-radius:10px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;font-weight:600;letter-spacing:1px;">${t('peak_load')}</div><div style="font-size:24px;font-weight:800;color:var(--secondary);letter-spacing:-0.5px;">${peakLoad.toLocaleString()}W</div></div></div><div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px;"><div style="display:flex;justify-content:space-between;padding:14px;border-bottom:1px solid var(--border);"><span style="font-size:12px;color:var(--text-muted);font-weight:500;">${t('inverter')}</span><span style="font-size:14px;font-weight:600;color:var(--secondary);">${recInv.name}</span></div><div style="display:flex;justify-content:space-between;padding:14px;border-bottom:1px solid var(--border);"><span style="font-size:12px;color:var(--text-muted);font-weight:500;">${t('battery')}</span><div style="text-align:right;"><span style="font-size:14px;font-weight:600;color:var(--secondary);">${recBatt.name}</span><br><span style="font-size:11px;color:var(--text-muted);">${recBatt.detail}</span></div></div><div style="display:flex;justify-content:space-between;padding:14px;"><span style="font-size:12px;color:var(--text-muted);font-weight:500;">${t('panels')}</span><div style="text-align:right;"><span style="font-size:14px;font-weight:600;color:var(--secondary);">${recPanel.name}</span><br><span style="font-size:11px;color:var(--text-muted);">${recPanel.detail}</span></div></div></div><h3 style="font-size:13px;color:var(--secondary);margin-bottom:10px;font-weight:600;">${t('energy_breakdown')}</h3>${bh}${hw}<div style="background:linear-gradient(135deg,var(--primary-soft) 0%,var(--secondary-soft) 100%);padding:14px;border-radius:10px;margin-top:16px;border:1px solid rgba(205,219,34,0.1);"><p style="font-size:12px;color:var(--secondary);margin:0;"><strong>${t('region_label')}</strong> ${getCurrentRegion().name} (${sunHours} ${t('peak_sun')}) — ${t('panel_tilt')}: ${getCurrentRegion().tilt}°</p></div><div style="background:var(--secondary);padding:14px;border-radius:10px;margin-top:12px;"><p style="font-size:12px;color:rgba(255,255,255,0.85);margin:0;line-height:1.6;">🔗 <strong style="color:var(--primary);">${t('integrated_title')}</strong> ${t('integrated_desc')}</p></div><button onclick="copyResult()" id="copyResultBtn" style="width:100%;margin-top:14px;padding:14px;font-size:14px;font-weight:600;background:var(--secondary);color:var(--white);border:none;border-radius:10px;cursor:pointer;">${t('share_result_btn')}</button></div></div>`;
+      const appList=loads.map(l=>l.name+'('+l.watts+'W×'+l.hours+'h)').join(', ');
+      lastSizingData={dailyWh:totalDailyWh,peakLoad:peakLoad,batteryType:battPref,inverter:recInv.name,battery:recBatt.name+' '+recBatt.detail,panels:recPanel.name+' '+recPanel.detail,appliances:appList};
+
+      // Store the full results HTML so we can reveal it after lead form
+      window._pendingResultsHTML=`<div class="section result-box"><h2>${t('recommendation')}</h2>${voltNote}<div class="result-box"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;"><div style="text-align:center;padding:14px;background:var(--primary-soft);border-radius:10px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;font-weight:600;letter-spacing:1px;">${t('daily_energy')}</div><div style="font-size:24px;font-weight:800;color:var(--secondary);letter-spacing:-0.5px;">${(totalDailyWh/1000).toFixed(1)} kWh</div></div><div style="text-align:center;padding:14px;background:var(--primary-soft);border-radius:10px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;font-weight:600;letter-spacing:1px;">${t('peak_load')}</div><div style="font-size:24px;font-weight:800;color:var(--secondary);letter-spacing:-0.5px;">${peakLoad.toLocaleString()}W</div></div></div><div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px;"><div style="display:flex;justify-content:space-between;padding:14px;border-bottom:1px solid var(--border);"><span style="font-size:12px;color:var(--text-muted);font-weight:500;">${t('inverter')}</span><span style="font-size:14px;font-weight:600;color:var(--secondary);">${recInv.name}</span></div><div style="display:flex;justify-content:space-between;padding:14px;border-bottom:1px solid var(--border);"><span style="font-size:12px;color:var(--text-muted);font-weight:500;">${t('battery')}</span><div style="text-align:right;"><span style="font-size:14px;font-weight:600;color:var(--secondary);">${recBatt.name}</span><br><span style="font-size:11px;color:var(--text-muted);">${recBatt.detail}</span></div></div><div style="display:flex;justify-content:space-between;padding:14px;"><span style="font-size:12px;color:var(--text-muted);font-weight:500;">${t('panels')}</span><div style="text-align:right;"><span style="font-size:14px;font-weight:600;color:var(--secondary);">${recPanel.name}</span><br><span style="font-size:11px;color:var(--text-muted);">${recPanel.detail}</span></div></div></div><h3 style="font-size:13px;color:var(--secondary);margin-bottom:10px;font-weight:600;">${t('energy_breakdown')}</h3>${bh}${hw}<div style="background:linear-gradient(135deg,var(--primary-soft) 0%,var(--secondary-soft) 100%);padding:14px;border-radius:10px;margin-top:16px;border:1px solid rgba(205,219,34,0.1);"><p style="font-size:12px;color:var(--secondary);margin:0;"><strong>${t('region_label')}</strong> ${getCurrentRegion().name} (${sunHours} ${t('peak_sun')}) — ${t('panel_tilt')}: ${getCurrentRegion().tilt}°</p></div><div style="background:var(--secondary);padding:14px;border-radius:10px;margin-top:12px;"><p style="font-size:12px;color:rgba(255,255,255,0.85);margin:0;line-height:1.6;">🔗 <strong style="color:var(--primary);">${t('integrated_title')}</strong> ${t('integrated_desc')}</p></div><button onclick="copyResult()" id="copyResultBtn" style="width:100%;margin-top:14px;padding:14px;font-size:14px;font-weight:600;background:var(--secondary);color:var(--white);border:none;border-radius:10px;cursor:pointer;">${t('share_result_btn')}</button></div></div>`;
+
+      // Show blurred results teaser + lead form — stacked layout (no overflow issues)
+      document.getElementById('sizingResults').innerHTML=`<div class="section"><div style="filter:blur(5px);opacity:0.4;pointer-events:none;padding:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:14px;margin-bottom:-30px;"><h2 style="margin:0 0 10px 0;color:var(--secondary);">${t('recommendation')}</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;"><div style="text-align:center;padding:12px;background:var(--primary-soft);border-radius:8px;"><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;">kWh/day</div><div style="font-size:22px;font-weight:800;color:var(--secondary);">${(totalDailyWh/1000).toFixed(1)}</div></div><div style="text-align:center;padding:12px;background:var(--primary-soft);border-radius:8px;"><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;">Peak</div><div style="font-size:22px;font-weight:800;color:var(--secondary);">${peakLoad}W</div></div></div><div style="border:1px solid var(--border);border-radius:8px;padding:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:var(--text-muted);font-size:12px;">Inverter</span><span style="font-weight:600;color:var(--secondary);font-size:13px;">${recInv.name}</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:var(--text-muted);font-size:12px;">Battery</span><span style="font-weight:600;color:var(--secondary);font-size:13px;">${recBatt.name}</span></div><div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);font-size:12px;">Panels</span><span style="font-weight:600;color:var(--secondary);font-size:13px;">${recPanel.name}</span></div></div></div><div style="position:relative;z-index:2;background:rgba(17,48,45,0.95);padding:24px 20px;border-radius:14px;text-align:center;box-shadow:0 -4px 24px rgba(0,0,0,0.3);border:1px solid rgba(205,219,34,0.15);"><div style="font-size:36px;margin-bottom:8px;">🔒</div><h2 style="color:var(--primary);margin:0 0 6px 0;font-size:18px;font-weight:700;">${t('lead_results_ready')}</h2><p style="font-size:12px;color:rgba(255,255,255,0.6);margin:0 0 18px 0;line-height:1.5;">${t('lead_unlock_desc')}</p><div style="text-align:left;"><input type="text" id="leadName" placeholder="${t('lead_name')}" style="width:100%;padding:13px;margin-bottom:8px;border:1px solid rgba(205,219,34,0.25);border-radius:10px;font-size:16px;background:rgba(255,255,255,0.08);color:#fff;box-sizing:border-box;outline:none;"><input type="tel" id="leadPhone" placeholder="${t('lead_phone')}" style="width:100%;padding:13px;margin-bottom:8px;border:1px solid rgba(205,219,34,0.25);border-radius:10px;font-size:16px;background:rgba(255,255,255,0.08);color:#fff;box-sizing:border-box;outline:none;"><input type="text" id="leadCity" placeholder="${t('lead_city')}" style="width:100%;padding:13px;margin-bottom:14px;border:1px solid rgba(205,219,34,0.25);border-radius:10px;font-size:16px;background:rgba(255,255,255,0.08);color:#fff;box-sizing:border-box;outline:none;"></div><button id="leadSubmitBtn" onclick="submitLead()" style="width:100%;padding:15px;font-size:16px;font-weight:700;background:var(--primary);color:var(--secondary);border:none;border-radius:12px;cursor:pointer;letter-spacing:0.3px;">${t('lead_see_results')}</button></div></div>`;
+
+      // Track this sizing calculation
+      svTrack('sizing', lastSizingData);
     }
     function copyResult(){
       const r=document.getElementById('sizingResults');
@@ -979,7 +1102,7 @@
       }
     }
     function renderFaultCodes(){const c=document.getElementById('allFaultsContainer');if(!c)return;c.innerHTML='';const cats={'alarm':'fault_cat_alarm','fault':'fault_cat_fault','parallel':'fault_cat_parallel','bms':'fault_cat_bms'};Object.keys(cats).forEach(cat=>{const codes=Object.entries(FC).filter(([k,v])=>v.t===cat);const s=document.createElement('div');s.innerHTML=`<h3 style="margin-top:16px;color:var(--secondary);font-size:15px;font-weight:600;">${t(cats[cat])}</h3>`;codes.forEach(([code,data])=>{const d=document.createElement('div');d.className='fault-card';d.innerHTML=`<div class="fault-code">${code}</div><span class="fault-type ${data.t}">${data.t.toUpperCase()}</span><div class="fault-title">${data.d}</div>${data.b?`<div class="fault-beep"><strong>${t('fault_sound')}</strong> ${data.b}</div>`:''}<div class="fault-details">${data.f}</div>`;d.onclick=()=>d.querySelector('.fault-details').classList.toggle('active');s.appendChild(d);});c.appendChild(s);});}
-    function searchFaults(){const q=document.getElementById('faultSearch').value.toLowerCase().trim(),r=document.getElementById('faultResults');r.innerHTML='';if(!q)return;const m=Object.entries(FC).filter(([k,v])=>k.toLowerCase().includes(q)||v.d.toLowerCase().includes(q));if(m.length===0){r.innerHTML='<div class="section"><p style="color:var(--text-muted);">No fault codes found.</p></div>';return;}const s=document.createElement('div');s.className='section';s.innerHTML=`<h2>${m.length} result${m.length!==1?'s':''}</h2>`;m.forEach(([code,data])=>{const d=document.createElement('div');d.className='fault-card';d.innerHTML=`<div class="fault-code">${code}</div><span class="fault-type ${data.t}">${data.t.toUpperCase()}</span><div class="fault-title">${data.d}</div>${data.b?`<div class="fault-beep"><strong>${t('fault_sound')}</strong> ${data.b}</div>`:''}<div class="fault-details">${data.f}</div>`;d.onclick=()=>d.querySelector('.fault-details').classList.toggle('active');s.appendChild(d);});r.appendChild(s);}
+    function searchFaults(){const q=document.getElementById('faultSearch').value.toLowerCase().trim(),r=document.getElementById('faultResults');r.innerHTML='';if(!q)return;const m=Object.entries(FC).filter(([k,v])=>k.toLowerCase().includes(q)||v.d.toLowerCase().includes(q));svTrack('fault_search',{query:q,results:m.length,codes:m.slice(0,5).map(([k])=>k).join(',')});if(m.length===0){r.innerHTML='<div class="section"><p style="color:var(--text-muted);">No fault codes found.</p></div>';return;}const s=document.createElement('div');s.className='section';s.innerHTML=`<h2>${m.length} result${m.length!==1?'s':''}</h2>`;m.forEach(([code,data])=>{const d=document.createElement('div');d.className='fault-card';d.innerHTML=`<div class="fault-code">${code}</div><span class="fault-type ${data.t}">${data.t.toUpperCase()}</span><div class="fault-title">${data.d}</div>${data.b?`<div class="fault-beep"><strong>${t('fault_sound')}</strong> ${data.b}</div>`:''}<div class="fault-details">${data.f}</div>`;d.onclick=()=>d.querySelector('.fault-details').classList.toggle('active');s.appendChild(d);});r.appendChild(s);}
     function toggleAllFaults(){const d=document.querySelectorAll('.fault-details');const a=Array.from(d).every(x=>x.classList.contains('active'));d.forEach(x=>a?x.classList.remove('active'):x.classList.add('active'));}
     function renderBatteryTips(){const c=document.getElementById('batteryTipsContainer');if(!c)return;c.innerHTML='';btips.forEach(bt=>{const d=document.createElement('div');d.className='batt-tip';const title=typeof bt.t==='object'?(bt.t[currentLang]||bt.t.en):bt.t;const body=typeof bt.b==='object'?(bt.b[currentLang]||bt.b.en):bt.b;d.innerHTML=`<span class="tip-icon">${bt.i}</span><div class="tip-title">${title}</div><div class="tip-body">${body}</div>`;c.appendChild(d);});}
     function renderProducts(){renderProductGrid('invertersGrid',prods.inverters);renderProductGrid('batteriesGrid',prods.batteries);renderProductGrid('panelsGrid',prods.panels);}
@@ -1029,6 +1152,7 @@
       const sc={'red':20,'orange':50,'yellow':70,'green':100};
       const hs=Math.round((sc[r.wiring.status]+sc[r.ventilation.status]+sc[r.sizing.status]+sc[r.batteryCapacity.status]+sc[r.nightLoad.status]+sc[r.batteryAge.status]+sc[r.errorCodes.status]+sc[r.grounding.status]+sc[r.panelMatch.status])/9);
       let ss='green',sm=t('hr_score_good');if(hs>=80){ss='green';sm=t('hr_score_good');}else if(hs>=60){ss='yellow';sm=t('hr_score_improve');}else if(hs>=40){ss='orange';sm=t('hr_score_attention');}else{ss='red';sm=t('hr_score_critical');}
+      svTrack('health_check',{score:hs,status:ss,inverter:im,battery:bt,panel:pt});
       document.getElementById('healthResults').innerHTML=`<div class="section"><h2>${t('hr_title')}</h2><div class="health-score health-score-${ss} ${ss}"><div class="health-score-number">${hs}</div><div class="health-score-text">${sm}</div><div class="health-score-subtext">${t('hr_score_sub')}</div></div><h3 style="margin-top:20px;margin-bottom:12px;">${t('hr_detailed')}</h3>${rcc(r.wiring)}${rcc(r.ventilation)}${rcc(r.grounding)}${rcc(r.sizing)}${rcc(r.batteryCapacity)}${rcc(r.panelMatch)}${rcc(r.nightLoad)}${rcc(r.batteryAge)}${rcc(r.errorCodes)}<button onclick="copyHealthResult()" id="copyHealthBtn" style="width:100%;margin-top:14px;margin-bottom:14px;padding:14px;font-size:14px;font-weight:600;background:var(--secondary);color:var(--white);border:none;border-radius:10px;cursor:pointer;">${t('health_copy_btn')}</button><div class="contact-section"><h3>${t('hr_need_help')}</h3><p style="margin-bottom:12px;color:rgba(255,255,255,0.7);">${t('hr_contact')}</p><div class="contact-links"><a href="mailto:info@sole-verde.com">Email: info@sole-verde.com</a><a href="https://wa.me/971526342426?text=Hello%20Soleverde%21%20I%20have%20a%20question%20about%20my%20solar%20system" target="_blank" data-i18n="faults_whatsapp">WhatsApp Support</a></div></div></div>`;
     }
     function rcc(c){const ic={'green':'✅','yellow':'⚠️','orange':'⚠️','red':'🔴'};const title=typeof c.title==='object'?(c.title[currentLang]||c.title.en):c.title;const expl=typeof c.explanation==='object'?(c.explanation[currentLang]||c.explanation.en):c.explanation;const rec=typeof c.recommendation==='object'?(c.recommendation[currentLang]||c.recommendation.en):c.recommendation;return`<div class="check-card ${c.status}"><span class="check-icon">${ic[c.status]}</span><div class="check-title">${title}</div><div class="check-explanation">${expl}</div><div class="check-recommendation"><strong>${t('hr_recommendation')}</strong> ${rec}</div></div>`;}
