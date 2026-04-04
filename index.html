@@ -35,10 +35,12 @@
     .tab-footer img { height:28px; width:auto; }
     .header-badge { font-size:9px; font-weight:600; letter-spacing:1px; background:rgba(205,219,34,0.15); color:var(--primary); padding:3px 8px; border-radius:4px; text-transform:uppercase; border:1px solid rgba(205,219,34,0.2); }
     #langSelect { width:auto !important; min-width:0 !important; max-width:60px !important; margin:0 !important; padding:5px 6px !important; font-size:11px !important; font-weight:600; flex-shrink:0; box-sizing:border-box; background:rgba(205,219,34,0.15) !important; color:#CDDB22 !important; border-radius:6px; border:1px solid rgba(205,219,34,0.2) !important; cursor:pointer; font-family:inherit; -webkit-appearance:auto; }
-    .tab-nav { display:flex; gap:0; overflow-x:auto; background:var(--card-bg); border-bottom:1px solid var(--border); flex-shrink:0; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; padding:0 4px; }
+    .tab-nav { display:flex; gap:0; overflow-x:hidden; background:var(--card-bg); border-bottom:1px solid var(--border); flex-shrink:0; padding:0; }
     .tab-nav::-webkit-scrollbar { height:0; }
-    .tab-btn { flex:0 0 auto; padding:14px 18px; border:none; background:none; cursor:pointer; font-size:15px; font-weight:600; letter-spacing:0.3px; color:var(--text-light); border-bottom:2px solid transparent; transition:var(--transition); white-space:nowrap; font-family:inherit; }
-    .tab-btn.active { color:var(--secondary); font-weight:600; border-bottom-color:var(--primary); }
+    .tab-btn { flex:1 1 0; padding:8px 2px 6px; border:none; background:none; cursor:pointer; color:var(--text-light); border-bottom:2px solid transparent; transition:var(--transition); white-space:nowrap; font-family:inherit; display:flex; flex-direction:column; align-items:center; gap:2px; min-width:0; }
+    .tab-icon { font-size:18px; line-height:1; }
+    .tab-label { font-size:9px; font-weight:600; letter-spacing:0.2px; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
+    .tab-btn.active { color:var(--primary); font-weight:600; border-bottom-color:var(--primary); }
     .tab-btn:active { background:var(--secondary-soft); }
 
     .tips-mode-btn { background:transparent; color:var(--text-muted); }
@@ -196,7 +198,9 @@
       .header-tagline { font-size:9px; letter-spacing:1.2px; }
       h1 { font-size:19px; }
       h2 { font-size:15px; }
-      .tab-btn { padding:12px 14px; font-size:14px; }
+      .tab-btn { padding:6px 2px 5px; }
+      .tab-icon { font-size:16px; }
+      .tab-label { font-size:8px; }
       .tab-content { padding:14px; }
       .result-value { font-size:26px; }
       .product-grid { grid-template-columns:1fr; }
@@ -242,13 +246,13 @@
   </header>
 
   <nav class="tab-nav" id="tabNav">
-    <button class="tab-btn active" data-tab="home">Home</button>
-    <button class="tab-btn" data-tab="sizing">Sizing</button>
-    <button class="tab-btn" data-tab="products">Products</button>
-    <button class="tab-btn" data-tab="tips">Tips</button>
-    <button class="tab-btn" data-tab="health">Health</button>
-    <button class="tab-btn" data-tab="faults">Faults</button>
-    <button class="tab-btn" data-tab="mysystem" data-i18n="tab_mysystem">My System</button>
+    <button class="tab-btn active" data-tab="home"><span class="tab-icon">🏠</span><span class="tab-label">Home</span></button>
+    <button class="tab-btn" data-tab="sizing"><span class="tab-icon">⚡</span><span class="tab-label">Sizing</span></button>
+    <button class="tab-btn" data-tab="products"><span class="tab-icon">🛒</span><span class="tab-label">Products</span></button>
+    <button class="tab-btn" data-tab="tips"><span class="tab-icon">💡</span><span class="tab-label">Tips</span></button>
+    <button class="tab-btn" data-tab="health"><span class="tab-icon">❤️</span><span class="tab-label">Health</span></button>
+    <button class="tab-btn" data-tab="faults"><span class="tab-icon">⚠️</span><span class="tab-label">Faults</span></button>
+    <button class="tab-btn" data-tab="mysystem"><span class="tab-icon">📋</span><span class="tab-label">My System</span></button>
   </nav>
 
   <div class="main-content">
@@ -703,6 +707,7 @@
       sys_installed: { en: 'Installed', ti: 'ዝተተኽለ', ar: 'مُركّب' },
       sys_months: { en: 'months ago', ti: 'ኣዋርሕ ቅድሚ', ar: 'أشهر مضت' },
       sys_your_tech: { en: 'Your Technician', ti: 'ቴክኒሻንኩም', ar: 'الفني الخاص بك' },
+      sys_call_tech: { en: 'Call', ti: 'ደውል', ar: 'اتصل' },
       sys_voltage_title: { en: 'Battery Voltage Tracker', ti: 'ናይ ባተሪ ቮልቴጅ ትራከር', ar: 'تتبع فولتية البطارية' },
       sys_voltage_desc: { en: 'Check your battery voltage at sunset and log it here.', ti: 'ኣብ ምዕራብ ጸሓይ ቮልቴጅ ባተሪ ፈትሹ ኣብዚ ምዝገቡ።', ar: 'افحص فولتية بطاريتك عند الغروب وسجّلها هنا.' },
       sys_log_voltage: { en: 'Log', ti: 'ምዝገቡ', ar: 'سجّل' },
@@ -722,8 +727,8 @@
       document.documentElement.dir = currentLang==='ar' ? 'rtl' : 'ltr';
       document.documentElement.lang = currentLang==='ar' ? 'ar' : currentLang==='ti' ? 'ti' : 'en';
       // Tabs
-      const tabMap={home:'tab_home',sizing:'tab_sizing',tips:'tab_tips',products:'tab_products',health:'tab_health',faults:'tab_faults'};
-      document.querySelectorAll('.tab-btn').forEach(b=>{const k=tabMap[b.getAttribute('data-tab')];if(k)b.textContent=t(k);});
+      const tabMap={home:'tab_home',sizing:'tab_sizing',tips:'tab_tips',products:'tab_products',health:'tab_health',faults:'tab_faults',mysystem:'tab_mysystem'};
+      document.querySelectorAll('.tab-btn').forEach(b=>{const k=tabMap[b.getAttribute('data-tab')];if(k){const lbl=b.querySelector('.tab-label');if(lbl)lbl.textContent=t(k);}});
       // Tagline
       document.querySelector('.header-tagline').innerHTML=t('tagline');
       // Re-render dynamic content
@@ -733,6 +738,7 @@
       renderFaultCodes();
       displayDailyTip();
       displaySunHours();
+      renderMySystem();
       // Update static text with data-i18n
       document.querySelectorAll('[data-i18n]').forEach(el=>{
         const k=el.getAttribute('data-i18n');
@@ -1474,8 +1480,8 @@
         </div>`;
       });
       
-      // WhatsApp link for technician
-      const waLink = sys.techPhone ? `https://wa.me/${sys.techPhone.replace(/[^0-9]/g,'')}\?text=${encodeURIComponent('Hello, I need help with my Soleverde solar system')}` : '#';
+      // Phone call link for technician (most customers have limited internet)
+      const callLink = sys.techPhone ? `tel:${sys.techPhone.replace(/[^0-9+]/g,'')}` : '#';
       
       // Days since installation
       const monthsSinceInstall = Math.floor(daysSinceInstall / 30);
@@ -1501,7 +1507,7 @@
           </div>
           ${sys.techName ? `<div style="background:rgba(205,219,34,0.1);padding:12px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;">
             <div><div style="font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;">${t('sys_your_tech')}</div><div style="font-size:14px;font-weight:600;color:white;margin-top:2px;">${sys.techName}</div></div>
-            ${sys.techPhone ? `<a href="${waLink}" target="_blank" style="padding:8px 16px;background:var(--primary);color:var(--secondary);border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;">💬 WhatsApp</a>` : ''}
+            ${sys.techPhone ? `<a href="${callLink}" style="padding:8px 16px;background:var(--primary);color:var(--secondary);border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;">📞 ${t('sys_call_tech')}</a>` : ''}
           </div>` : ''}
         </div>
 
