@@ -469,18 +469,18 @@
     };
 
     const regions = [
-      { code: 'SD', flag: '🇸🇩', name: 'Sudan', detail: '6–8 peak sun hours', sunHours: 7, tilt: 18 },
-      { code: 'NG', flag: '🇳🇬', name: 'Nigeria', detail: '4.5–6 peak sun hours', sunHours: 5, tilt: 10 },
-      { code: 'ER', flag: '🇪🇷', name: 'Eritrea', detail: '6–7 peak sun hours', sunHours: 6.5, tilt: 15 },
-      { code: 'SS', flag: '🇸🇸', name: 'South Sudan', detail: '5.5–6.5 peak sun hours', sunHours: 6, tilt: 8 },
-      { code: 'KE', flag: '🇰🇪', name: 'Kenya', detail: '5–6.5 peak sun hours', sunHours: 5.5, tilt: 5 },
-      { code: 'SA', flag: '🇸🇦', name: 'Saudi Arabia', detail: '6–8 peak sun hours', sunHours: 7, tilt: 24 },
-      { code: 'YE', flag: '🇾🇪', name: 'Yemen', detail: '6–7.5 peak sun hours', sunHours: 6.5, tilt: 15 },
-      { code: 'AE', flag: '🇦🇪', name: 'UAE', detail: '6–7 peak sun hours', sunHours: 6.5, tilt: 24 },
-      { code: 'DJ', flag: '🇩🇯', name: 'Djibouti', detail: '6–7 peak sun hours', sunHours: 6.5, tilt: 12 },
-      { code: 'EG', flag: '🇪🇬', name: 'Egypt', detail: '6–7.5 peak sun hours', sunHours: 6.5, tilt: 26 },
-      { code: 'SO', flag: '🇸🇴', name: 'Somalia', detail: '6–7 peak sun hours', sunHours: 6.5, tilt: 8 },
-      { code: 'OT', flag: '🌍', name: 'Other Region', detail: '5 peak sun hours (default)', sunHours: 5, tilt: 20 },
+      { code: 'SD', flag: '🇸🇩', name: 'Sudan', detail: '6–8 peak sun hours', sunHours: 7, tilt: 18, climate: 'hot-dry' },
+      { code: 'NG', flag: '🇳🇬', name: 'Nigeria', detail: '4.5–6 peak sun hours', sunHours: 5, tilt: 10, climate: 'hot-humid' },
+      { code: 'ER', flag: '🇪🇷', name: 'Eritrea', detail: '6–7 peak sun hours', sunHours: 6.5, tilt: 15, climate: 'hot-dry' },
+      { code: 'SS', flag: '🇸🇸', name: 'South Sudan', detail: '5.5–6.5 peak sun hours', sunHours: 6, tilt: 8, climate: 'hot-humid' },
+      { code: 'KE', flag: '🇰🇪', name: 'Kenya', detail: '5–6.5 peak sun hours', sunHours: 5.5, tilt: 5, climate: 'hot-humid' },
+      { code: 'SA', flag: '🇸🇦', name: 'Saudi Arabia', detail: '6–8 peak sun hours', sunHours: 7, tilt: 24, climate: 'hot-dry' },
+      { code: 'YE', flag: '🇾🇪', name: 'Yemen', detail: '6–7.5 peak sun hours', sunHours: 6.5, tilt: 15, climate: 'hot-dry' },
+      { code: 'AE', flag: '🇦🇪', name: 'UAE', detail: '6–7 peak sun hours', sunHours: 6.5, tilt: 24, climate: 'hot-dry' },
+      { code: 'DJ', flag: '🇩🇯', name: 'Djibouti', detail: '6–7 peak sun hours', sunHours: 6.5, tilt: 12, climate: 'hot-dry' },
+      { code: 'EG', flag: '🇪🇬', name: 'Egypt', detail: '6–7.5 peak sun hours', sunHours: 6.5, tilt: 26, climate: 'moderate' },
+      { code: 'SO', flag: '🇸🇴', name: 'Somalia', detail: '6–7 peak sun hours', sunHours: 6.5, tilt: 8, climate: 'hot-dry' },
+      { code: 'OT', flag: '🌍', name: 'Other Region', detail: '5 peak sun hours (default)', sunHours: 5, tilt: 20, climate: 'moderate' },
     ];
 
     let currentRegion = localStorage.getItem('soleverde_region') || null;
@@ -773,7 +773,7 @@
             { bold: { en: 'Lithium 51.2V', ti: 'Lithium 51.2V', ar: 'Lithium 51.2V' }, text: { en: '54V = full, 50V = 50%, 48V = low', ti: '54V = ምሉእ, 50V = 50%, 48V = ትሑት', ar: '54V = ممتلئة, 50V = 50%, 48V = منخفضة' } },
             { bold: { en: 'Daily check', ti: 'መዓልትታዊ ፈትሽ', ar: 'فحص يومي' }, text: { en: 'Voltage at sunset tells you if consumption exceeds production', ti: 'Voltage ምጥቃም ትሕቲ ምፍራይ ኣንፈርኒ', ar: 'الفولتية تخبرك إذا كان الاستهلاك أكثر من الإنتاج' } }
           ]},
-          { heading: { en: '⚠️ Lead Acid Battery Warning', ti: '⚠️ ናይ Lead Acid ባተሪ መጠንቀቕታ', ar: '⚠️ تحذير بطارية الرصاص' }, text: { en: 'NEVER let lead acid (AGM) batteries discharge below 50%. Every time they go below 50%, it permanently damages the cells and shortens their life. A battery rated for 5 years can die in 1–2 years if regularly over-discharged. If your lights dim at night or inverter beeps, TURN OFF non-essential loads immediately. This is the #1 reason batteries fail early in Eritrea.', ti: 'Lead acid (AGM) ባተሪ ፈጺሙ ትሕቲ 50% ክወርድ ኣይግባእ። ኣብ ነፍሲ ወከፍ ትሕቲ 50% ዝወርድ ንባተሪ ቀዋሚ ብልሽት ይፈጥረሉ። 5 ዓመት ክምጸው ዝኽእል ባተሪ ብ 1–2 ዓመት ይመውት። መብራህቲ ምሸት ይንኪ ወይ inverter ይጽውዕ ብቕልጡፍ ዘይኣድላዪ ኣቑሑ ኣጥፍኡ።', ar: 'لا تدع بطارية الرصاص (AGM) تنزل تحت 50% أبداً. كل مرة تنزل تحت 50% تتلف الخلايا بشكل دائم. بطارية عمرها 5 سنوات تموت في 1-2 سنة إذا أفرغت باستمرار. إذا خفت الأضواء أو صفّر الإنفرتر، أطفئ الأحمال غير الضرورية فوراً.' } }
+          { heading: { en: '⚠️ Lead Acid Battery Warning', ti: '⚠️ ናይ Lead Acid ባተሪ መጠንቀቕታ', ar: '⚠️ تحذير بطارية الرصاص' }, text: { en: 'NEVER let lead acid (AGM) batteries discharge below 50%. Every time they go below 50%, it permanently damages the cells and shortens their life. A battery rated for 5 years can die in 1–2 years if regularly over-discharged. If your lights dim at night or inverter beeps, TURN OFF non-essential loads immediately. This is the #1 reason batteries fail early.', ti: 'Lead acid (AGM) ባተሪ ፈጺሙ ትሕቲ 50% ክወርድ ኣይግባእ። ኣብ ነፍሲ ወከፍ ትሕቲ 50% ዝወርድ ንባተሪ ቀዋሚ ብልሽት ይፈጥረሉ። 5 ዓመት ክምጸው ዝኽእል ባተሪ ብ 1–2 ዓመት ይመውት። መብራህቲ ምሸት ይንኪ ወይ inverter ይጽውዕ ብቕልጡፍ ዘይኣድላዪ ኣቑሑ ኣጥፍኡ።', ar: 'لا تدع بطارية الرصاص (AGM) تنزل تحت 50% أبداً. كل مرة تنزل تحت 50% تتلف الخلايا بشكل دائم. بطارية عمرها 5 سنوات تموت في 1-2 سنة إذا أفرغت باستمرار. إذا خفت الأضواء أو صفّر الإنفرتر، أطفئ الأحمال غير الضرورية فوراً.' } }
         ],
         danger: { en: 'AGM below 50% = permanent damage. This is the #1 battery killer.', ti: 'AGM ትሕቲ 50% = ቀዋሚ ብልሽት። እዚ ቀንዲ ቀታሊ ባተሪ እዩ።', ar: 'AGM تحت 50% = تلف دائم. هذا القاتل الأول للبطاريات.' },
         bottomLine: { en: 'The golden rule: heavy loads during sunshine, lights only at night. Never let AGM go below 50%.', ti: 'ወርቃዊ ሕጊ: ከበድቲ ኣቑሑ ኣብ ጸሓይ፣ መብራህቲ ጥራይ ኣብ ለይቲ። AGM ትሕቲ 50% ኣይትውረዱ።', ar: 'القاعدة الذهبية: الأحمال الثقيلة أثناء الشمس، الإضاءة فقط ليلاً. لا تدع AGM تنزل تحت 50%.' }
@@ -838,7 +838,7 @@
             { bold: { en: 'Gentle rinse', ti: 'ብልስሉስ ሕጸቡ', ar: 'اشطف برفق' }, text: { en: 'Garden hose OK — never pressure washer', ti: 'ቱቦ ማይ ሚዩ — ሙቐት pressure washer ኣይትጠቐሙ', ar: 'خرطوم ماء OK — بدون ضغط عالي' } }
           ]},
           { heading: { en: 'How Often', ti: 'ክንደይ ግዜ', ar: 'كم مرة' }, list: [
-            { bold: { en: 'Dusty areas (Eritrea)', ti: 'ዝበዝሐ ሓመድ (Eritrea)', ar: 'مناطق مغبرة (إريتريا)' }, text: { en: 'Every 2–4 weeks', ti: 'ኣብ ነፍሲ ወከፍ 2–4 ሰሙን', ar: 'كل 2-4 أسابيع' } },
+            { bold: { en: 'Dusty or dry areas', ti: 'ዝበዝሐ ሓመድ ከባቢ', ar: 'مناطق مغبرة أو جافة' }, text: { en: 'Every 2–4 weeks', ti: 'ኣብ ነፍሲ ወከፍ 2–4 ሰሙን', ar: 'كل 2-4 أسابيع' } },
             { bold: { en: 'After sandstorms', ti: 'ድሕሪ ማዕበል ሑጻ', ar: 'بعد العواصف الرملية' }, text: { en: 'Clean immediately', ti: 'ብቕልጡፍ ኣጽርዩ', ar: 'نظّف فوراً' } },
             { bold: { en: 'After rain', ti: 'ድሕሪ ዝናብ', ar: 'بعد المطر' }, text: { en: 'Rain leaves mineral deposits — rinse off', ti: 'ዝናብ ማዕድን ይገድፍ — ሕጸቡ', ar: 'المطر يترك رواسب — اشطف' } }
           ]}
@@ -875,7 +875,7 @@
       {
         icon: '⚡', iconBg: 'rgba(205,219,34,0.12)', audience: 'tech',
         title: { en: 'Why N-Type Panels Matter', ti: 'N-Type ፓነል ስለምንታይ ኣገዳሲ', ar: 'لماذا ألواح N-Type مهمة' },
-        subtitle: { en: 'Higher efficiency, better in heat — ideal for Eritrea & hot climates', ti: 'ዝለዓለ ብቕዓት፣ ኣብ ሙቐት ዝበለጸ — ንኤርትራን ሙቑር ኣየርን ዝምቡ', ar: 'كفاءة أعلى، أفضل في الحرارة — مثالي لإريتريا والمناخات الحارة' },
+        subtitle: { en: 'Higher efficiency, better in heat — ideal {{climate}}', ti: 'ዝለዓለ ብቕዓት፣ ኣብ ሙቐት ዝበለጸ — {{climate}}', ar: 'كفاءة أعلى، أفضل في الحرارة — {{climate}}' },
         stats: [
           { value: '22%+', label: { en: 'Cell efficiency (vs 18–20% P-Type)', ti: 'ብቕዓት ሴል (P-Type 18-20%)', ar: 'كفاءة الخلية (مقابل 18-20% P-Type)' }, bg: 'rgba(39,174,96,0.08)', color: 'var(--success)' },
           { value: '-0.3%/°C', label: { en: 'Lower temp coefficient = less heat loss', ti: 'ትሑት ናይ ሙቐት ምጉዳል', ar: 'معامل حراري أقل = خسارة أقل' }, bg: 'rgba(243,156,18,0.08)', color: 'var(--warning)' }
@@ -885,18 +885,18 @@
             { bold: { en: 'P-Type (older tech)', ti: 'P-Type (ኣረጊት ቴክኖሎጂ)', ar: 'P-Type (تقنية قديمة)' }, text: { en: '18–20% efficiency. Suffers from LID (Light Induced Degradation) — loses 2–3% power in the first year. Performance drops significantly in high heat.', ti: '18–20% ብቕዓት። LID ይጠቕዖ — ቀዳማይ ዓመት 2–3% ሓይሊ ይጠፍእ። ኣብ ሙቐት ብርቱዕ ይወርድ።', ar: 'كفاءة 18-20%. يعاني من LID — يفقد 2-3% في السنة الأولى. الأداء ينخفض بشكل كبير في الحرارة العالية.' } },
             { bold: { en: 'N-Type TOPCon (latest)', ti: 'N-Type TOPCon (ሓድሽ)', ar: 'N-Type TOPCon (الأحدث)' }, text: { en: '22–23% efficiency. No LID degradation. Better temperature coefficient (–0.30%/°C vs –0.40%/°C) means it keeps producing well even at 45°C+ panel temperatures.', ti: '22–23% ብቕዓት። LID ብልሽት ኣየጥቅዖን። ዝበለጸ ናይ ሙቐት coefficient — ኣብ 45°C+ ጽቡቕ ይሰርሕ።', ar: 'كفاءة 22-23%. بدون تدهور LID. معامل حراري أفضل يعني إنتاج جيد حتى في 45°C+.' } }
           ]},
-          { heading: { en: 'Why This Matters in Hot Climates', ti: 'ኣብ ሙቑር ኣየር ስለምንታይ ኣገዳሲ', ar: 'لماذا هذا مهم في المناخات الحارة' }, list: [
+          { heading: { en: 'Why This Matters {{climate_cap}}', ti: '{{climate_cap}} ስለምንታይ ኣገዳሲ', ar: '{{climate_cap}} لماذا هذا مهم' }, list: [
             { bold: { en: 'In 40°C heat, panels reach 65°C+', ti: 'ኣብ 40°C ሙቐት ፓነል 65°C+ ይበጽሕ', ar: 'في حرارة 40°C، الألواح تصل 65°C+' }, text: { en: 'Panel surface gets 25–30°C hotter than air temperature. On a 40°C day, your panels are running at 65–70°C. At that heat, P-Type loses 15–20% of rated power while N-Type loses only 10–12%.', ti: 'ገጽ ፓነል ካብ ሙቐት ኣየር 25–30°C ይልሕቅ። ኣብ 40°C መዓልቲ ፓነል ኣብ 65–70°C ይሰርሕ። P-Type 15–20% ይጠፍእ N-Type 10–12% ጥራይ።', ar: 'سطح اللوح يسخن 25-30°C فوق حرارة الجو. في يوم 40°C، ألواحك تعمل عند 65-70°C. P-Type يفقد 15-20% بينما N-Type يفقد 10-12% فقط.' } },
             { bold: { en: 'Fewer panels needed', ti: 'ዝውሕድ ፓነል ኣድላዪ', ar: 'ألواح أقل مطلوبة' }, text: { en: 'A 580W N-Type panel replaces two old 300W P-Type panels. Less roof space, less wiring, less cost per watt over the system lifetime.', ti: '580W N-Type ፓነል ክልተ 300W P-Type ይትክእ። ዝውሕድ ናሕሲ፣ ዝውሕድ ኬብል፣ ዝውሕድ ዋጋ ንዋት።', ar: 'لوح N-Type 580W يحل محل لوحين P-Type 300W. مساحة سقف أقل، توصيلات أقل، تكلفة أقل لكل واط.' } },
             { bold: { en: 'Better for farming operations', ti: 'ንሕርሻ ስራሕ ዝበለጸ', ar: 'أفضل لعمليات الزراعة' }, text: { en: 'Water pumps, grain mills, and cold storage run during the hottest part of the day. N-Type panels maintain peak output exactly when farms need it most.', ti: 'ፖምፕ ማይ፣ ናይ እኽሊ ሚል፣ ቁሪ ዝኽዝን ኣብ ዝለዓለ ሙቐት ሰዓት ይሰርሕ። N-Type ፓነል ኣብ ዝድለ ግዜ ኣይጎድልን።', ar: 'مضخات المياه والمطاحن والتبريد تعمل في أحر وقت. ألواح N-Type تحافظ على أعلى إنتاج عندما تحتاجها المزارع.' } }
           ]},
           { heading: { en: 'Recommendation for Installers', ti: 'ንመትከልቲ ምኽሪ', ar: 'توصية للفنيين' }, list: [
-            { bold: { en: 'Always recommend N-Type for new installs', ti: 'ንሓድሽ ምትካል ኩሉ ግዜ N-Type ምከሩ', ar: 'دائماً أوصِ بـ N-Type للتركيبات الجديدة' }, text: { en: 'The small price difference pays back in 1–2 years through higher production, especially in Eritrea\'s climate.', ti: 'ንእሽቶ ናይ ዋጋ ፍልልይ ብ 1–2 ዓመት ብዝለዓለ ምፍራይ ይምለስ፣ ብፍላይ ኣብ ኣየር ኤርትራ።', ar: 'فرق السعر البسيط يعود في 1-2 سنة من خلال إنتاج أعلى، خاصة في مناخ إريتريا.' } },
+            { bold: { en: 'Always recommend N-Type for new installs', ti: 'ንሓድሽ ምትካል ኩሉ ግዜ N-Type ምከሩ', ar: 'دائماً أوصِ بـ N-Type للتركيبات الجديدة' }, text: { en: 'The small price difference pays back in 1–2 years through higher production, especially {{climate}}.', ti: 'ንእሽቶ ናይ ዋጋ ፍልልይ ብ 1–2 ዓመት ብዝለዓለ ምፍራይ ይምለስ፣ ብፍላይ {{climate}}።', ar: 'فرق السعر البسيط يعود في 1-2 سنة من خلال إنتاج أعلى، خاصة {{climate}}.' } },
             { bold: { en: 'For farming solar', ti: 'ንጸሓያዊ ሕርሻ', ar: 'للطاقة الشمسية الزراعية' }, text: { en: 'N-Type is mandatory, not optional. Water pumps need consistent power at midday when heat peaks. P-Type panels underperform exactly when you need them most.', ti: 'N-Type ግድነት እዩ። ፖምፕ ማይ ኣብ ቀትሪ ሙቐት ዝለዓለ ግዜ ቀጻሊ ሓይሊ ይደሊ። P-Type ኣብ ዝድለ ግዜ ኣይሰርሕን።', ar: 'N-Type إلزامي وليس اختياري. مضخات المياه تحتاج طاقة ثابتة وقت الظهيرة. P-Type يضعف بالذات عندما تحتاجه.' } },
             { bold: { en: 'Explain to customers simply', ti: 'ንዓማዊል ብቐሊሉ ግለጹ', ar: 'اشرح للعملاء ببساطة' }, text: { en: '"N-Type panels work better in our heat. They make more power when it\'s hot, which is most of the year here. You get more from fewer panels."', ti: '"N-Type ፓነል ኣብ ሙቐትና ዝበለጸ ይሰርሕ። ኣብ ሙቑር ግዜ ዝያዳ ሓይሊ ይፈጥር። ብዝውሕድ ፓነል ዝያዳ ትረክብ።"', ar: '"ألواح N-Type تعمل أفضل في حرارتنا. تنتج طاقة أكثر عندما يكون حار، وهو معظم السنة هنا. تحصل على أكثر بألواح أقل."' } }
           ]}
         ],
-        bottomLine: { en: 'In hot climates like Eritrea, N-Type panels are not a luxury — they\'re the smart choice that pays for itself.', ti: 'ኣብ ሙቑር ኣየር ከም ኤርትራ N-Type ፓነል ናይ ልዕለ ሃብታም ኣይኮነን — ገንዘብ ዘድሕን ብልሒ ምርጫ እዩ።', ar: 'في المناخات الحارة كإريتريا، ألواح N-Type ليست رفاهية — إنها الخيار الذكي الذي يدفع ثمنه بنفسه.' }
+        bottomLine: { en: '{{climate_cap}}, N-Type panels are not a luxury — they\'re the smart choice that pays for itself.', ti: '{{climate_cap}} N-Type ፓነል ናይ ልዕለ ሃብታም ኣይኮነን — ገንዘብ ዘድሕን ብልሒ ምርጫ እዩ።', ar: '{{climate_cap}}، ألواح N-Type ليست رفاهية — إنها الخيار الذكي الذي يدفع ثمنه بنفسه.' }
       },
       {
         icon: '🌧️', iconBg: 'rgba(52,152,219,0.1)', audience: 'customer',
@@ -939,6 +939,19 @@
       const grid = document.getElementById('tipsGrid');
       if(!grid) return;
       grid.innerHTML = '';
+
+      // Setup climate text replacements
+      const currentRegionObj = regions.find(r => r.code === currentRegion) || regions[0];
+      const climateMap = {
+        'hot-dry': { en: 'in hot, dry regions like yours', ti: 'ኣብ ሙቑርን ደረቕን ከባቢኹም', ar: 'في مناطقكم الحارة والجافة' },
+        'hot-humid': { en: 'in hot, humid regions like yours', ti: 'ኣብ ሙቑርን ርጥብን ከባቢኹም', ar: 'في مناطقكم الحارة والرطبة' },
+        'hot-arid': { en: 'in hot, arid regions like yours', ti: 'ኣብ ሙቑርን ደረቕን ከባቢኹም', ar: 'في مناطقكم الحارة والقاحلة' },
+        'moderate': { en: 'in your region', ti: 'ኣብ ከባቢኹም', ar: 'في منطقتكم' }
+      };
+      const ct = climateMap[currentRegionObj.climate] || climateMap['hot-dry'];
+      const climateText = ct[currentLang] || ct.en;
+      const climateTextCap = climateText.charAt(0).toUpperCase() + climateText.slice(1);
+
       const filtered = tipsData.filter(c => c.audience === currentTipsMode);
       filtered.forEach(card => {
         let bodyHTML = '';
@@ -975,13 +988,19 @@
           bodyHTML += `<div style="background:var(--primary-soft);padding:12px;border-radius:8px;font-size:12px;"><strong style="color:var(--secondary);">${currentLang==='ti'?'ጠቓሚ:':'Bottom line:'}</strong> ${card.bottomLine[currentLang]||card.bottomLine.en}</div>`;
         }
 
+        // Apply climate text replacements
+        bodyHTML = bodyHTML.replace(/\{\{climate\}\}/g, climateText).replace(/\{\{climate_cap\}\}/g, climateTextCap);
+
+        let subtitleText = card.subtitle[currentLang]||card.subtitle.en;
+        subtitleText = subtitleText.replace(/\{\{climate\}\}/g, climateText).replace(/\{\{climate_cap\}\}/g, climateTextCap);
+
         const cardHTML = `
           <div class="tip-card" onclick="this.classList.toggle('open')">
             <div class="tip-card-header">
               <div class="tip-card-icon" style="background:${card.iconBg};">${card.icon}</div>
               <div class="tip-card-info">
                 <p class="tip-card-title">${card.title[currentLang]||card.title.en}</p>
-                <p class="tip-card-subtitle">${card.subtitle[currentLang]||card.subtitle.en}</p>
+                <p class="tip-card-subtitle">${subtitleText}</p>
               </div>
               <div class="tip-card-arrow">▼</div>
             </div>
