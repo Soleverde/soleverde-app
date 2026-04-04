@@ -350,7 +350,22 @@
 
 
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed:', err));
+      navigator.serviceWorker.register('sw.js').then(reg => {
+        setInterval(() => reg.update(), 30 * 60 * 1000);
+        reg.addEventListener('updatefound', () => {
+          const nw = reg.installing;
+          nw.addEventListener('statechange', () => {
+            if (nw.state === 'activated' && navigator.serviceWorker.controller) {
+              const b = document.createElement('div');
+              b.style.cssText = 'position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--secondary);color:var(--primary);padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.3);cursor:pointer;text-align:center;';
+              b.textContent = '\u2728 Update available \u2014 tap to refresh';
+              b.onclick = () => location.reload();
+              document.body.appendChild(b);
+              setTimeout(() => { if(b.parentNode) b.remove(); }, 15000);
+            }
+          });
+        });
+      }).catch(err => console.log('SW registration failed:', err));
     }
 
     const FC = {

@@ -7,11 +7,28 @@
   "background_color": "#11302D",
   "theme_color": "#11302D",
   "orientation": "portrait",
+  "categories": ["utilities", "business"],
+  "lang": "en",
+  "dir": "auto",
+  "prefer_related_applications": false,
   "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect fill='%2311302D' width='512' height='512' rx='80'/%3E%3Cg transform='translate(96,140) scale(2.67)'%3E%3Cpath d='M10 70L30 10' stroke='%23CDDB22' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M30 70L50 10' stroke='%23CDDB22' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M50 70L70 10' stroke='%23CDDB22' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M85 20L100 5L115 20' stroke='%23CDDB22' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/g%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect fill='%2311302D' width='512' height='512' rx='80'/%3E%3Cg transform='translate(96,140) scale(2.67)'%3E%3Cpath d='M10 70L30 10' stroke='%23CDDB22' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M30 70L50 10' stroke='%23CDDB22' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M50 70L70 10' stroke='%23CDDB22' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M85 20L100 5L115 20' stroke='%23CDDB22' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/g%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
     {
       "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%2311302D' width='192' height='192' rx='32'/%3E%3Cg transform='translate(36,56)'%3E%3Cpath d='M10 70L30 10' stroke='%23CDDB22' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M30 70L50 10' stroke='%23CDDB22' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M50 70L70 10' stroke='%23CDDB22' stroke-width='14' stroke-linecap='round'/%3E%3Cpath d='M85 20L100 5L115 20' stroke='%23CDDB22' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/g%3E%3C/svg%3E",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }
