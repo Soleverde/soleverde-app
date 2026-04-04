@@ -772,9 +772,11 @@
             { bold: { en: 'AGM 12V', ti: 'AGM 12V', ar: 'AGM 12V' }, text: { en: '12.7V = full, 12.0V = 50% (stop here!), 11.6V = danger', ti: '12.7V = ምሉእ, 12.0V = 50%, 11.6V = ሓደጋ', ar: '12.7V = ممتلئة, 12.0V = 50%, 11.6V = خطر' } },
             { bold: { en: 'Lithium 51.2V', ti: 'Lithium 51.2V', ar: 'Lithium 51.2V' }, text: { en: '54V = full, 50V = 50%, 48V = low', ti: '54V = ምሉእ, 50V = 50%, 48V = ትሑት', ar: '54V = ممتلئة, 50V = 50%, 48V = منخفضة' } },
             { bold: { en: 'Daily check', ti: 'መዓልትታዊ ፈትሽ', ar: 'فحص يومي' }, text: { en: 'Voltage at sunset tells you if consumption exceeds production', ti: 'Voltage ምጥቃም ትሕቲ ምፍራይ ኣንፈርኒ', ar: 'الفولتية تخبرك إذا كان الاستهلاك أكثر من الإنتاج' } }
-          ]}
+          ]},
+          { heading: { en: '⚠️ Lead Acid Battery Warning', ti: '⚠️ ናይ Lead Acid ባተሪ መጠንቀቕታ', ar: '⚠️ تحذير بطارية الرصاص' }, text: { en: 'NEVER let lead acid (AGM) batteries discharge below 50%. Every time they go below 50%, it permanently damages the cells and shortens their life. A battery rated for 5 years can die in 1–2 years if regularly over-discharged. If your lights dim at night or inverter beeps, TURN OFF non-essential loads immediately. This is the #1 reason batteries fail early in Eritrea.', ti: 'Lead acid (AGM) ባተሪ ፈጺሙ ትሕቲ 50% ክወርድ ኣይግባእ። ኣብ ነፍሲ ወከፍ ትሕቲ 50% ዝወርድ ንባተሪ ቀዋሚ ብልሽት ይፈጥረሉ። 5 ዓመት ክምጸው ዝኽእል ባተሪ ብ 1–2 ዓመት ይመውት። መብራህቲ ምሸት ይንኪ ወይ inverter ይጽውዕ ብቕልጡፍ ዘይኣድላዪ ኣቑሑ ኣጥፍኡ።', ar: 'لا تدع بطارية الرصاص (AGM) تنزل تحت 50% أبداً. كل مرة تنزل تحت 50% تتلف الخلايا بشكل دائم. بطارية عمرها 5 سنوات تموت في 1-2 سنة إذا أفرغت باستمرار. إذا خفت الأضواء أو صفّر الإنفرتر، أطفئ الأحمال غير الضرورية فوراً.' } }
         ],
-        bottomLine: { en: 'The golden rule: heavy loads during sunshine, lights only at night.', ti: 'ወርቃዊ ሕጊ: ከበድቲ ኣቑሑ ኣብ ጸሓይ፣ መብራህቲ ጥራይ ኣብ ለይቲ።', ar: 'القاعدة الذهبية: الأحمال الثقيلة أثناء الشمس، الإضاءة فقط ليلاً.' }
+        danger: { en: 'AGM below 50% = permanent damage. This is the #1 battery killer.', ti: 'AGM ትሕቲ 50% = ቀዋሚ ብልሽት። እዚ ቀንዲ ቀታሊ ባተሪ እዩ።', ar: 'AGM تحت 50% = تلف دائم. هذا القاتل الأول للبطاريات.' },
+        bottomLine: { en: 'The golden rule: heavy loads during sunshine, lights only at night. Never let AGM go below 50%.', ti: 'ወርቃዊ ሕጊ: ከበድቲ ኣቑሑ ኣብ ጸሓይ፣ መብራህቲ ጥራይ ኣብ ለይቲ። AGM ትሕቲ 50% ኣይትውረዱ።', ar: 'القاعدة الذهبية: الأحمال الثقيلة أثناء الشمس، الإضاءة فقط ليلاً. لا تدع AGM تنزل تحت 50%.' }
       },
       {
         icon: '🔋', iconBg: 'rgba(39,174,96,0.1)', audience: 'tech',
@@ -798,7 +800,8 @@
             { bold: { en: 'No direct sunlight', ti: 'ቀጥታ ጸሓይ ኣይግባእ', ar: 'بعيداً عن الشمس المباشرة' }, text: { en: 'Install in coolest location with good ventilation', ti: 'ዝዝሑለ ቦታ ጽቡቕ ኣየር ሞላት', ar: 'ركّبها في أبرد مكان جيد التهوية' } },
             { bold: { en: 'Size right', ti: 'ተገቢ ዓቐን', ar: 'الحجم الصحيح' }, text: { en: 'If batteries empty every night, your system is undersized', ti: 'ሌሊት ባተሪ ሙሉእ ኣይወርድ ስርዓትኩም ትሕትሪ', ar: 'إذا أفرغت كل ليل، نظامك صغير جداً' } }
           ]}
-        ]
+        ],
+        bottomLine: { en: 'Batteries are the most expensive part — treat them right and they\'ll last years longer.', ti: 'ባተሪ ኣዝዩ ክቡር ክፋል እዩ — ጽቡቕ ተሓዝዎ ንዓመታት ይጸንሕ።', ar: 'البطاريات أغلى جزء — اعتنِ بها وستدوم سنوات أطول.' }
       },
       {
         icon: '🔧', iconBg: 'rgba(52,152,219,0.1)', audience: 'customer',
@@ -817,7 +820,8 @@
             { bold: { en: 'Battery room', ti: 'Battery ክፍሊ', ar: 'غرفة البطارية' }, text: { en: 'Dry? Cool? Well-ventilated? No leaks?', ti: 'ናቕሉ? ቁሪ? ጽቡቕ ኣየር? ዝጣቲ ኣየ?', ar: 'جافة؟ باردة؟ جيدة التهوية؟ بدون تسريب؟' } },
             { bold: { en: 'Grounding', ti: 'Grounding', ar: 'التأريض' }, text: { en: 'Earth cable still firmly connected?', ti: 'Earth cable ኸምበይ ተራኸበ?', ar: 'هل كابل الأرضي موصول؟' } }
           ]}
-        ]
+        ],
+        bottomLine: { en: '10 minutes of checking now saves hours of repair later.', ti: '10 ደቒቕ ምፍታሽ ሕጂ ሰዓታት ጽገና ኣብ ድሕሪት ይዕቅብ።', ar: '10 دقائق فحص الآن توفر ساعات إصلاح لاحقاً.' }
       },
       {
         icon: '☀️', iconBg: 'rgba(243,156,18,0.1)', audience: 'customer',
@@ -838,7 +842,8 @@
             { bold: { en: 'After sandstorms', ti: 'ድሕሪ ማዕበል ሑጻ', ar: 'بعد العواصف الرملية' }, text: { en: 'Clean immediately', ti: 'ብቕልጡፍ ኣጽርዩ', ar: 'نظّف فوراً' } },
             { bold: { en: 'After rain', ti: 'ድሕሪ ዝናብ', ar: 'بعد المطر' }, text: { en: 'Rain leaves mineral deposits — rinse off', ti: 'ዝናብ ማዕድን ይገድፍ — ሕጸቡ', ar: 'المطر يترك رواسب — اشطف' } }
           ]}
-        ]
+        ],
+        bottomLine: { en: 'Clean panels = free power. Dirty panels = money lost every day.', ti: 'ጽሩይ ፓነል = ነጻ ሓይሊ። ረሳሕ ፓነል = ነፍሲ ወከፍ መዓልቲ ገንዘብ ይጠፍእ።', ar: 'ألواح نظيفة = طاقة مجانية. ألواح متسخة = خسارة يومية.' }
       },
       {
         icon: '🔧', iconBg: 'rgba(52,152,219,0.1)', audience: 'tech',
@@ -864,7 +869,34 @@
             { bold: { en: '5–8kW', ti: '5–8kW', ar: '5-8kW' }, text: { en: '16mm²', ti: '16mm²', ar: '16mm²' } },
             { bold: { en: '8–12kW', ti: '8–12kW', ar: '8-12kW' }, text: { en: '25mm² or 35mm²', ti: '25mm² ወይ 35mm²', ar: '25mm² أو 35mm²' } }
           ]}
-        ]
+        ],
+        bottomLine: { en: 'Good cables and proper wiring prevent 80% of solar system problems.', ti: 'ጽቡቕ ኬብልን ግቡእ ኣገባብ ምእሳርን 80% ናይ ጸገም ይከላኸል።', ar: 'كابلات جيدة وتوصيل صحيح يمنع 80% من مشاكل الطاقة الشمسية.' }
+      },
+      {
+        icon: '⚡', iconBg: 'rgba(205,219,34,0.12)', audience: 'tech',
+        title: { en: 'Why N-Type Panels Matter', ti: 'N-Type ፓነል ስለምንታይ ኣገዳሲ', ar: 'لماذا ألواح N-Type مهمة' },
+        subtitle: { en: 'Higher efficiency, better in heat — ideal for Eritrea & hot climates', ti: 'ዝለዓለ ብቕዓት፣ ኣብ ሙቐት ዝበለጸ — ንኤርትራን ሙቑር ኣየርን ዝምቡ', ar: 'كفاءة أعلى، أفضل في الحرارة — مثالي لإريتريا والمناخات الحارة' },
+        stats: [
+          { value: '22%+', label: { en: 'Cell efficiency (vs 18–20% P-Type)', ti: 'ብቕዓት ሴል (P-Type 18-20%)', ar: 'كفاءة الخلية (مقابل 18-20% P-Type)' }, bg: 'rgba(39,174,96,0.08)', color: 'var(--success)' },
+          { value: '-0.3%/°C', label: { en: 'Lower temp coefficient = less heat loss', ti: 'ትሑት ናይ ሙቐት ምጉዳል', ar: 'معامل حراري أقل = خسارة أقل' }, bg: 'rgba(243,156,18,0.08)', color: 'var(--warning)' }
+        ],
+        sections: [
+          { heading: { en: 'N-Type vs P-Type: What\'s the Difference?', ti: 'N-Type vs P-Type: እንታይ ፍልልይ ኣለ?', ar: 'N-Type مقابل P-Type: ما الفرق؟' }, list: [
+            { bold: { en: 'P-Type (older tech)', ti: 'P-Type (ኣረጊት ቴክኖሎጂ)', ar: 'P-Type (تقنية قديمة)' }, text: { en: '18–20% efficiency. Suffers from LID (Light Induced Degradation) — loses 2–3% power in the first year. Performance drops significantly in high heat.', ti: '18–20% ብቕዓት። LID ይጠቕዖ — ቀዳማይ ዓመት 2–3% ሓይሊ ይጠፍእ። ኣብ ሙቐት ብርቱዕ ይወርድ።', ar: 'كفاءة 18-20%. يعاني من LID — يفقد 2-3% في السنة الأولى. الأداء ينخفض بشكل كبير في الحرارة العالية.' } },
+            { bold: { en: 'N-Type TOPCon (latest)', ti: 'N-Type TOPCon (ሓድሽ)', ar: 'N-Type TOPCon (الأحدث)' }, text: { en: '22–23% efficiency. No LID degradation. Better temperature coefficient (–0.30%/°C vs –0.40%/°C) means it keeps producing well even at 45°C+ panel temperatures.', ti: '22–23% ብቕዓት። LID ብልሽት ኣየጥቅዖን። ዝበለጸ ናይ ሙቐት coefficient — ኣብ 45°C+ ጽቡቕ ይሰርሕ።', ar: 'كفاءة 22-23%. بدون تدهور LID. معامل حراري أفضل يعني إنتاج جيد حتى في 45°C+.' } }
+          ]},
+          { heading: { en: 'Why This Matters in Hot Climates', ti: 'ኣብ ሙቑር ኣየር ስለምንታይ ኣገዳሲ', ar: 'لماذا هذا مهم في المناخات الحارة' }, list: [
+            { bold: { en: 'In 40°C heat, panels reach 65°C+', ti: 'ኣብ 40°C ሙቐት ፓነል 65°C+ ይበጽሕ', ar: 'في حرارة 40°C، الألواح تصل 65°C+' }, text: { en: 'Panel surface gets 25–30°C hotter than air temperature. On a 40°C day, your panels are running at 65–70°C. At that heat, P-Type loses 15–20% of rated power while N-Type loses only 10–12%.', ti: 'ገጽ ፓነል ካብ ሙቐት ኣየር 25–30°C ይልሕቅ። ኣብ 40°C መዓልቲ ፓነል ኣብ 65–70°C ይሰርሕ። P-Type 15–20% ይጠፍእ N-Type 10–12% ጥራይ።', ar: 'سطح اللوح يسخن 25-30°C فوق حرارة الجو. في يوم 40°C، ألواحك تعمل عند 65-70°C. P-Type يفقد 15-20% بينما N-Type يفقد 10-12% فقط.' } },
+            { bold: { en: 'Fewer panels needed', ti: 'ዝውሕድ ፓነል ኣድላዪ', ar: 'ألواح أقل مطلوبة' }, text: { en: 'A 580W N-Type panel replaces two old 300W P-Type panels. Less roof space, less wiring, less cost per watt over the system lifetime.', ti: '580W N-Type ፓነል ክልተ 300W P-Type ይትክእ። ዝውሕድ ናሕሲ፣ ዝውሕድ ኬብል፣ ዝውሕድ ዋጋ ንዋት።', ar: 'لوح N-Type 580W يحل محل لوحين P-Type 300W. مساحة سقف أقل، توصيلات أقل، تكلفة أقل لكل واط.' } },
+            { bold: { en: 'Better for farming operations', ti: 'ንሕርሻ ስራሕ ዝበለጸ', ar: 'أفضل لعمليات الزراعة' }, text: { en: 'Water pumps, grain mills, and cold storage run during the hottest part of the day. N-Type panels maintain peak output exactly when farms need it most.', ti: 'ፖምፕ ማይ፣ ናይ እኽሊ ሚል፣ ቁሪ ዝኽዝን ኣብ ዝለዓለ ሙቐት ሰዓት ይሰርሕ። N-Type ፓነል ኣብ ዝድለ ግዜ ኣይጎድልን።', ar: 'مضخات المياه والمطاحن والتبريد تعمل في أحر وقت. ألواح N-Type تحافظ على أعلى إنتاج عندما تحتاجها المزارع.' } }
+          ]},
+          { heading: { en: 'Recommendation for Installers', ti: 'ንመትከልቲ ምኽሪ', ar: 'توصية للفنيين' }, list: [
+            { bold: { en: 'Always recommend N-Type for new installs', ti: 'ንሓድሽ ምትካል ኩሉ ግዜ N-Type ምከሩ', ar: 'دائماً أوصِ بـ N-Type للتركيبات الجديدة' }, text: { en: 'The small price difference pays back in 1–2 years through higher production, especially in Eritrea\'s climate.', ti: 'ንእሽቶ ናይ ዋጋ ፍልልይ ብ 1–2 ዓመት ብዝለዓለ ምፍራይ ይምለስ፣ ብፍላይ ኣብ ኣየር ኤርትራ።', ar: 'فرق السعر البسيط يعود في 1-2 سنة من خلال إنتاج أعلى، خاصة في مناخ إريتريا.' } },
+            { bold: { en: 'For farming solar', ti: 'ንጸሓያዊ ሕርሻ', ar: 'للطاقة الشمسية الزراعية' }, text: { en: 'N-Type is mandatory, not optional. Water pumps need consistent power at midday when heat peaks. P-Type panels underperform exactly when you need them most.', ti: 'N-Type ግድነት እዩ። ፖምፕ ማይ ኣብ ቀትሪ ሙቐት ዝለዓለ ግዜ ቀጻሊ ሓይሊ ይደሊ። P-Type ኣብ ዝድለ ግዜ ኣይሰርሕን።', ar: 'N-Type إلزامي وليس اختياري. مضخات المياه تحتاج طاقة ثابتة وقت الظهيرة. P-Type يضعف بالذات عندما تحتاجه.' } },
+            { bold: { en: 'Explain to customers simply', ti: 'ንዓማዊል ብቐሊሉ ግለጹ', ar: 'اشرح للعملاء ببساطة' }, text: { en: '"N-Type panels work better in our heat. They make more power when it\'s hot, which is most of the year here. You get more from fewer panels."', ti: '"N-Type ፓነል ኣብ ሙቐትና ዝበለጸ ይሰርሕ። ኣብ ሙቑር ግዜ ዝያዳ ሓይሊ ይፈጥር። ብዝውሕድ ፓነል ዝያዳ ትረክብ።"', ar: '"ألواح N-Type تعمل أفضل في حرارتنا. تنتج طاقة أكثر عندما يكون حار، وهو معظم السنة هنا. تحصل على أكثر بألواح أقل."' } }
+          ]}
+        ],
+        bottomLine: { en: 'In hot climates like Eritrea, N-Type panels are not a luxury — they\'re the smart choice that pays for itself.', ti: 'ኣብ ሙቑር ኣየር ከም ኤርትራ N-Type ፓነል ናይ ልዕለ ሃብታም ኣይኮነን — ገንዘብ ዘድሕን ብልሒ ምርጫ እዩ።', ar: 'في المناخات الحارة كإريتريا، ألواح N-Type ليست رفاهية — إنها الخيار الذكي الذي يدفع ثمنه بنفسه.' }
       },
       {
         icon: '🌧️', iconBg: 'rgba(52,152,219,0.1)', audience: 'customer',
@@ -890,7 +922,8 @@
             { bold: { en: 'Inspect connections', ti: 'ርክባት ፈትሹ', ar: 'افحص التوصيلات' }, text: { en: 'Check for corrosion or loose terminals', ti: 'ዝመሰ ወይ ዝላሕለሐ terminals ፈትሹ', ar: 'ابحث عن صدأ أو أطراف مرتخية' } },
             { bold: { en: 'Full charge cycle', ti: 'ምሉእ ቻርጅ ግበሩ', ar: 'دورة شحن كاملة' }, text: { en: 'Let batteries fully charge on first sunny day', ti: 'ቀዳማይ ጸሓያዊ መዓልቲ ባተሪ ምሉእ ይቻርጅ', ar: 'اترك البطاريات تشحن بالكامل أول يوم مشمس' } }
           ]}
-        ]
+        ],
+        bottomLine: { en: 'Plan ahead for rainy season — reduce loads and protect your equipment.', ti: 'ንወቕቲ ዝናብ ቅድሚ ግዜ ተዳለዉ — ጻዕቂ ኣጉድሉ ንመሳርሒ ተኸላኸሉ።', ar: 'خطط مسبقاً لموسم الأمطار — قلل الأحمال واحمِ معداتك.' }
       }
     ];
 
@@ -1121,6 +1154,9 @@
 
       // Track this sizing calculation
       svTrack('sizing', lastSizingData);
+
+      // Scroll to results so user sees them immediately
+      setTimeout(()=>{ document.getElementById('sizingResults').scrollIntoView({behavior:'smooth',block:'start'}); },100);
     }
     function copyResult(){
       const r=document.getElementById('sizingResults');
@@ -1197,7 +1233,7 @@
       const sc={'red':20,'orange':50,'yellow':70,'green':100};
       const hs=Math.round((sc[r.wiring.status]+sc[r.ventilation.status]+sc[r.sizing.status]+sc[r.batteryCapacity.status]+sc[r.nightLoad.status]+sc[r.batteryAge.status]+sc[r.errorCodes.status]+sc[r.grounding.status]+sc[r.panelMatch.status])/9);
       let ss='green',sm=t('hr_score_good');if(hs>=80){ss='green';sm=t('hr_score_good');}else if(hs>=60){ss='yellow';sm=t('hr_score_improve');}else if(hs>=40){ss='orange';sm=t('hr_score_attention');}else{ss='red';sm=t('hr_score_critical');}
-      svTrack('health_check',{score:hs,status:ss,inverter:im,battery:bt,panel:pt});
+      svTrack('health_check',{score:hs,status:ss,inverter:im,battery:bt,panel:pw});
       document.getElementById('healthResults').innerHTML=`<div class="section"><h2>${t('hr_title')}</h2><div class="health-score health-score-${ss} ${ss}"><div class="health-score-number">${hs}</div><div class="health-score-text">${sm}</div><div class="health-score-subtext">${t('hr_score_sub')}</div></div><h3 style="margin-top:20px;margin-bottom:12px;">${t('hr_detailed')}</h3>${rcc(r.wiring)}${rcc(r.ventilation)}${rcc(r.grounding)}${rcc(r.sizing)}${rcc(r.batteryCapacity)}${rcc(r.panelMatch)}${rcc(r.nightLoad)}${rcc(r.batteryAge)}${rcc(r.errorCodes)}<button onclick="copyHealthResult()" id="copyHealthBtn" style="width:100%;margin-top:14px;margin-bottom:14px;padding:14px;font-size:14px;font-weight:600;background:var(--secondary);color:var(--white);border:none;border-radius:10px;cursor:pointer;">${t('health_copy_btn')}</button><div class="contact-section"><h3>${t('hr_need_help')}</h3><p style="margin-bottom:12px;color:rgba(255,255,255,0.7);">${t('hr_contact')}</p><div class="contact-links"><a href="mailto:info@sole-verde.com">Email: info@sole-verde.com</a><a href="https://wa.me/971526342426?text=Hello%20Soleverde%21%20I%20have%20a%20question%20about%20my%20solar%20system" target="_blank" data-i18n="faults_whatsapp">WhatsApp Support</a></div></div></div>`;
     }
     function rcc(c){const ic={'green':'✅','yellow':'⚠️','orange':'⚠️','red':'🔴'};const title=typeof c.title==='object'?(c.title[currentLang]||c.title.en):c.title;const expl=typeof c.explanation==='object'?(c.explanation[currentLang]||c.explanation.en):c.explanation;const rec=typeof c.recommendation==='object'?(c.recommendation[currentLang]||c.recommendation.en):c.recommendation;return`<div class="check-card ${c.status}"><span class="check-icon">${ic[c.status]}</span><div class="check-title">${title}</div><div class="check-explanation">${expl}</div><div class="check-recommendation"><strong>${t('hr_recommendation')}</strong> ${rec}</div></div>`;}
