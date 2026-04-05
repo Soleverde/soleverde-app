@@ -255,11 +255,14 @@
     .tour-tooltip-step { font-size:11px;color:var(--text-muted);font-weight:600; }
     .tour-tooltip-btn { padding:8px 20px;background:var(--primary);color:var(--secondary);border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit; }
     .tour-tooltip-skip { padding:8px 12px;background:none;color:var(--text-muted);border:none;font-size:12px;cursor:pointer;font-family:inherit; }
+    .sv-toast { position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-120%);z-index:998;background:var(--card-bg);color:var(--text);border:1px solid rgba(205,219,34,0.2);border-radius:12px;padding:12px 18px;font-size:13px;font-weight:500;box-shadow:0 6px 24px rgba(0,0,0,0.2);max-width:320px;text-align:center;transition:transform 0.35s ease,opacity 0.35s ease;opacity:0;cursor:pointer; }
+    .sv-toast.show { transform:translateX(-50%) translateY(0);opacity:1; }
 
   </style>
 </head>
 <body>
   <div id="offlineBar" class="offline-bar" data-i18n="offline_msg">You're offline — all features still work ✓</div>
+  <div id="svToast" class="sv-toast"></div>
   <div id="onboardingOverlay" style="display:none;position:fixed;inset:0;z-index:1000;background:var(--secondary);color:white;overflow:hidden;">
     <div id="onboardSlides" style="display:flex;transition:transform 0.4s ease;height:100%;width:100%;">
       <div style="flex:0 0 100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 20px;text-align:center;">
@@ -923,6 +926,30 @@
       tour_faults_desc: { en: 'Look up any error code from the inverter display — get the cause and fix steps instantly.', ti: 'ኣብ inverter ዝረኣይ ናይ ጌጋ ኮድ ድለዩ — ምኽንያትን ናይ ምፍታሕ ስጉምትን ርኸቡ።', ar: 'ابحث عن أي رمز خطأ من شاشة الإنفرتر — احصل على السبب وخطوات الإصلاح فوراً.' },
       tour_mysystem_title: { en: 'My System', ti: 'ስርዓተይ', ar: 'نظامي' },
       tour_mysystem_desc: { en: 'Track a customer\'s installed system, log battery voltage, and manage maintenance schedules.', ti: 'ናይ ዓሚል ስርዓት ኣመዝግቡ፣ ቮልቴጅ ባተሪ ተኸታተሉ፣ ናይ ጽገና መደብ ኣስተኻኽሉ።', ar: 'تتبع نظام العميل المثبت وسجل فولتية البطارية وأدر جداول الصيانة.' },
+      // Product spec labels
+      spec_rated_power: { en: 'Rated Power', ti: 'Rated Power', ar: 'الطاقة المقدرة' },
+      spec_peak: { en: 'Peak', ti: 'Peak', ar: 'الذروة' },
+      spec_battery: { en: 'Battery', ti: 'Battery', ar: 'البطارية' },
+      spec_max_pv: { en: 'Max PV', ti: 'Max PV', ar: 'أقصى PV' },
+      spec_mppt_range: { en: 'MPPT Range', ti: 'MPPT Range', ar: 'نطاق MPPT' },
+      spec_parallel: { en: 'Parallel', ti: 'Parallel', ar: 'التوازي' },
+      spec_efficiency: { en: 'Efficiency', ti: 'Efficiency', ar: 'الكفاءة' },
+      spec_capacity: { en: 'Capacity', ti: 'Capacity', ar: 'السعة' },
+      spec_voltage: { en: 'Voltage', ti: 'Voltage', ar: 'الفولتية' },
+      spec_type: { en: 'Type', ti: 'Type', ar: 'النوع' },
+      spec_cycle_life: { en: 'Cycle Life', ti: 'Cycle Life', ar: 'عمر الدورة' },
+      spec_bms: { en: 'BMS', ti: 'BMS', ar: 'نظام إدارة البطارية' },
+      spec_wattage: { en: 'Wattage', ti: 'Wattage', ar: 'القدرة' },
+      spec_cell_type: { en: 'Cell Type', ti: 'Cell Type', ar: 'نوع الخلية' },
+      spec_voc: { en: 'Voc', ti: 'Voc', ar: 'جهد الدائرة المفتوحة' },
+      spec_dimensions: { en: 'Dimensions', ti: 'Dimensions', ar: 'الأبعاد' },
+      spec_weight: { en: 'Weight', ti: 'Weight', ar: 'الوزن' },
+      spec_warranty: { en: 'Warranty', ti: 'Warranty', ar: 'الضمان' },
+      // Notifications
+      notif_maint_due: { en: 'Maintenance check is due — tap to view schedule', ti: 'ጽገና ምፍታሽ ግዜኡ በጺሑ — ንመደብ ጠውቑ', ar: 'موعد فحص الصيانة — انقر لعرض الجدول' },
+      notif_voltage_reminder: { en: 'Time to log your sunset voltage reading', ti: 'ናይ ምዕራብ ጸሓይ ቮልቴጅ ክትምዝገቡ ግዜኡ እዩ', ar: 'حان وقت تسجيل قراءة الفولتية عند الغروب' },
+      notif_daily_tip: { en: 'New tip available — check the Tips tab', ti: 'ሓድሽ ምኽሪ ኣሎ — Tips tab ርኣዩ', ar: 'نصيحة جديدة متاحة — تحقق من تبويب النصائح' },
+      notif_health_nudge: { en: 'How is your system? Run a quick health check', ti: 'ስርዓትኩም ከመይ ኣሎ? ቅልጡፍ ምርመራ ግበሩ', ar: 'كيف حال نظامك؟ أجرِ فحصاً سريعاً' },
 
     };
     const appKeys=['app_led','app_cfl','app_tv32','app_tv43','app_satellite','app_phone','app_laptop','app_cfan','app_sfan','app_fridge_s','app_fridge_l','app_washing','app_iron','app_pump05','app_pump1','app_microwave','app_kettle','app_router','app_ac'];
@@ -997,14 +1024,14 @@
     const tipsData = [
       {
         icon: '⚡', iconBg: 'rgba(231,76,60,0.1)', audience: 'tech',
-        title: { en: 'Charging Current — Change This First!', ti: 'ናይ ቻርጂ ኣምፒር — ፈለማ ለውጡ!', ar: 'تيار الشحن — غيّره أولاً!' },
-        subtitle: { en: 'Factory default 60A is killing your AGM batteries', ti: 'ናይ ፋብሪካ 60A AGM ባተሪ ይቐትል', ar: 'الافتراضي 60A يقتل بطاريات AGM' },
-        danger: { en: 'Every Soleverde inverter ships with charging current set to 60A. This is TOO HIGH for AGM batteries and will destroy them in 1–2 years instead of 5+. You MUST change this setting on every installation.', ti: 'ነፍሲ ወከፍ Soleverde inverter ብ60A charging current ይመጽእ። እዚ ንAGM ባተሪ ኣዝዩ ብዙሕ ኮይኑ ኣብ 1–2 ዓመት ይቐትሎ ኣብ ክንዲ 5+። ኣብ ነፍሲ ወከፍ ምትካል እዚ ሰቲንግ ክትቅይሩ ኣለኩም።', ar: 'كل إنفرتر Soleverde يأتي بتيار شحن 60A. هذا مرتفع جداً لبطاريات AGM وسيدمرها في 1-2 سنة بدل 5+. يجب تغيير هذا الإعداد في كل تركيب.' },
+        title: { en: 'Charging Current — Adjust This First', ti: 'ናይ ቻርጂ ኣምፒር — ፈለማ ኣስተኻኽሉ', ar: 'تيار الشحن — اضبطه أولاً' },
+        subtitle: { en: 'Default 60A needs adjusting for AGM batteries', ti: 'ናይ ፋብሪካ 60A ንAGM ባተሪ ምስትኽኻል ይደሊ', ar: 'الافتراضي 60A يحتاج ضبط لبطاريات AGM' },
+        danger: { en: 'Soleverde inverters ship with charging current set to 60A by default. For AGM batteries, this should be adjusted to match your battery capacity using the 0.1C rule below. Correct settings help your batteries reach their full 5+ year lifespan.', ti: 'Soleverde inverter ብ60A charging current ይመጽእ። ንAGM ባተሪ እዚ ሰቲንግ ብመሰረት ናይ ባተሪ ዐጻጻ ብ0.1C ሕጊ ክቕየር ኣለዎ። ቅኑዕ ሰቲንግ ባተሪ 5+ ዓመት ከም ዝጸንሕ ይሕግዝ።', ar: 'إنفرترات Soleverde تأتي بتيار شحن 60A افتراضياً. لبطاريات AGM، يجب ضبط هذا الإعداد حسب سعة البطارية باستخدام قاعدة 0.1C أدناه. الإعدادات الصحيحة تساعد بطارياتك على الوصول لعمرها الكامل 5+ سنوات.' },
         sections: [
           { heading: { en: 'The Rule: Battery Ah × 0.1 = Correct Amps', ti: 'ሕጊ: ባተሪ Ah × 0.1 = ቅኑዕ ኣምፒር', ar: 'القاعدة: سعة Ah × 0.1 = التيار الصحيح' }, text: { en: 'This applies to ALL AGM systems — 12V, 24V, or 48V. The charging current depends on battery Ah capacity, not system voltage.', ti: 'ኣብ ኩሉ AGM ስርዓት ይምልከት — 12V, 24V, ወይ 48V። Charging current ኣብ Ah ባተሪ ይምርኮስ ኣብ ቮልቴጅ ኣይኮነን።', ar: 'ينطبق على كل أنظمة AGM — 12V, 24V, أو 48V. التيار يعتمد على سعة Ah وليس فولتية النظام.' }, list: [
             { bold: { en: '100Ah battery → set 10A', ti: '100Ah ባተሪ → 10A ግበሩ', ar: 'بطارية 100Ah → اضبط 10A' }, text: { en: '(100 × 0.1 = 10)', ti: '(100 × 0.1 = 10)', ar: '(100 × 0.1 = 10)' } },
             { bold: { en: '150Ah battery → set 15A', ti: '150Ah ባተሪ → 15A ግበሩ', ar: 'بطارية 150Ah → اضبط 15A' }, text: { en: '(150 × 0.1 = 15)', ti: '(150 × 0.1 = 15)', ar: '(150 × 0.1 = 15)' } },
-            { bold: { en: '200Ah battery → set 20A', ti: '200Ah ባተሪ → 20A ግበሩ', ar: 'بطارية 200Ah → اضبط 20A' }, text: { en: '(200 × 0.1 = 20) — NOT the factory 60A!', ti: '(200 × 0.1 = 20) — ናይ ፋብሪካ 60A ኣይኮነን!', ar: '(200 × 0.1 = 20) — وليس 60A الافتراضي!' } },
+            { bold: { en: '200Ah battery → set 20A', ti: '200Ah ባተሪ → 20A ግበሩ', ar: 'بطارية 200Ah → اضبط 20A' }, text: { en: '(200 × 0.1 = 20) — adjust from the default 60A', ti: '(200 × 0.1 = 20) — ካብ ናይ ፋብሪካ 60A ኣስተኻኽሉ', ar: '(200 × 0.1 = 20) — عدّل من الافتراضي 60A' } },
             { bold: { en: '2 parallel strings → double it', ti: '2 parallel strings → ኣዕጽፉ', ar: '2 strings متوازية → ضاعفه' }, text: { en: '2× 200Ah parallel = set 40A', ti: '2× 200Ah parallel = 40A ግበሩ', ar: '2× 200Ah متوازية = اضبط 40A' } }
           ]},
           { heading: { en: 'Voltage Settings (set once during install)', ti: 'ቮልቴጅ ሰቲንግ (ኣብ ግዜ ምትካል ሓደ ግዜ)', ar: 'إعدادات الفولتية (تضبط مرة عند التركيب)' }, list: [
@@ -1014,7 +1041,7 @@
             { bold: { en: 'LiFePO4 48V (51.2V)', ti: 'LiFePO4 48V (51.2V)', ar: 'LiFePO4 48V (51.2V)' }, text: { en: 'Bulk 57.6V | Float 54.0V | Charge at 0.5C', ti: 'Bulk 57.6V | Float 54.0V | ብ0.5C ቻርጅ', ar: 'Bulk 57.6V | Float 54.0V | اشحن عند 0.5C' } }
           ]}
         ],
-        bottomLine: { en: 'Step 1 of EVERY installation: change charging current from 60A to 0.1C. This single setting is why most batteries in Eritrea die in 1–2 years.', ti: 'ስጉምቲ 1 ናይ ነፍሲ ወከፍ ምትካል: charging current ካብ 60A ናብ 0.1C ለውጡ። እዚ ሓደ ሰቲንግ ኣብ ኤርትራ ባተሪ ኣብ 1–2 ዓመት ዝሞቱ ምኽንያት እዩ።', ar: 'الخطوة 1 في كل تركيب: غيّر تيار الشحن من 60A إلى 0.1C. هذا الإعداد الواحد هو سبب موت معظم البطاريات في إريتريا في 1-2 سنة.' }
+        bottomLine: { en: 'Step 1 of every installation: adjust charging current from 60A default to 0.1C × battery Ah. This single setting makes the biggest difference in battery lifespan.', ti: 'ስጉምቲ 1 ናይ ነፍሲ ወከፍ ምትካል: charging current ካብ ናይ ፋብሪካ 60A ናብ 0.1C × ባተሪ Ah ኣስተኻኽሉ። እዚ ሓደ ሰቲንግ ንዕድመ ባተሪ ብዓቢ ይጸልዎ።', ar: 'الخطوة 1 في كل تركيب: اضبط تيار الشحن من الافتراضي 60A إلى 0.1C × سعة Ah. هذا الإعداد الواحد يحدث أكبر فرق في عمر البطارية.' }
       },
       {
         icon: '☀️', iconBg: 'rgba(243,156,18,0.1)', audience: 'customer',
@@ -1047,13 +1074,13 @@
             { bold: { en: 'Never below 50%', ti: 'ትሕቲ 50% ኣይወርድ', ar: 'لا تنزل تحت 50%' }, text: { en: 'Deep discharge kills AGM fast (~12.0V per battery)', ti: 'ብዙሕ ምጥቃም AGM ቀልጢፉ ይበላሾ', ar: 'التفريغ العميق يتلف AGM بسرعة' } },
             { bold: { en: 'Full charge weekly', ti: 'ወርሓዊ ምሉእ ቻርጅ', ar: 'شحن كامل أسبوعياً' }, text: { en: 'Prevents cell imbalance — let batteries reach 100% at least once a week', ti: 'ሴል ዓሌታ ተከላኸሉ — ወርሓዊ ምሉእ ይደርስ', ar: 'منع عدم التوازن — اترك البطاريات تشحن 100% مرة أسبوعياً' } },
             { bold: { en: 'Don\'t mix', ti: 'ኣይሓውሱ', ar: 'لا تخلط' }, text: { en: 'Same brand, type, age, and capacity in every string', ti: 'ሓደ ብራንድ፣ ሓደ ዓይነት፣ ሓደ ዕድመ፣ ሓደ ዐጻጻ', ar: 'نفس الماركة والنوع والعمر والسعة' } },
-            { bold: { en: 'Low voltage cutoff', ti: 'Low voltage cutoff', ar: 'Low voltage cutoff' }, text: { en: 'Set to 11.5V per 12V battery (46V for 48V, 23V for 24V)', ti: '11.5V ኣብ 12V ባተሪ ግበሩ', ar: 'اضبط على 11.5V لكل بطارية 12V' } }
+            { bold: { en: 'Low voltage cutoff', ti: 'ትሑት ቮልቴጅ ምቁራጽ', ar: 'قطع الفولتية المنخفضة' }, text: { en: 'Set to 11.5V per 12V battery (46V for 48V, 23V for 24V)', ti: '11.5V ኣብ 12V ባተሪ ግበሩ', ar: 'اضبط على 11.5V لكل بطارية 12V' } }
           ]},
           { heading: { en: 'Lithium Rules', ti: 'Lithium ሕጊ', ar: 'قواعد Lithium' }, list: [
             { bold: { en: 'Keep 20–80%', ti: '20–80% ሓልዉ', ar: 'احفظ 20-80%' }, text: { en: 'Extends cycle life significantly', ti: 'ዕድመ ባተሪ ብዓቢ ይናውሕ', ar: 'يطيل عمر الدورة بشكل كبير' } },
             { bold: { en: 'BMS handles protection', ti: 'BMS ይከላኸል', ar: 'BMS يتولى الحماية' }, text: { en: 'But don\'t rely on it completely — monitor regularly', ti: 'ግን ብምሉእ ኣይትኣመኑ — ምቁዓስ ኣገዳሲ', ar: 'لكن لا تعتمد عليه 100% — راقب دائماً' } },
             { bold: { en: 'Don\'t mix old and new', ti: 'ሓድሽን ኣረግን ኣይሓውሱ', ar: 'لا تخلط القديم بالجديد' }, text: { en: 'All packs should be same age and capacity', ti: 'ኩሉ ብራንድ ሓደ ዕድመ ከምኡ ዐጻጻ', ar: 'جميع البطاريات نفس العمر والسعة' } },
-            { bold: { en: 'Update firmware', ti: 'Firmware ኣሓድሱ', ar: 'حدّث البرنامج' }, text: { en: 'Check for BMS updates from manufacturer', ti: 'ሸሮት BMS update ፈትሹ', ar: 'تحقق من تحديثات BMS' } }
+            { bold: { en: 'Check BMS regularly', ti: 'BMS ኣዘውቲርኩም ፈትሹ', ar: 'افحص BMS بانتظام' }, text: { en: 'Monitor cell balance and temperature readings', ti: 'ሴል ባላንስን ሙቐትን ተኸታተሉ', ar: 'راقب توازن الخلايا ودرجة الحرارة' } }
           ]},
           { heading: { en: 'Both Types', ti: 'ክልተ ዓይነት', ar: 'كلا النوعين' }, list: [
             { bold: { en: 'Keep cool', ti: 'ቁሪ ሓልዉ', ar: 'احفظ باردة' }, text: { en: 'Every 10°C above 25°C can halve battery life', ti: '10°C ልዕሊ 25°C = ፍርቂ ዕድመ', ar: 'كل 10°C فوق 25°C يقطع العمر للنصف' } },
@@ -1069,9 +1096,9 @@
         subtitle: { en: '10 minutes a month prevents expensive failures', ti: 'ኣብ ወርሒ 10 ደቒቕ ክቡር ብልሽት ይከላኸል', ar: '10 دقائق شهرياً تمنع أعطالاً مكلفة' },
         sections: [
           { heading: { en: 'Check & Tighten', ti: 'ኣፈትሹ ዘመትዩ', ar: 'افحص وشد' }, list: [
-            { bold: { en: 'Battery terminals', ti: 'Battery terminals', ar: 'أطراف البطارية' }, text: { en: 'Clean corrosion with wire brush, apply petroleum jelly', ti: 'ዝመሰ ብብሩሽ ኣጽርዩ ከምኡ እውን petroleum jelly ለኽዩ', ar: 'نظّف الصدأ بفرشاة وضع فازلين' } },
+            { bold: { en: 'Battery terminals', ti: 'ናይ ባተሪ ተርሚናላት', ar: 'أطراف البطارية' }, text: { en: 'Clean corrosion with wire brush, apply petroleum jelly', ti: 'ዝመሰ ብብሩሽ ኣጽርዩ ከምኡ እውን petroleum jelly ለኽዩ', ar: 'نظّف الصدأ بفرشاة وضع فازلين' } },
             { bold: { en: 'Cable connections', ti: 'Cable ርክባት', ar: 'توصيلات الكابل' }, text: { en: 'Loose connections cause voltage drops and overheating', ti: 'ዝላሕለሐ ርክብ voltage ይወርድ ሙቐት ይልሓቅ', ar: 'الاتصالات السيئة تسبب انخفاض وحرارة' } },
-            { bold: { en: 'MC4 connectors', ti: 'MC4 connectors', ar: 'MC4 connectors' }, text: { en: 'Ensure firm click, no moisture or discoloration', ti: 'ጽቡቕ ክሊክ ግበሩ፣ ማይ ወይ ጽሩይ ኣይግባእ', ar: 'تأكد من اتصال قوي، بدون رطوبة' } },
+            { bold: { en: 'MC4 connectors', ti: 'MC4 ኮነክተራት', ar: 'موصلات MC4' }, text: { en: 'Ensure firm click, no moisture or discoloration', ti: 'ጽቡቕ ክሊክ ግበሩ፣ ማይ ወይ ጽሩይ ኣይግባእ', ar: 'تأكد من اتصال قوي، بدون رطوبة' } },
             { bold: { en: 'Breaker/fuse box', ti: 'Breaker/fuse box', ar: 'لوح القواطع' }, text: { en: 'Check for tripped breakers or blown fuses', ti: 'Breaker ወይ fuse ኣፈትሹ', ar: 'افحص القواطع المنقطعة أو الفيوزات' } }
           ]},
           { heading: { en: 'Inspect', ti: 'ክመገበ', ar: 'افحص' }, list: [
@@ -1123,10 +1150,11 @@
             { bold: { en: '4. Inverter → Distribution', ti: '4. Inverter → Distribution', ar: '4. الإنفرتر → التوزيع' }, text: { en: 'AC output to breaker box', ti: 'AC output ናብ breaker box', ar: 'مخرج AC إلى لوحة القواطع' } }
           ]},
           { heading: { en: 'Safety Components', ti: 'ናውቲ ድሕነት', ar: 'مكونات السلامة' }, list: [
-            { bold: { en: 'DC breaker', ti: 'DC breaker', ar: 'DC breaker' }, text: { en: 'Between battery and inverter', ti: 'ኣብ መንጎ ባተሪን inverterን', ar: 'بين البطارية والإنفرتر' } },
-            { bold: { en: 'PV isolator', ti: 'PV isolator', ar: 'PV isolator' }, text: { en: 'Between panels and inverter (for maintenance)', ti: 'ኣብ መንጎ ፓነልን inverterን', ar: 'بين الألواح والإنفرتر (للصيانة)' } },
-            { bold: { en: 'AC breaker', ti: 'AC breaker', ar: 'AC breaker' }, text: { en: 'On inverter output', ti: 'ኣብ inverter output', ar: 'على مخرج الإنفرتر' } },
-            { bold: { en: 'Earth rod', ti: 'Earth rod', ar: 'Earth rod' }, text: { en: 'Ground inverter chassis and panel frames', ti: 'Inverter ከምኡ እውን ፓነል ኣብ መሬት ኣራኽቡ', ar: 'تأريض الإنفرتر والألواح' } }
+            { bold: { en: 'DC breaker', ti: 'DC ብሬከር', ar: 'قاطع DC' }, text: { en: 'Between battery and inverter', ti: 'ኣብ መንጎ ባተሪን inverterን', ar: 'بين البطارية والإنفرتر' } },
+            { bold: { en: 'PV isolator', ti: 'PV ኣይሶሌተር', ar: 'عازل PV' }, text: { en: 'Between panels and inverter (for maintenance)', ti: 'ኣብ መንጎ ፓነልን inverterን', ar: 'بين الألواح والإنفرتر (للصيانة)' } },
+            { bold: { en: 'AC breaker', ti: 'AC ብሬከር', ar: 'قاطع AC' }, text: { en: 'On inverter output', ti: 'ኣብ inverter output', ar: 'على مخرج الإنفرتر' } },
+            { bold: { en: 'Earth rod', ti: 'ናይ መሬት ሮድ', ar: 'قضيب التأريض' }, text: { en: 'Ground inverter chassis and panel frames', ti: 'Inverter ከምኡ እውን ፓነል ኣብ መሬት ኣራኽቡ', ar: 'تأريض الإنفرتر والألواح' } },
+            { bold: { en: 'DC SPD (Surge Protection Device)', ti: 'DC SPD (ናይ ሓይሊ ሰርጅ መከላኸሊ)', ar: 'DC SPD (جهاز حماية التيار الزائد)' }, text: { en: 'Install on PV input to protect inverter from lightning surges', ti: 'ኣብ PV input ኣብ ልዕሊ inverter ናብ lightning surge ንምክልኻል ኣቐምጡ', ar: 'ركّبه على مدخل PV لحماية الإنفرتر من صواعق البرق' } }
           ]},
           { heading: { en: 'Battery → Inverter DC Cable (copper cross-section)', ti: 'ባተሪ → Inverter DC ኬብል (ናይ ዓስቢ ስፍሓት)', ar: 'كابل DC بطارية → إنفرتر (مقطع نحاس)' }, list: [
             { bold: { en: 'Up to 3kW', ti: 'ክሳብ 3kW', ar: 'حتى 3kW' }, text: { en: '6mm² copper', ti: '6mm² ዓስቢ', ar: '6mm² نحاس' } },
@@ -1185,7 +1213,7 @@
           ]},
           { heading: { en: 'Protect Equipment', ti: 'መሳርሒ ተኸላኸሉ', ar: 'احمِ المعدات' }, list: [
             { bold: { en: 'Check roof seals', ti: 'ናሕሲ ፈትሹ', ar: 'افحص عوازل السقف' }, text: { en: 'Where cables enter the building', ti: 'ኬብል ዝኣቱ ቦታ', ar: 'حيث تدخل الكابلات' } },
-            { bold: { en: 'Surge protection', ti: 'Surge protection', ar: 'Surge protection' }, text: { en: 'Lightning arrestors on DC and AC sides', ti: 'ኣብ DC ከምኡ እውን AC lightning arrestors', ar: 'Lightning arrestors على DC و AC' } },
+            { bold: { en: 'DC SPD & surge protection', ti: 'DC SPD ከምኡ እውን surge protection', ar: 'DC SPD وحماية التيار الزائد' }, text: { en: 'Install DC SPD on PV input, plus lightning arrestors on DC and AC sides', ti: 'ኣብ PV input DC SPD ኣቐምጡ ከምኡ እውን ኣብ DC ን AC ን lightning arrestors', ar: 'ركّب DC SPD على مدخل PV مع حماية صواعق على DC و AC' } },
             { bold: { en: 'Battery room dry', ti: 'ክፍሊ ባተሪ ንቑጽ ይኹን', ar: 'غرفة البطارية جافة' }, text: { en: 'Water and batteries don\'t mix', ti: 'ማይን ባተሪን ኣይሰማማዕን', ar: 'الماء والبطاريات لا يجتمعان' } }
           ]},
           { heading: { en: 'After the Rains', ti: 'ድሕሪ ዝናብ', ar: 'بعد الأمطار' }, list: [
@@ -1412,10 +1440,23 @@
     
     function closeOnboarding() {
       document.getElementById('onboardingOverlay').style.display = 'none';
-      localStorage.setItem('sv_onboarded', '1');
-      // Start the navigation tour after onboarding
+      try { localStorage.setItem('sv_onboarded', '1'); } catch(e) {}
       if(!localStorage.getItem('sv_toured')) { setTimeout(startTour, 400); }
     }
+
+    // Swipe support for onboarding
+    (function(){
+      let sx=0;
+      const ov=document.getElementById('onboardingOverlay');
+      if(!ov) return;
+      ov.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+      ov.addEventListener('touchend',function(e){
+        const dx=e.changedTouches[0].clientX-sx;
+        if(Math.abs(dx)<50)return;
+        if(dx<0){nextOnboardSlide();}
+        else if(onboardCurrentSlide>0){onboardCurrentSlide--;document.getElementById('onboardSlides').style.transform='translateX(-'+(onboardCurrentSlide*100)+'%)';renderOnboardDots();document.getElementById('onboardBtn').textContent=onboardCurrentSlide===2?t('btn_get_started'):t('btn_next');}
+      },{passive:true});
+    })();
 
     // ── Navigation Tour ──
     let tourStep = 0;
@@ -1509,7 +1550,76 @@
       }
     }
     
-    function init() { try { renderRegions(); renderAppliances(); renderTips(); renderFaultCodes(); renderProducts(); displayDailyTip(); displaySunHours(); renderMySystem(); renderHomeStatus(); } catch(e) { console.error('Init render error:', e); } setupTabNavigation(); setupHealthForm(); document.getElementById('langSelect').value=currentLang; applyLang(); checkOfflineStatus(); window.addEventListener('online', checkOfflineStatus); window.addEventListener('offline', checkOfflineStatus); showOnboarding(); }
+    // ── Notification System ──
+    function showToast(msg, tabTarget) {
+      const el = document.getElementById('svToast');
+      if(!el) return;
+      el.textContent = msg;
+      el.onclick = function(){ el.classList.remove('show'); if(tabTarget) switchTab(tabTarget); };
+      el.classList.add('show');
+      setTimeout(function(){ el.classList.remove('show'); }, 6000);
+    }
+
+    function checkNotifications() {
+      const sys = getSystemData();
+      if(!sys) return;
+      const now = new Date();
+      const today = now.toISOString().split('T')[0];
+      const lastNotif = localStorage.getItem('sv_last_notif') || '';
+      if(lastNotif === today) return; // one notification per day max
+
+      // Check maintenance due
+      const maint = getMaintenanceLog();
+      const installDate = new Date(sys.installDate);
+      const maintTasks = [
+        { id:'panels', interval:14 }, { id:'terminals', interval:30 },
+        { id:'cables', interval:30 }, { id:'inverter', interval:90 }, { id:'fullcheck', interval:180 }
+      ];
+      let anyOverdue = false;
+      maintTasks.forEach(function(task) {
+        const lastDone = maint[task.id] ? new Date(maint[task.id]) : installDate;
+        const daysSince = Math.floor((now - lastDone) / (1000*60*60*24));
+        if(daysSince >= task.interval) anyOverdue = true;
+      });
+
+      if(anyOverdue) {
+        setTimeout(function(){ showToast('🔧 ' + t('notif_maint_due'), 'mysystem'); }, 3000);
+        try { localStorage.setItem('sv_last_notif', today); } catch(e) {}
+        return;
+      }
+
+      // Voltage reminder if no log today
+      const voltLog = getVoltageLog();
+      const hour = now.getHours();
+      if(hour >= 17 && hour <= 21) {
+        const todayLogged = voltLog.some(function(e){ return e.date === today; });
+        if(!todayLogged) {
+          setTimeout(function(){ showToast('🔋 ' + t('notif_voltage_reminder'), 'mysystem'); }, 3000);
+          try { localStorage.setItem('sv_last_notif', today); } catch(e) {}
+          return;
+        }
+      }
+
+      // Health nudge every 14 days
+      const lastHealth = localStorage.getItem('sv_last_health') || '';
+      if(lastHealth) {
+        const daysSinceHealth = Math.floor((now - new Date(lastHealth)) / (1000*60*60*24));
+        if(daysSinceHealth >= 14) {
+          setTimeout(function(){ showToast('📊 ' + t('notif_health_nudge'), 'health'); }, 4000);
+          try { localStorage.setItem('sv_last_notif', today); } catch(e) {}
+          return;
+        }
+      }
+
+      // Daily tip
+      const lastTip = localStorage.getItem('sv_last_tip_notif') || '';
+      if(lastTip !== today) {
+        setTimeout(function(){ showToast('💡 ' + t('notif_daily_tip'), 'tips'); }, 5000);
+        try { localStorage.setItem('sv_last_tip_notif', today); localStorage.setItem('sv_last_notif', today); } catch(e) {}
+      }
+    }
+
+    function init() { try { renderRegions(); renderAppliances(); renderTips(); renderFaultCodes(); renderProducts(); displayDailyTip(); displaySunHours(); renderMySystem(); renderHomeStatus(); } catch(e) { console.error('Init render error:', e); } setupTabNavigation(); setupHealthForm(); document.getElementById('langSelect').value=currentLang; applyLang(); checkOfflineStatus(); window.addEventListener('online', checkOfflineStatus); window.addEventListener('offline', checkOfflineStatus); showOnboarding(); setTimeout(checkNotifications, 2000); }
 
     function renderHomeStatus() {
       const sys = getSystemData();
@@ -1560,7 +1670,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
           <div>
             <div style="font-size:9px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.35);font-weight:600;">SOLEVERDE</div>
-            <div style="font-size:18px;font-weight:800;color:var(--primary);margin-top:2px;">${sys.customerName}${t('sys_your_system')}</div>
+            <div style="font-size:18px;font-weight:800;color:var(--primary);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px;">${sys.customerName}${t('sys_your_system')}</div>
           </div>
           <div style="text-align:right;">
             <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.35);">${t('sys_installed')}</div>
@@ -1796,7 +1906,9 @@
     function toggleAllFaults(){const d=document.querySelectorAll('.fault-details');const a=Array.from(d).every(x=>x.classList.contains('active'));d.forEach(x=>a?x.classList.remove('active'):x.classList.add('active'));}
 
     function renderProducts(){renderProductGrid('invertersGrid',prods.inverters);renderProductGrid('batteriesGrid',prods.batteries);renderProductGrid('panelsGrid',prods.panels);}
-    function renderProductGrid(gid,products){const g=document.getElementById(gid);if(!g)return;g.innerHTML='';products.forEach(p=>{const c=document.createElement('div');c.className='product-card';c.onclick=function(){try{svTrack('product_view',{name:p.name,series:p.series,category:gid.replace('Grid','')});}catch(e){}};c.innerHTML=`<div class="product-image"><img src="${encodeURI(p.img)}" alt="${p.name}" onerror="this.parentElement.innerHTML='<div style=\\'text-align:center;color:var(--text-muted);font-size:12px;padding:20px;\\'>'+t('img_not_available')+'</div>'"></div><div class="product-info"><div class="product-series">${p.series}</div><div class="product-name">${p.name}</div><div class="product-specs">${Object.entries(p.s).map(([k,v])=>`<div class="spec-row"><span class="spec-label">${k}</span><span class="spec-value">${v}</span></div>`).join('')}</div></div>`;g.appendChild(c);});}
+    const specLabelMap={'Rated Power':'spec_rated_power','Peak':'spec_peak','Battery':'spec_battery','Max PV':'spec_max_pv','MPPT Range':'spec_mppt_range','Parallel':'spec_parallel','Efficiency':'spec_efficiency','Capacity':'spec_capacity','Voltage':'spec_voltage','Type':'spec_type','Cycle Life':'spec_cycle_life','BMS':'spec_bms','Wattage':'spec_wattage','Cell Type':'spec_cell_type','Voc':'spec_voc','Dimensions':'spec_dimensions','Weight':'spec_weight','Warranty':'spec_warranty'};
+    function tSpec(label){const key=specLabelMap[label];return key?t(key):label;}
+    function renderProductGrid(gid,products){const g=document.getElementById(gid);if(!g)return;g.innerHTML='';products.forEach(p=>{const c=document.createElement('div');c.className='product-card';c.onclick=function(){try{svTrack('product_view',{name:p.name,series:p.series,category:gid.replace('Grid','')});}catch(e){}};c.innerHTML=`<div class="product-image"><img src="${encodeURI(p.img)}" alt="${p.name}" onerror="this.parentElement.innerHTML='<div style=\\'text-align:center;color:var(--text-muted);font-size:12px;padding:20px;\\'>'+t('img_not_available')+'</div>'"></div><div class="product-info"><div class="product-series">${p.series}</div><div class="product-name">${p.name}</div><div class="product-specs">${Object.entries(p.s).map(([k,v])=>`<div class="spec-row"><span class="spec-label">${tSpec(k)}</span><span class="spec-value">${v}</span></div>`).join('')}</div></div>`;g.appendChild(c);});}
     function setupTabNavigation(){document.querySelectorAll('.tab-btn').forEach(b=>{b.addEventListener('click',()=>switchTab(b.getAttribute('data-tab')));});}
     function switchTab(tabId){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));const tabBtn=document.querySelector(`[data-tab="${tabId}"]`);if(tabBtn)tabBtn.classList.add('active');const tabPanel=document.getElementById(tabId);if(tabPanel)tabPanel.classList.add('active');const mc=document.querySelector('.main-content');if(mc)mc.scrollTop=0;if(tabId==='home')renderHomeStatus();if(tabId==='mysystem')renderMySystem();try{svTrack('tab_view',{tab:tabId});}catch(e){}}
     function updateHealthProgress(){const groups=['healthInverterModel','healthBatteryType','healthBatteryAge','healthWiringCheck','healthVentilation','healthGroundingCheck','healthSizingCheck','healthNightLoadCheck','healthErrorCodeCheck'];let answered=0;groups.forEach(id=>{const el=document.getElementById(id);if(el&&el.value){answered++;}});const total=groups.length;const pct=Math.round(answered/total*100);document.getElementById('healthProgressText').textContent=answered+' '+t('health_of')+' '+total+' '+t('health_answered');document.getElementById('healthProgressPct').textContent=pct+'%';document.getElementById('healthProgressBar').style.width=pct+'%';}
@@ -1845,6 +1957,7 @@
       const hs=Math.round((sc[r.wiring.status]+sc[r.ventilation.status]+sc[r.sizing.status]+sc[r.batteryCapacity.status]+sc[r.nightLoad.status]+sc[r.batteryAge.status]+sc[r.errorCodes.status]+sc[r.grounding.status]+sc[r.panelMatch.status])/9);
       let ss='green',sm=t('hr_score_good');if(hs>=80){ss='green';sm=t('hr_score_good');}else if(hs>=60){ss='yellow';sm=t('hr_score_improve');}else if(hs>=40){ss='orange';sm=t('hr_score_attention');}else{ss='red';sm=t('hr_score_critical');}
       svTrack('health_check',{score:hs,status:ss,inverter:im,battery:bt,panel:pw});
+      try { localStorage.setItem('sv_last_health', new Date().toISOString()); } catch(e) {}
       document.getElementById('healthResults').innerHTML=`<div class="section"><h2>${t('hr_title')}</h2><div class="health-score health-score-${ss} ${ss}"><div class="health-score-number">${hs}</div><div class="health-score-text">${sm}</div><div class="health-score-subtext">${t('hr_score_sub')}</div></div><h3 style="margin-top:20px;margin-bottom:12px;">${t('hr_detailed')}</h3>${rcc(r.wiring)}${rcc(r.ventilation)}${rcc(r.grounding)}${rcc(r.sizing)}${rcc(r.batteryCapacity)}${rcc(r.panelMatch)}${rcc(r.nightLoad)}${rcc(r.batteryAge)}${rcc(r.errorCodes)}<button onclick="copyHealthResult()" id="copyHealthBtn" style="width:100%;margin-top:14px;margin-bottom:14px;padding:14px;font-size:14px;font-weight:600;background:var(--secondary);color:var(--white);border:none;border-radius:10px;cursor:pointer;">${t('health_copy_btn')}</button><div class="contact-section"><h3>${t('hr_need_help')}</h3><p style="margin-bottom:12px;color:rgba(255,255,255,0.7);">${t('hr_contact')}</p><div class="contact-links"><a href="mailto:info@sole-verde.com">Email: info@sole-verde.com</a><a href="tel:+971526342426" data-i18n="faults_call">Call Support</a></div></div></div>`;
     }
     function rcc(c){const ic={'green':'✅','yellow':'⚠️','orange':'⚠️','red':'🔴'};const title=typeof c.title==='object'?(c.title[currentLang]||c.title.en):c.title;const expl=typeof c.explanation==='object'?(c.explanation[currentLang]||c.explanation.en):c.explanation;const rec=typeof c.recommendation==='object'?(c.recommendation[currentLang]||c.recommendation.en):c.recommendation;return`<div class="check-card ${c.status}"><span class="check-icon">${ic[c.status]}</span><div class="check-title">${title}</div><div class="check-explanation">${expl}</div><div class="check-recommendation"><strong>${t('hr_recommendation')}</strong> ${rec}</div></div>`;}
@@ -1900,37 +2013,31 @@
           <p style="color:var(--text-muted);font-size:13px;margin-bottom:20px;">${t('sys_setup_desc')}</p>
         </div>
         <div class="section">
-          <div class="form-group"><label>${t('sys_customer_name')}</label><input type="text" id="sysCustomerName" placeholder="${t('sys_customer_name')}"></div>
+          <div class="form-group"><label>${t('sys_customer_name')}</label><input type="text" id="sysCustomerName" placeholder="${t('sys_customer_name')}" maxlength="30"></div>
           <div class="form-group"><label>${t('sys_inverter')}</label><select id="sysInverter"><option value="SV 1kW">SV 1kW</option><option value="SV 2kW">SV 2kW</option><option value="SV 3kVA">SV 3kVA (2.4kW)</option><option value="SV 3kW">SV 3kW</option><option value="SV 3.2kW">SV 3.2kW</option><option value="SV 4.2kW">SV 4.2kW</option><option value="SV 5.5kW" selected>SV 5.5kW</option><option value="SV 6.2kW">SV 6.2kW</option><option value="SV 11kW">SV 11kW</option></select></div>
           <div class="form-group"><label>${t('sys_battery_type')}</label><select id="sysBattType"><option value="agm">AGM (Lead Acid)</option><option value="lithium">LiFePO4 (Lithium)</option></select></div>
+          <div class="form-group"><label>${t('sys_battery_count')}</label><input type="number" id="sysBattCount" value="4" min="1" max="20"></div>
           <div class="form-group"><label>${t('sys_panel_type')}</label><select id="sysPanelType"><option value="N-Type 580W" selected>N-Type 580W</option><option value="P-Type 450W">P-Type 450W</option><option value="P-Type 300W">P-Type 300W</option><option value="Other">Other</option></select></div>
+          <div class="form-group"><label>${t('sys_panel_count')}</label><input type="number" id="sysPanelCount" value="4" min="1" max="30"></div>
           <div class="form-group"><label>${t('sys_install_date')}</label><input type="date" id="sysInstallDate" value="${new Date().toISOString().split('T')[0]}"></div>
           <div style="margin-top:16px;padding:16px;background:rgba(205,219,34,0.06);border-radius:10px;border:1px solid rgba(205,219,34,0.15);">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span style="font-size:18px;">👨‍🔧</span><span style="font-size:13px;font-weight:700;color:var(--secondary);">${t('sys_your_tech')}</span></div>
-            <div class="form-group" style="margin-bottom:10px;"><label>${t('sys_tech_name')}</label><input type="text" id="sysTechName" placeholder="${t('sys_tech_name')}"></div>
+            <div class="form-group" style="margin-bottom:10px;"><label>${t('sys_tech_name')}</label><input type="text" id="sysTechName" placeholder="${t('sys_tech_name')}" maxlength="40"></div>
             <div class="form-group" style="margin-bottom:0;"><label>${t('sys_tech_phone')}</label><input type="tel" id="sysTechPhone" placeholder="+291 ..."></div>
           </div>
-          <div id="sysOptionalFields" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
-            <div class="form-group"><label>${t('sys_battery_count')}</label><input type="number" id="sysBattCount" value="4" min="1" max="20"></div>
-            <div class="form-group"><label>${t('sys_panel_count')}</label><input type="number" id="sysPanelCount" value="4" min="1" max="30"></div>
-          </div>
-          <div style="text-align:center;margin-bottom:14px;"><a onclick="document.getElementById('sysOptionalFields').style.display='block';this.style.display='none';" style="font-size:13px;color:var(--text-light);cursor:pointer;text-decoration:none;font-weight:500;">+ Add more details (optional)</a></div>
           <button onclick="saveSystem()" style="width:100%;padding:14px;font-size:15px;font-weight:700;">${t('sys_save')}</button>
         </div>`;
     }
 
     function saveSystem() {
       const existing = getSystemData() || {};
-      const bcEl = document.getElementById('sysBattCount');
-      const pcEl = document.getElementById('sysPanelCount');
-      const optVisible = document.getElementById('sysOptionalFields') && document.getElementById('sysOptionalFields').style.display !== 'none';
       const data = {
         customerName: document.getElementById('sysCustomerName').value.trim(),
         inverter: document.getElementById('sysInverter').value,
         battType: document.getElementById('sysBattType').value,
-        battCount: optVisible ? (parseInt(bcEl.value) || 4) : (existing.battCount || 4),
+        battCount: parseInt(document.getElementById('sysBattCount').value) || 4,
         panelType: document.getElementById('sysPanelType').value,
-        panelCount: optVisible ? (parseInt(pcEl.value) || 4) : (existing.panelCount || 4),
+        panelCount: parseInt(document.getElementById('sysPanelCount').value) || 4,
         installDate: document.getElementById('sysInstallDate').value,
         techName: document.getElementById('sysTechName').value.trim(),
         techPhone: document.getElementById('sysTechPhone').value.trim(),
@@ -1948,23 +2055,17 @@
       if(!container) return;
       renderSystemSetup(container);
       if(sys) {
-        setTimeout(() => {
-          try {
-            document.getElementById('sysCustomerName').value = sys.customerName || '';
-            document.getElementById('sysInverter').value = sys.inverter || 'SV 5.5kW';
-            document.getElementById('sysBattType').value = sys.battType || 'agm';
-            document.getElementById('sysBattCount').value = sys.battCount || 4;
-            document.getElementById('sysPanelType').value = sys.panelType || 'N-Type 580W';
-            document.getElementById('sysPanelCount').value = sys.panelCount || 4;
-            document.getElementById('sysInstallDate').value = sys.installDate || '';
-            document.getElementById('sysTechName').value = sys.techName || '';
-            document.getElementById('sysTechPhone').value = sys.techPhone || '';
-            const optFields = document.getElementById('sysOptionalFields');
-            if(optFields) optFields.style.display = 'block';
-            const toggleLink = optFields ? optFields.parentElement.querySelector('a') : null;
-            if(toggleLink) toggleLink.style.display = 'none';
-          } catch(e) { console.error('editSystem fill error:', e); }
-        }, 100);
+        try {
+          document.getElementById('sysCustomerName').value = sys.customerName || '';
+          document.getElementById('sysInverter').value = sys.inverter || 'SV 5.5kW';
+          document.getElementById('sysBattType').value = sys.battType || 'agm';
+          document.getElementById('sysBattCount').value = sys.battCount || 4;
+          document.getElementById('sysPanelType').value = sys.panelType || 'N-Type 580W';
+          document.getElementById('sysPanelCount').value = sys.panelCount || 4;
+          document.getElementById('sysInstallDate').value = sys.installDate || '';
+          document.getElementById('sysTechName').value = sys.techName || '';
+          document.getElementById('sysTechPhone').value = sys.techPhone || '';
+        } catch(e) {}
       }
       container.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -2075,7 +2176,7 @@
               <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.5);margin-bottom:4px;">SOLEVERDE</div>
               <h2 style="color:var(--primary);border:none;padding:0;margin:0;font-size:20px;">${sys.customerName}</h2>
             </div>
-            <button onclick="editSystem()" style="padding:6px 12px;font-size:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.15);border-radius:6px;">✏️ ${t('sys_edit')}</button>
+            <button onclick="editSystem()" style="padding:10px 18px;font-size:13px;min-height:44px;min-width:44px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;">✏️ ${t('sys_edit')}</button>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
             <div style="background:rgba(255,255,255,0.06);padding:10px;border-radius:8px;"><div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.4);">${t('inverter')}</div><div style="font-size:14px;font-weight:700;color:var(--primary);margin-top:2px;">${sys.inverter}</div></div>
