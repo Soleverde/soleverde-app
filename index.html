@@ -427,6 +427,49 @@
         </div>
       </div>
       <div class="tips-grid" id="tipsGrid"></div>
+      <div id="tiltTool" style="display:none;margin:0 20px 16px;">
+        <div class="section" style="background:linear-gradient(135deg,var(--secondary) 0%,#1a4a45 100%);color:white;border:none;position:relative;overflow:hidden;text-align:center;padding:24px 20px;">
+          <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:rgba(205,219,34,0.06);border-radius:50%;"></div>
+          <div style="position:absolute;bottom:-20px;left:-20px;width:80px;height:80px;background:rgba(205,219,34,0.04);border-radius:50%;"></div>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.4);margin-bottom:4px;">SOLEVERDE</div>
+          <h2 style="border:none;padding:0;margin:0 0 2px 0;font-size:18px;color:var(--primary);" data-i18n="tilt_title">Panel Inclination Meter</h2>
+          <p style="color:rgba(255,255,255,0.5);font-size:11px;margin-bottom:20px;" data-i18n="tilt_desc">Lay your phone flat on the panel to measure the tilt angle</p>
+          <!-- Tilt visual gauge -->
+          <div style="position:relative;width:200px;height:200px;margin:0 auto 18px;">
+            <svg viewBox="0 0 200 200" width="200" height="200">
+              <circle cx="100" cy="100" r="90" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+              <!-- Ideal zone arc (15-20 degrees) -->
+              <path d="M100,100 L100,15 A85,85 0 0,1 129,18 L100,100 Z" fill="rgba(205,219,34,0.2)" stroke="rgba(205,219,34,0.4)" stroke-width="1"/>
+              <!-- Degree markings -->
+              <text x="100" y="24" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.4)" font-family="inherit">0°</text>
+              <text x="155" y="37" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.4)" font-family="inherit">30°</text>
+              <text x="185" y="105" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.4)" font-family="inherit">60°</text>
+              <text x="155" y="175" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.4)" font-family="inherit">90°</text>
+              <!-- Tick marks every 10 degrees -->
+              <g stroke="rgba(255,255,255,0.15)" stroke-width="1">
+                <line x1="100" y1="15" x2="100" y2="25"/>
+                <line x1="115" y1="16" x2="114" y2="26"/>
+                <line x1="129" y1="18" x2="127" y2="28"/>
+                <line x1="143" y1="24" x2="139" y2="33"/>
+                <line x1="155" y1="32" x2="150" y2="40"/>
+                <line x1="165" y1="42" x2="159" y2="49"/>
+                <line x1="173" y1="55" x2="166" y2="60"/>
+                <line x1="179" y1="69" x2="171" y2="73"/>
+                <line x1="183" y1="84" x2="174" y2="86"/>
+                <line x1="185" y1="100" x2="175" y2="100"/>
+              </g>
+              <!-- Needle -->
+              <line id="tiltNeedle" x1="100" y1="100" x2="100" y2="20" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" transform="rotate(0,100,100)"/>
+              <circle cx="100" cy="100" r="6" fill="var(--secondary)" stroke="var(--primary)" stroke-width="2"/>
+            </svg>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:center;gap:6px;margin-bottom:4px;">
+            <div id="tiltValueStandalone" style="font-size:36px;font-weight:700;color:var(--primary);letter-spacing:-1px;">--°</div>
+          </div>
+          <div id="tiltAdviceStandalone" style="padding:12px 16px;border-radius:8px;background:rgba(205,219,34,0.08);font-size:12px;color:rgba(255,255,255,0.6);font-weight:500;margin-bottom:14px;min-height:20px;"></div>
+          <button id="tiltStartBtn" onclick="startTiltMeter()" style="padding:12px 32px;font-size:13px;font-weight:700;background:var(--primary);color:var(--secondary);border:none;border-radius:8px;cursor:pointer;letter-spacing:0.3px;text-transform:uppercase;" data-i18n="tilt_start">Start Inclination Meter</button>
+        </div>
+      </div>
       <div id="compassTool" style="display:none;margin:0 20px 16px;">
         <div class="section" style="background:linear-gradient(135deg,var(--secondary) 0%,#1a4a45 100%);color:white;border:none;position:relative;overflow:hidden;text-align:center;padding:24px 20px;">
           <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:rgba(205,219,34,0.06);border-radius:50%;"></div>
@@ -910,6 +953,10 @@
       compass_wrong: { en: 'Panels should face South (180°)', ti: 'ፓነል ናብ ደቡብ (180°) ክጥምት ኣለዎ', ar: 'يجب أن تتجه الألواح جنوباً (180°)' },
       compass_error: { en: 'No compass hardware detected — using GPS direction. Walk slowly toward your panels.', ti: 'ኮምፓስ ኣይተረኽበን — GPS ኣንፈት ንጥቀም ኣለና። ብዝሑል ናብ ፓነላትኩም ተመላለሱ።', ar: 'لم يتم اكتشاف بوصلة — نستخدم اتجاه GPS. امشِ ببطء نحو الألواح.' },
       compass_gps_note: { en: 'Using GPS direction — walk slowly toward your panels for accurate reading', ti: 'GPS ኣንፈት ንጥቀም ኣለና — ንግቡእ ኣንባቢ ብዝሑል ናብ ፓነላትኩም ተመላለሱ', ar: 'نستخدم اتجاه GPS — امشِ ببطء نحو الألواح لقراءة دقيقة' },
+      tilt_title: { en: 'Panel Inclination Meter', ti: 'መዐቀኒ ዝንባለ ፓነል', ar: 'مقياس ميل اللوح' },
+      tilt_desc: { en: 'Lay your phone flat on the panel to measure the tilt angle', ti: 'ሞባይልኩም ኣብ ፓነል ኣንጥፉ ዝንባለ ንምዕቃን', ar: 'ضع هاتفك على اللوح لقياس زاوية الميل' },
+      tilt_start: { en: 'Start Inclination Meter', ti: 'መዐቀኒ ዝንባለ ጀምሩ', ar: 'ابدأ مقياس الميل' },
+      tilt_stop: { en: 'Stop', ti: 'ኣቋርጹ', ar: 'أوقف' },
       tilt_label: { en: 'Panel Tilt Angle', ti: 'ኩርናዕ ዝንባለ ፓነል', ar: 'زاوية ميل اللوح' },
       tilt_ideal: { en: 'Ideal tilt for Eritrea: 15°–20°', ti: 'ንኤርትራ ዝበለጸ ዝንባለ: 15°–20°', ar: 'الميل المثالي لإريتريا: 15°–20°' },
       tilt_good: { en: 'Good tilt angle for this region', ti: 'ጽቡቕ ኩርናዕ ዝንባለ ነዚ ዞባ', ar: 'زاوية ميل جيدة لهذه المنطقة' },
@@ -1370,7 +1417,9 @@
       document.getElementById('tipsBtnCustomer').classList.toggle('active', mode==='customer');
       document.getElementById('tipsBtnTech').classList.toggle('active', mode==='tech');
       renderTips();
-      // Show compass only in tech mode
+      // Show tilt meter and compass only in tech mode
+      const tiltEl = document.getElementById('tiltTool');
+      if(tiltEl) tiltEl.style.display = mode === 'tech' ? 'block' : 'none';
       const compassEl = document.getElementById('compassTool');
       if(compassEl) compassEl.style.display = mode === 'tech' ? 'block' : 'none';
     }
@@ -1603,22 +1652,80 @@
     }
 
     function updateTilt(beta) {
-      const tiltEl = document.getElementById('tiltValue');
-      const adviceEl = document.getElementById('tiltAdvice');
-      if(!tiltEl) return;
       const tilt = Math.round(beta);
-      tiltEl.textContent = tilt + '°';
-      if(adviceEl) {
-        if(tilt >= 13 && tilt <= 22) {
-          adviceEl.textContent = '✅ ' + (t('tilt_good') || 'Good tilt angle for this region');
-          adviceEl.style.color = 'rgba(205,219,34,0.8)';
-        } else if(tilt >= 10 && tilt <= 25) {
-          adviceEl.textContent = '↻ ' + (t('tilt_ideal') || 'Ideal tilt for Eritrea: 15°–20°');
-          adviceEl.style.color = 'rgba(255,255,255,0.5)';
-        } else {
-          adviceEl.textContent = '⚠ ' + (t('tilt_adjust') || 'Adjust tilt — aim for 15°–20° in Eritrea');
-          adviceEl.style.color = 'rgba(231,100,80,0.8)';
-        }
+      // Update compass-embedded tilt (if visible)
+      const tiltEl = document.getElementById('tiltValue');
+      if(tiltEl) tiltEl.textContent = tilt + '°';
+      const adviceEl = document.getElementById('tiltAdvice');
+      // Update standalone tilt meter
+      const tiltElS = document.getElementById('tiltValueStandalone');
+      if(tiltElS) tiltElS.textContent = tilt + '°';
+      const adviceElS = document.getElementById('tiltAdviceStandalone');
+      // Update needle rotation (0° = up, 90° = right)
+      const needle = document.getElementById('tiltNeedle');
+      if(needle) needle.setAttribute('transform', 'rotate(' + (tilt * 3) + ',100,100)');
+
+      // Tilt advice logic
+      let adviceText = ''; let adviceColor = '';
+      if(tilt >= 13 && tilt <= 22) {
+        adviceText = '✅ ' + (t('tilt_good') || 'Good tilt angle for this region');
+        adviceColor = 'rgba(205,219,34,0.8)';
+      } else if(tilt >= 10 && tilt <= 25) {
+        adviceText = '↻ ' + (t('tilt_ideal') || 'Ideal tilt for Eritrea: 15°–20°');
+        adviceColor = 'rgba(255,255,255,0.5)';
+      } else {
+        adviceText = '⚠ ' + (t('tilt_adjust') || 'Adjust tilt — aim for 15°–20° in Eritrea');
+        adviceColor = 'rgba(231,100,80,0.8)';
+      }
+      if(adviceEl) { adviceEl.textContent = adviceText; adviceEl.style.color = adviceColor; }
+      if(adviceElS) { adviceElS.textContent = adviceText; adviceElS.style.color = adviceColor; }
+    }
+
+    // ── Standalone Tilt Meter ──
+    let tiltMeterActive = false;
+    let tiltMeterHandler = null;
+
+    function startTiltMeter() {
+      const btn = document.getElementById('tiltStartBtn');
+      if(tiltMeterActive) { stopTiltMeter(); return; }
+
+      if(typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission().then(state => {
+          if(state === 'granted') { initTiltMeter(); }
+          else { showTiltError(); }
+        }).catch(() => showTiltError());
+      } else if('DeviceOrientationEvent' in window) {
+        initTiltMeter();
+      } else {
+        showTiltError();
+      }
+    }
+
+    function initTiltMeter() {
+      tiltMeterActive = true;
+      const btn = document.getElementById('tiltStartBtn');
+      btn.textContent = t('tilt_stop') || 'Stop';
+      btn.style.background = 'rgba(231,76,60,0.9)'; btn.style.color = 'white';
+
+      tiltMeterHandler = function(e) {
+        if(e.beta !== null) updateTilt(Math.abs(e.beta));
+      };
+      window.addEventListener('deviceorientation', tiltMeterHandler, true);
+    }
+
+    function stopTiltMeter() {
+      tiltMeterActive = false;
+      if(tiltMeterHandler) { window.removeEventListener('deviceorientation', tiltMeterHandler, true); tiltMeterHandler = null; }
+      const btn = document.getElementById('tiltStartBtn');
+      btn.textContent = t('tilt_start') || 'Start Inclination Meter';
+      btn.style.background = 'var(--primary)'; btn.style.color = 'var(--secondary)';
+    }
+
+    function showTiltError() {
+      const advEl = document.getElementById('tiltAdviceStandalone');
+      if(advEl) {
+        advEl.style.color = 'rgba(231,100,80,1)';
+        advEl.textContent = t('compass_error') || 'Sensor not available on this device.';
       }
     }
 
