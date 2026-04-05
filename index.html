@@ -838,7 +838,7 @@
       health_q9: { en: '9. Does your inverter show error codes? If yes, list them (e.g., "F3, 7, 61"):', ti: '9. ኢንቨርተር ናይ ጸገም ኮድ ይሕብር? እንተኾይኑ ጸሓፉ:', ar: '9. هل يظهر الإنفرتر رموز أعطال؟ إذا نعم، اكتبها:' },
       health_q9_placeholder: { en: 'Leave blank if no errors', ti: 'ጸገም እንተዘይሃልዩ ባዶ ግደፉ', ar: 'اتركها فارغة إذا لا توجد أعطال' },
       health_q10: { en: '10. Is your system grounded?', ti: '10. ስርዓትኩም ናይ በርቂ መከላኸሊ ኣለዎ ዲዩ?', ar: '10. هل نظامك مؤرض؟' },
-      health_q10_yes: { en: 'Yes, earth cable connected', ti: 'እወ፣ earth cable ተራኺቡ', ar: 'نعم، كابل التأريض موصل' },
+      health_q10_yes: { en: 'Yes, earth cable connected', ti: 'እወ፣ ናይ በርቂ መከላኸሊ ኣለዎ', ar: 'نعم، كابل التأريض موصل' },
       health_q10_no: { en: 'No grounding', ti: 'ግራውንዲንግ የብሉን', ar: 'لا يوجد تأريض' },
       health_q10_unknown: { en: "Don't know", ti: 'ኣይፈልጥን', ar: 'لا أعرف' },
       health_analyze: { en: 'Analyze My System', ti: 'ስርዓተይ ፈትሾ', ar: 'حلل نظامي' },
@@ -1303,6 +1303,29 @@
           ]}
         ],
         bottomLine: { en: 'Plan ahead for rainy season — reduce loads and protect your equipment.', ti: 'ንወቕቲ ዝናብ ቅድሚ ግዜ ተዳለዉ — ጻዕቂ ኣጉድሉ ንመሳርሒ ተኸላኸሉ።', ar: 'خطط مسبقاً لموسم الأمطار — قلل الأحمال واحمِ معداتك.' }
+      },
+      {
+        icon: '🔋', iconBg: 'rgba(205,219,34,0.12)', audience: 'tech',
+        title: { en: '11.8kWh Lithium Battery — 4 Terminals Explained', ti: '11.8kWh Lithium ባተሪ — 4 ተርሚናላት መግለጺ', ar: 'بطارية ليثيوم 11.8kWh — شرح الأطراف الأربعة' },
+        subtitle: { en: 'Why there are 2 pairs of +/− and how to wire them', ti: 'ስለምንታይ 2 ጽምዲ +/− ኣለዎ ከመይ ከም ዝእሰር', ar: 'لماذا يوجد زوجان من +/− وكيفية توصيلهما' },
+        sections: [
+          { heading: { en: 'Why 4 Terminals?', ti: 'ስለምንታይ 4 ተርሚናላት?', ar: 'لماذا 4 أطراف؟' }, text: { en: 'The SV 51.2V 230Ah (11.8kWh) lithium battery has 2 pairs of positive (+) and negative (−) terminals on the back panel. This design allows you to connect multiple batteries in parallel without external bus bars or splitters.', ti: 'SV 51.2V 230Ah (11.8kWh) lithium ባተሪ ኣብ ድሕሪት 2 ጽምዲ positive (+) ከምኡ እውን negative (−) ተርሚናላት ኣለዎ። እዚ ዲዛይን ብዙሕ ባተሪ ብ parallel ብዘይ ተወሳኺ bus bar ወይ splitter ከተራኽብ የኽእለካ።', ar: 'بطارية SV 51.2V 230Ah (11.8kWh) الليثيوم تحتوي على زوجين من الأطراف الموجبة (+) والسالبة (−) في اللوحة الخلفية. هذا التصميم يسمح بتوصيل عدة بطاريات بالتوازي بدون قضبان أو موزعات خارجية.' } },
+          { heading: { en: 'Single Battery Setup', ti: 'ሓደ ባተሪ ምትካል', ar: 'تركيب بطارية واحدة' }, list: [
+            { bold: { en: 'Use either pair', ti: 'ዝኾነ ጽምዲ ተጠቐሙ', ar: 'استخدم أي زوج' }, text: { en: 'Connect one + and one − terminal to your inverter. The second pair stays unused.', ti: 'ሓደ + ከምኡ እውን ሓደ − ተርሚናል ናብ ኢንቨርተር ኣራኽቡ። ካልኣይ ጽምዲ ኣይትጠቐሙ።', ar: 'وصّل طرف + وطرف − واحد بالإنفرتر. الزوج الثاني يبقى بدون استخدام.' } },
+            { bold: { en: 'Either pair works', ti: 'ክልቲኡ ጽምዲ ይሰርሕ', ar: 'كلا الزوجين يعمل' }, text: { en: 'Top pair or bottom pair — both are identical and internally connected.', ti: 'ላዕላይ ጽምዲ ወይ ታሕታይ ጽምዲ — ክልቲኡ ሓደ እዩ ብውሽጢ ተራኺቡ።', ar: 'الزوج العلوي أو السفلي — كلاهما متطابق ومتصل داخلياً.' } }
+          ]},
+          { heading: { en: 'Parallel Setup (2+ Batteries)', ti: 'Parallel ምትካል (2+ ባተሪ)', ar: 'توصيل متوازي (2+ بطارية)' }, list: [
+            { bold: { en: 'Pair 1 → Inverter', ti: 'ጽምዲ 1 → ኢንቨርተር', ar: 'الزوج 1 → الإنفرتر' }, text: { en: 'Connect the first pair (+/−) from Battery 1 to your inverter.', ti: 'ካብ ባተሪ 1 ቀዳማይ ጽምዲ (+/−) ናብ ኢንቨርተር ኣራኽቡ።', ar: 'وصّل الزوج الأول (+/−) من البطارية 1 بالإنفرتر.' } },
+            { bold: { en: 'Pair 2 → Next battery', ti: 'ጽምዲ 2 → ዝቕጽል ባተሪ', ar: 'الزوج 2 → البطارية التالية' }, text: { en: 'Connect the second pair (+/−) from Battery 1 to a pair on Battery 2. This daisy-chains them together.', ti: 'ካብ ባተሪ 1 ካልኣይ ጽምዲ (+/−) ናብ ባተሪ 2 ኣራኽቡ። ብኸምዚ ብ daisy-chain ይራኸብ።', ar: 'وصّل الزوج الثاني (+/−) من البطارية 1 بزوج على البطارية 2. هذا يربطهما بسلسلة.' } },
+            { bold: { en: 'Continue the chain', ti: 'ሰንሰለት ቀጽሉ', ar: 'واصل السلسلة' }, text: { en: 'Battery 2 pair 2 → Battery 3 pair 1, and so on. Up to 15 units in parallel.', ti: 'ባተሪ 2 ጽምዲ 2 → ባተሪ 3 ጽምዲ 1 ከምኡ ቀጽሉ። ክሳብ 15 ዩኒት ብ parallel።', ar: 'الزوج 2 من البطارية 2 → الزوج 1 من البطارية 3 وهكذا. حتى 15 وحدة بالتوازي.' } }
+          ]},
+          { heading: { en: 'Important Notes', ti: 'ኣገዳሲ ሓበሬታ', ar: 'ملاحظات مهمة' }, list: [
+            { bold: { en: 'RS485/CAN communication', ti: 'RS485/CAN ርክብ', ar: 'اتصال RS485/CAN' }, text: { en: 'Also daisy-chain the communication cables between batteries and to the inverter for BMS monitoring.', ti: 'ናይ communication ኬብል እውን ብ daisy-chain ኣብ መንጎ ባተሪታትን ናብ ኢንቨርተርን ንBMS monitoring ኣራኽቡ።', ar: 'وصّل كابلات الاتصال أيضاً بسلسلة بين البطاريات وإلى الإنفرتر لمراقبة BMS.' } },
+            { bold: { en: 'Same age & capacity', ti: 'ሓደ ዕድመን ዐጻጻን', ar: 'نفس العمر والسعة' }, text: { en: 'Only parallel batteries of the same model and age. Never mix old and new.', ti: 'ሓደ ዓይነት ሞዴልን ዕድመን ባተሪ ጥራይ ብ parallel ኣራኽቡ። ሓድሽን ኣረግን ኣይሓውሱ።', ar: 'وصّل فقط بطاريات من نفس الموديل والعمر. لا تخلط القديم بالجديد.' } },
+            { bold: { en: 'Circuit breaker', ti: 'Circuit breaker', ar: 'قاطع الدائرة' }, text: { en: 'The built-in breaker on the back panel protects each battery individually.', ti: 'ኣብ ድሕሪት ዘሎ breaker ንነፍሲ ወከፍ ባተሪ ይከላኸል።', ar: 'القاطع المدمج في اللوحة الخلفية يحمي كل بطارية على حدة.' } }
+          ]}
+        ],
+        bottomLine: { en: '4 terminals = easy parallel wiring. Pair 1 to inverter, Pair 2 to next battery. Simple daisy-chain.', ti: '4 ተርሚናላት = ቀሊል parallel ምእሳር። ጽምዲ 1 ናብ ኢንቨርተር፣ ጽምዲ 2 ናብ ዝቕጽል ባተሪ።', ar: '4 أطراف = توصيل متوازي سهل. الزوج 1 للإنفرتر، الزوج 2 للبطارية التالية.' }
       }
     ];
 
