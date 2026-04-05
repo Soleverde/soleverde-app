@@ -258,11 +258,39 @@
     .sv-toast { position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-120%);z-index:998;background:var(--card-bg);color:var(--text);border:1px solid rgba(205,219,34,0.2);border-radius:12px;padding:12px 18px;font-size:13px;font-weight:500;box-shadow:0 6px 24px rgba(0,0,0,0.2);max-width:320px;text-align:center;transition:transform 0.35s ease,opacity 0.35s ease;opacity:0;cursor:pointer; }
     .sv-toast.show { transform:translateX(-50%) translateY(0);opacity:1; }
 
+    /* Chatbot */
+    .sv-help-btn { position:fixed;bottom:72px;right:16px;z-index:900;width:52px;height:52px;border-radius:50%;background:var(--primary);color:var(--secondary);border:none;font-size:26px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(205,219,34,0.35);cursor:pointer;transition:transform 0.2s;line-height:1; }
+    .sv-help-btn:active { transform:scale(0.92); }
+    .sv-chat-overlay { position:fixed;inset:0;z-index:1001;background:var(--bg);display:flex;flex-direction:column;transition:transform 0.3s ease;transform:translateY(100%); }
+    .sv-chat-overlay.open { transform:translateY(0); }
+    .sv-chat-header { display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--secondary);border-bottom:1px solid rgba(205,219,34,0.12); }
+    .sv-chat-header h3 { margin:0;font-size:15px;color:var(--primary);font-weight:700; }
+    .sv-chat-close { background:none;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;padding:4px 8px;line-height:1; }
+    .sv-chat-body { flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px; }
+    .sv-chat-bubble { max-width:88%;padding:11px 15px;border-radius:14px;font-size:13px;line-height:1.55;animation:svChatIn 0.25s ease; }
+    .sv-chat-bubble.bot { background:var(--card-bg);color:var(--text);align-self:flex-start;border-bottom-left-radius:4px; }
+    .sv-chat-bubble.user { background:var(--primary);color:var(--secondary);align-self:flex-end;border-bottom-right-radius:4px;font-weight:600; }
+    .sv-chat-options { display:flex;flex-direction:column;gap:7px;align-self:flex-start;max-width:88%;animation:svChatIn 0.25s ease; }
+    .sv-chat-opt { background:var(--card-bg);border:1px solid rgba(205,219,34,0.15);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--text);cursor:pointer;text-align:left;font-family:inherit;min-height:44px;display:flex;align-items:center;transition:border-color 0.2s; }
+    .sv-chat-opt:active { border-color:var(--primary);background:rgba(205,219,34,0.06); }
+    @keyframes svChatIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
   </style>
 </head>
 <body>
   <div id="offlineBar" class="offline-bar" data-i18n="offline_msg">You're offline — all features still work ✓</div>
   <div id="svToast" class="sv-toast"></div>
+
+  <!-- Chatbot -->
+  <button id="svHelpBtn" class="sv-help-btn" onclick="openChat()" aria-label="Help">💬</button>
+  <div id="svChatOverlay" class="sv-chat-overlay">
+    <div class="sv-chat-header">
+      <h3 id="chatTitle">☀️ Soleverde Help</h3>
+      <button class="sv-chat-close" onclick="closeChat()">✕</button>
+    </div>
+    <div id="svChatBody" class="sv-chat-body"></div>
+  </div>
+
   <div id="onboardingOverlay" style="display:none;position:fixed;inset:0;z-index:1000;background:var(--secondary);color:white;overflow:hidden;">
     <div id="onboardSlides" style="display:flex;transition:transform 0.4s ease;height:100%;width:100%;">
       <div style="flex:0 0 100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 20px;text-align:center;">
@@ -950,6 +978,13 @@
       notif_voltage_reminder: { en: 'Time to log your sunset voltage reading', ti: 'ናይ ምዕራብ ጸሓይ ቮልቴጅ ክትምዝገቡ ግዜኡ እዩ', ar: 'حان وقت تسجيل قراءة الفولتية عند الغروب' },
       notif_daily_tip: { en: 'New tip available — check the Tips tab', ti: 'ሓድሽ ምኽሪ ኣሎ — Tips tab ርኣዩ', ar: 'نصيحة جديدة متاحة — تحقق من تبويب النصائح' },
       notif_health_nudge: { en: 'How is your system? Run a quick health check', ti: 'ስርዓትኩም ከመይ ኣሎ? ቅልጡፍ ምርመራ ግበሩ', ar: 'كيف حال نظامك؟ أجرِ فحصاً سريعاً' },
+      // Chatbot
+      chat_title: { en: '☀️ Soleverde Help', ti: '☀️ Soleverde ሓገዝ', ar: '☀️ مساعدة Soleverde' },
+      chat_welcome: { en: 'Hi! I\'m your Soleverde solar assistant. How can I help?', ti: 'ሰላም! ናይ Soleverde ሓገዝ እየ። ብኸመይ ክሕግዘኩም?', ar: 'مرحباً! أنا مساعد Soleverde الشمسي. كيف أساعدك؟' },
+      chat_back: { en: '← Back to menu', ti: '← ናብ ዋና ተመለስ', ar: '← العودة للقائمة' },
+      chat_restart: { en: '🔄 Start over', ti: '🔄 ካብ መጀመርታ', ar: '🔄 ابدأ من جديد' },
+      chat_call_tech: { en: '📞 Call my technician', ti: '📞 ናብ ቴክኒሻን ደውል', ar: '📞 اتصل بالفني' },
+      chat_no_tech: { en: 'No technician saved yet. Go to My System tab to add one.', ti: 'ቴክኒሻን ኣይተመዝገበን። ናብ My System ኬድኩም ኣእትዉ።', ar: 'لم يتم حفظ فني بعد. اذهب إلى تبويب نظامي لإضافته.' },
 
     };
     const appKeys=['app_led','app_cfl','app_tv32','app_tv43','app_satellite','app_phone','app_laptop','app_cfan','app_sfan','app_fridge_s','app_fridge_l','app_washing','app_iron','app_pump05','app_pump1','app_microwave','app_kettle','app_router','app_ac'];
@@ -2254,6 +2289,356 @@
       const shareData={title:'Soleverde — Solar Energy Assistant',text:'Free offline solar app — size your system, troubleshoot inverter faults, and get battery care tips. Works without internet!',url:window.location.href};
       if(navigator.share){navigator.share(shareData).catch(()=>{});}
       else{const msg='Share this app with someone using solar!\n\nSend the file "soleverde-app.html" via ShareIt, Bluetooth, or any file transfer app.\n\nIt works completely offline — no internet needed.';alert(msg);}
+    }
+
+    // ====== CHATBOT ======
+    const chatTree = {
+      root: {
+        msg: { en: 'Hi! I\'m your Soleverde solar assistant. How can I help?', ti: 'ሰላም! ናይ Soleverde ሓገዝ እየ። ብኸመይ ክሕግዘኩም?', ar: 'مرحباً! أنا مساعد Soleverde الشمسي. كيف أساعدك؟' },
+        options: [
+          { label: { en: '⚡ Inverter problem / error code', ti: '⚡ ጸገም ኢንቨርተር / ኤረር ኮድ', ar: '⚡ مشكلة في الإنفرتر / رمز خطأ' }, next: 'inv_model' },
+          { label: { en: '🔋 Battery issue', ti: '🔋 ጸገም ባተሪ', ar: '🔋 مشكلة في البطارية' }, next: 'batt_type' },
+          { label: { en: '🔌 Connecting lithium battery to inverter', ti: '🔌 ሊቲየም ባተሪ ምስ ኢንቨርተር ምትእስሳር', ar: '🔌 توصيل بطارية الليثيوم بالإنفرتر' }, next: 'lith_connect' },
+          { label: { en: '☀️ Solar panels not charging', ti: '☀️ ፓነላት ጸሓይ ኣይቻርጅን', ar: '☀️ الألواح الشمسية لا تشحن' }, next: 'panel_issues' },
+          { label: { en: '🔧 System maintenance', ti: '🔧 ጽገና ስርዓት', ar: '🔧 صيانة النظام' }, next: 'maintenance' },
+          { label: { en: '📞 Call my technician', ti: '📞 ናብ ቴክኒሻን ደውል', ar: '📞 اتصل بالفني' }, action: 'call_tech' }
+        ]
+      },
+
+      // === INVERTER BRANCH ===
+      inv_model: {
+        msg: { en: 'Which inverter model do you have?', ti: 'ኣየናይ ዓይነት ኢንቨርተር ኣለኩም?', ar: 'ما هو طراز الإنفرتر لديك؟' },
+        options: [
+          { label: { en: 'SV EDGE 2kW / 3.2kW', ti: 'SV EDGE 2kW / 3.2kW', ar: 'SV EDGE 2kW / 3.2kW' }, next: 'inv_edge' },
+          { label: { en: 'SV MAX 2.4kW', ti: 'SV MAX 2.4kW', ar: 'SV MAX 2.4kW' }, next: 'inv_max24' },
+          { label: { en: 'SV PRO 3kW / 5.5kW', ti: 'SV PRO 3kW / 5.5kW', ar: 'SV PRO 3kW / 5.5kW' }, next: 'inv_pro' },
+          { label: { en: 'SV EDGE 4.2kW / 6kW–11kW', ti: 'SV EDGE 4.2kW / 6kW–11kW', ar: 'SV EDGE 4.2kW / 6kW–11kW' }, next: 'inv_edge_big' }
+        ]
+      },
+      inv_edge: {
+        msg: { en: 'What\'s happening with your SV EDGE 2kW/3.2kW?', ti: 'SV EDGE 2kW/3.2kW ኩም እንታይ ጸገም ኣለዎ?', ar: 'ما المشكلة في SV EDGE 2kW/3.2kW؟' },
+        options: [
+          { label: { en: 'Beeping continuously', ti: 'ቀጻሊ ድምጺ ይገብር', ar: 'يصدر صوتاً مستمراً' }, next: 'inv_edge_beep' },
+          { label: { en: 'Overload / short circuit', ti: 'ኦቨርሎድ / ሾርት ሰርኪት', ar: 'حمل زائد / قصر دائرة' }, next: 'inv_edge_overload' },
+          { label: { en: 'Not charging from panels', ti: 'ካብ ፓነል ኣይቻርጅን', ar: 'لا يشحن من الألواح' }, next: 'inv_edge_nocharge' },
+          { label: { en: 'Screen showing error code', ti: 'ስክሪን ኤረር ኮድ ይርኢ', ar: 'الشاشة تعرض رمز خطأ' }, next: 'inv_edge_codes' }
+        ]
+      },
+      inv_edge_beep: {
+        msg: { en: '🔊 Continuous beeping on SV EDGE 2kW/3.2kW usually means:\n\n1. Battery voltage too low — check battery terminals and voltage\n2. Overload — reduce connected appliances\n3. Over-temperature — ensure ventilation around inverter\n\n✅ Try: Turn off heavy appliances, check battery connections are tight, ensure inverter has airflow.', ti: '🔊 ቀጻሊ ድምጺ ናይ SV EDGE 2kW/3.2kW ማለት:\n\n1. ቮልቴጅ ባተሪ ትሒቱ — ባተሪ ተርሚናልን ቮልቴጅን ፈትሹ\n2. ኦቨርሎድ — ዝተወሃሃዱ ኣቁሑ ኣጉድሉ\n3. ልዕሊ ሙቐት — ኢንቨርተር ኣየር ከም ዝረክብ ግበሩ\n\n✅ ፈትኑ: ከበድቲ ኣቁሑ ኣጥፍኡ፣ ባተሪ ኮነክሽን ፈትሹ፣ ኣየር ከም ዘለዎ ርግጸኛ ኩኑ።', ar: '🔊 الصوت المستمر في SV EDGE 2kW/3.2kW عادة يعني:\n\n1. جهد البطارية منخفض — افحص أطراف البطارية والجهد\n2. حمل زائد — قلل الأجهزة المتصلة\n3. حرارة عالية — تأكد من التهوية حول الإنفرتر\n\n✅ جرّب: أطفئ الأجهزة الثقيلة، تأكد من إحكام توصيلات البطارية، وفّر تهوية.' },
+        options: [{ label: { en: '📋 View all fault codes', ti: '📋 ኩሎም ኤረር ኮዳት ርአ', ar: '📋 عرض جميع رموز الأعطال' }, action: 'go_faults' }]
+      },
+      inv_edge_overload: {
+        msg: { en: '⚠️ Overload / Short Circuit on SV EDGE:\n\n• Alarm code 07 = Overload in inverter mode\n• Alarm code 08 = Short circuit\n\n✅ Steps:\n1. Turn off the inverter\n2. Disconnect all appliances\n3. Wait 30 seconds, restart\n4. Reconnect appliances one by one\n5. Check total watts don\'t exceed inverter rating\n\n⚡ Remember: Startup surge from fridges/pumps can be 3-5x their rated watts.', ti: '⚠️ ኦቨርሎድ / ሾርት ሰርኪት ኣብ SV EDGE:\n\n• ኣላርም 07 = ኦቨርሎድ ኣብ ኢንቨርተር ሞድ\n• ኣላርም 08 = ሾርት ሰርኪት\n\n✅ ስጉምቲ:\n1. ኢንቨርተር ኣጥፍኡ\n2. ኩሎም ኣቁሑ ኣፋልዩ\n3. 30 ሰከንድ ጸንሑ ደጊምኩም ኣብርዩ\n4. ሓደ ብሓደ ኣቁሑ ኣእትዉ\n5. ናይ ዋትስ ድምር ካብ ኢንቨርተር ዓቕሚ ከም ዘይሓልፍ ኣረጋግጹ', ar: '⚠️ حمل زائد / قصر دائرة في SV EDGE:\n\n• كود إنذار 07 = حمل زائد\n• كود إنذار 08 = قصر دائرة\n\n✅ الخطوات:\n1. أطفئ الإنفرتر\n2. افصل جميع الأجهزة\n3. انتظر 30 ثانية وأعد التشغيل\n4. أعد توصيل الأجهزة واحداً تلو الآخر\n5. تأكد أن إجمالي الواط لا يتجاوز سعة الإنفرتر' },
+        options: [{ label: { en: '📋 View all fault codes', ti: '📋 ኩሎም ኤረር ኮዳት ርአ', ar: '📋 عرض جميع رموز الأعطال' }, action: 'go_faults' }]
+      },
+      inv_edge_nocharge: {
+        msg: { en: '☀️ SV EDGE not charging from panels:\n\n1. Check PV breaker/isolator is ON\n2. Verify panel voltage is within MPPT range (check Products tab for your model)\n3. Check MC4 connectors are firmly plugged in\n4. Look for shading on panels — even partial shade cuts output significantly\n5. Verify correct polarity (+/−) on PV wires\n\n🔧 Program 02 sets charge current — ensure it\'s not set to 0.', ti: '☀️ SV EDGE ካብ ፓነላት ኣይቻርጅን:\n\n1. PV ብሬከር ON ምዃኑ ፈትሹ\n2. ናይ ፓነል ቮልቴጅ ኣብ MPPT ዘሎ ፈትሹ\n3. MC4 ኮነክተራት ጽቡቕ ከም ዝተኣሰሩ ፈትሹ\n4. ኣብ ፓነላት ጽላል ከይህሉ ፈትሹ\n5. ናይ PV ዋየር +/− ልክዕ ምዃኑ ኣረጋግጹ\n\n🔧 ፕሮግራም 02 ቻርጅ ከረንት ይቕይር — 0 ከይኮነ ፈትሹ።', ar: '☀️ SV EDGE لا يشحن من الألواح:\n\n1. تأكد أن قاطع PV في وضع ON\n2. تحقق أن جهد الألواح ضمن نطاق MPPT\n3. تأكد من إحكام موصلات MC4\n4. ابحث عن ظل على الألواح — حتى الظل الجزئي يقلل الإنتاج كثيراً\n5. تأكد من صحة القطبية +/− لأسلاك PV\n\n🔧 البرنامج 02 يضبط تيار الشحن — تأكد أنه ليس صفراً.' },
+        options: [{ label: { en: '📦 Check my panel specs', ti: '📦 ናይ ፓነለይ ስፐክ ርአ', ar: '📦 تحقق من مواصفات ألواحي' }, action: 'go_products' }]
+      },
+      inv_edge_codes: {
+        msg: { en: '📟 Common SV EDGE 2kW/3.2kW fault codes:\n\n• 01 — Fan locked/damaged\n• 02 — Over temperature\n• 03 — Battery voltage too high\n• 04 — Battery voltage too low\n• 07 — Overload (inverter mode)\n• 08 — Short circuit\n• 09 — Overload (solar mode)\n\n✅ For most faults: Turn off, wait 1 min, restart. If error persists, check the Faults tab for detailed solutions.', ti: '📟 ልሙዳት ናይ SV EDGE 2kW/3.2kW ፎልት ኮዳት:\n\n• 01 — ፋን ዝተዓጽወ/ዝተበላሸወ\n• 02 — ልዕሊ ሙቐት\n• 03 — ቮልቴጅ ባተሪ ልዑል\n• 04 — ቮልቴጅ ባተሪ ትሑት\n• 07 — ኦቨርሎድ\n• 08 — ሾርት ሰርኪት\n• 09 — ኦቨርሎድ (ሶላር ሞድ)\n\n✅ ንመብዛሕትኡ: ኣጥፍኡ 1 ደቒቕ ጸንሑ ኣብርዩ። ዘይተቐየረ Faults tab ርኣዩ።', ar: '📟 رموز أعطال SV EDGE 2kW/3.2kW الشائعة:\n\n• 01 — مروحة معطلة\n• 02 — حرارة عالية\n• 03 — جهد بطارية مرتفع\n• 04 — جهد بطارية منخفض\n• 07 — حمل زائد\n• 08 — قصر دائرة\n• 09 — حمل زائد (وضع شمسي)\n\n✅ لمعظم الأعطال: أطفئ، انتظر دقيقة، أعد التشغيل. إذا استمر الخطأ، راجع تبويب الأعطال.' },
+        options: [{ label: { en: '📋 View all fault codes', ti: '📋 ኩሎም ኤረር ኮዳት ርአ', ar: '📋 عرض جميع رموز الأعطال' }, action: 'go_faults' }]
+      },
+
+      inv_max24: {
+        msg: { en: 'What\'s happening with your SV MAX 2.4kW?', ti: 'SV MAX 2.4kW ኩም እንታይ ጸገም ኣለዎ?', ar: 'ما المشكلة في SV MAX 2.4kW؟' },
+        options: [
+          { label: { en: 'LCD showing ALA/FAL code', ti: 'LCD ALA/FAL ኮድ ይርኢ', ar: 'شاشة LCD تعرض كود ALA/FAL' }, next: 'inv_max24_codes' },
+          { label: { en: 'Not charging batteries', ti: 'ባተሪ ኣይቻርጅን', ar: 'لا يشحن البطاريات' }, next: 'inv_max24_nocharge' },
+          { label: { en: 'Overload warning', ti: 'ናይ ኦቨርሎድ ሓደጋ', ar: 'تحذير حمل زائد' }, next: 'inv_max24_overload' }
+        ]
+      },
+      inv_max24_codes: {
+        msg: { en: '📟 SV MAX 2.4kW uses ALA (alarm) and FAL (fault) codes:\n\n🔶 Alarms (ALA):\n• ALA 01 — PV input voltage too high\n• ALA 02 — Battery voltage too high\n• ALA 04 — PV overpower\n• ALA 06 — Low battery\n\n🔴 Faults (FAL):\n• FAL 01 — Fan fault\n• FAL 02 — Over temperature\n• FAL 04 — PV over voltage\n• FAL 06 — Output short circuit\n• FAL 07 — Output over voltage\n\n⚠️ Remember: SV MAX 2.4kW is 24V only (not 48V).', ti: '📟 SV MAX 2.4kW ALA (ኣላርም) ን FAL (ፎልት) ኮዳት ይጥቀም:\n\n🔶 ኣላርማት:\n• ALA 01 — PV ቮልቴጅ ልዑል\n• ALA 02 — ባተሪ ቮልቴጅ ልዑል\n• ALA 04 — PV ኦቨርፓወር\n• ALA 06 — ባተሪ ትሑት\n\n🔴 ፎልት:\n• FAL 01 — ፋን ጸገም\n• FAL 02 — ልዕሊ ሙቐት\n• FAL 04 — PV ቮልቴጅ ልዑል\n• FAL 06 — ኣውትፑት ሾርት\n• FAL 07 — ኣውትፑት ቮልቴጅ ልዑል\n\n⚠️ ኣስተውዕሉ: SV MAX 2.4kW 24V ጥራይ (48V ኣይኮነን)።', ar: '📟 SV MAX 2.4kW يستخدم أكواد ALA (إنذار) و FAL (عطل):\n\n🔶 إنذارات:\n• ALA 01 — جهد PV مرتفع جداً\n• ALA 02 — جهد بطارية مرتفع\n• ALA 04 — طاقة PV زائدة\n• ALA 06 — بطارية منخفضة\n\n🔴 أعطال:\n• FAL 01 — عطل مروحة\n• FAL 02 — حرارة عالية\n• FAL 04 — جهد PV زائد\n• FAL 06 — قصر في المخرج\n• FAL 07 — جهد مخرج زائد\n\n⚠️ تذكر: SV MAX 2.4kW يعمل بـ 24V فقط (ليس 48V).' },
+        options: [{ label: { en: '📋 View all fault codes', ti: '📋 ኩሎም ኤረር ኮዳት ርአ', ar: '📋 عرض جميع رموز الأعطال' }, action: 'go_faults' }]
+      },
+      inv_max24_nocharge: {
+        msg: { en: '🔋 SV MAX 2.4kW not charging:\n\n1. Check PV voltage — must be in MPPT range (30-50V for 24V system)\n2. Check setting 02 (Max charge current) — ensure not 0\n3. Check setting 13 (Charge source priority) — set to "Solar first" or "Solar & Utility"\n4. Verify PV breaker is ON and MC4 connectors are secure\n5. Check for shading on panels\n\n⚠️ This model is 24V only. Don\'t connect 48V panel strings.', ti: '🔋 SV MAX 2.4kW ኣይቻርጅን:\n\n1. PV ቮልቴጅ MPPT ዘሎ ፈትሹ (30-50V ንይ 24V ስርዓት)\n2. ሰቲንግ 02 (Max charge current) 0 ከይኮነ ፈትሹ\n3. ሰቲንግ 13 ናይ ቻርጅ ምንጪ ፈትሹ\n4. PV ብሬከርን MC4 ኮነክተርን ፈትሹ\n5. ኣብ ፓነላት ጽላል ከይህሉ ፈትሹ\n\n⚠️ እዚ ሞደል 24V ጥራይ። 48V ፓነል ኣይትኣሰሩ።', ar: '🔋 SV MAX 2.4kW لا يشحن:\n\n1. افحص جهد PV — يجب أن يكون في نطاق MPPT (30-50V لنظام 24V)\n2. افحص الإعداد 02 (أقصى تيار شحن) — تأكد أنه ليس 0\n3. افحص الإعداد 13 (أولوية مصدر الشحن)\n4. تأكد من قاطع PV وموصلات MC4\n5. ابحث عن ظل على الألواح\n\n⚠️ هذا الطراز 24V فقط. لا توصل سلاسل ألواح 48V.' },
+        options: [{ label: { en: '📦 Check my product specs', ti: '📦 ናይ ፍርያት ስፐክ ርአ', ar: '📦 تحقق من مواصفات المنتج' }, action: 'go_products' }]
+      },
+      inv_max24_overload: {
+        msg: { en: '⚠️ SV MAX 2.4kW Overload:\n\nRated at 2400W continuous. Check:\n1. Total watts of connected appliances (use Sizing tab to calculate)\n2. Startup surge — fridges, pumps, ACs draw 3-5x rated watts when starting\n3. If overload persists, reduce load and restart\n\n💡 Tip: Stagger startup of heavy appliances — don\'t start all at once.', ti: '⚠️ SV MAX 2.4kW ኦቨርሎድ:\n\nናይ 2400W ቀጻሊ ዓቕሚ ኣለዎ:\n1. ጠቕላላ ዋትስ ናይ ኣቁሑ ፈትሹ (Sizing tab ተጠቐሙ)\n2. ናይ ምጅማር ሰርጅ — ፍሪጅ፣ ፓምፕ 3-5 ዕጽፊ ይጥቀሙ\n3. ኦቨርሎድ ቀጺሉ ሎድ ኣጉድሉ ኣብርዩ\n\n💡 ምኽሪ: ከበድቲ ኣቁሑ ብተራ ኣብርዩ — ኩሎም ሓደ ግዜ ኣይተብርዩ።', ar: '⚠️ حمل زائد SV MAX 2.4kW:\n\nالقدرة المستمرة 2400 واط:\n1. افحص إجمالي واط الأجهزة المتصلة (استخدم تبويب الحجم)\n2. تيار البدء — الثلاجات والمضخات تستهلك 3-5 أضعاف\n3. إذا استمر الحمل الزائد، قلل الحمل وأعد التشغيل\n\n💡 نصيحة: شغّل الأجهزة الثقيلة بالتتابع — لا تشغلها كلها معاً.' },
+        options: [{ label: { en: '📐 Calculate my load', ti: '📐 ሎድ ሕሰብ', ar: '📐 احسب حمولتي' }, action: 'go_sizing' }]
+      },
+
+      inv_pro: {
+        msg: { en: 'What\'s happening with your SV PRO 3kW/5.5kW?', ti: 'SV PRO 3kW/5.5kW ኩም እንታይ ጸገም ኣለዎ?', ar: 'ما المشكلة في SV PRO 3kW/5.5kW؟' },
+        options: [
+          { label: { en: 'Error code on display', ti: 'ኣብ ስክሪን ኤረር ኮድ', ar: 'رمز خطأ على الشاشة' }, next: 'inv_pro_codes' },
+          { label: { en: 'BMS communication error', ti: 'ጸገም BMS ኮሚዩኒኬሽን', ar: 'خطأ اتصال BMS' }, next: 'inv_pro_bms' },
+          { label: { en: 'Not switching to battery at night', ti: 'ለይቲ ናብ ባተሪ ኣይቕየርን', ar: 'لا يتحول للبطارية ليلاً' }, next: 'inv_pro_noswitch' }
+        ]
+      },
+      inv_pro_codes: {
+        msg: { en: '📟 Common SV PRO 3kW/5.5kW fault codes:\n\n• 01 — Fan stuck\n• 02 — Over temperature\n• 03 — Battery voltage too high\n• 04 — Battery voltage too low\n• 05 — Output short circuit\n• 07 — Overload\n• 09 — PV over voltage\n• 51 — Over current\n• 57 — Software version mismatch\n• 58 — Overload timeout\n• 59 — BMS communication error\n\n✅ Most faults: Turn off → wait 1 min → restart.', ti: '📟 ልሙዳት SV PRO ፎልት ኮዳት:\n\n• 01 — ፋን ደው ኢሉ\n• 02 — ልዕሊ ሙቐት\n• 03 — ባተሪ ቮልቴጅ ልዑል\n• 04 — ባተሪ ቮልቴጅ ትሑት\n• 05 — ኣውትፑት ሾርት\n• 07 — ኦቨርሎድ\n• 09 — PV ቮልቴጅ ልዑል\n• 51 — ኦቨር ከረንት\n• 59 — BMS ኮሚዩኒኬሽን ኤረር\n\n✅ መብዛሕትኡ: ኣጥፍኡ → 1 ደቒቕ → ኣብርዩ።', ar: '📟 رموز أعطال SV PRO الشائعة:\n\n• 01 — مروحة عالقة\n• 02 — حرارة عالية\n• 03 — جهد بطارية مرتفع\n• 04 — جهد بطارية منخفض\n• 05 — قصر في المخرج\n• 07 — حمل زائد\n• 09 — جهد PV زائد\n• 51 — تيار زائد\n• 59 — خطأ اتصال BMS\n\n✅ معظم الأعطال: أطفئ ← انتظر دقيقة ← أعد التشغيل.' },
+        options: [{ label: { en: '📋 View all fault codes', ti: '📋 ኩሎም ኤረር ኮዳት ርአ', ar: '📋 عرض جميع رموز الأعطال' }, action: 'go_faults' }]
+      },
+      inv_pro_bms: {
+        msg: { en: '🔌 BMS Communication Error (Fault 59) on SV PRO:\n\n1. Check Program 37 — BMS Function Switch must be set to match your battery\n2. For Soleverde lithium: Use RS485 cable (RJ45 connector) from inverter BMS port to battery\n3. On the lithium battery: Turn DIP switch 1 to ON position\n4. Restart both inverter and battery\n5. Ensure RJ45 cable is not damaged — try a different cable\n\n⚡ If using parallel batteries, set DIP switches for unique addresses (see Lithium Connection topic).', ti: '🔌 BMS ኮሚዩኒኬሽን ኤረር (ፎልት 59) ኣብ SV PRO:\n\n1. ፕሮግራም 37 — BMS ፈንክሽን ስዊትች ምስ ባተሪኹም ዝሰማማዕ ግበሩ\n2. ን Soleverde ሊቲየም: RS485 ኬብል (RJ45) ካብ ኢንቨርተር BMS ፖርት ናብ ባተሪ\n3. ኣብ ሊቲየም ባተሪ: DIP switch 1 ናብ ON ግበሩ\n4. ክልቲኡ ኢንቨርተርን ባተሪን ኣብርዩ\n5. RJ45 ኬብል ዘይተበላሸወ ፈትሹ\n\n⚡ ፓራለል ባተሪ ዝጥቀሙ DIP switches ፍሉይ ኣድራሻ ኣቐምጡ።', ar: '🔌 خطأ اتصال BMS (عطل 59) في SV PRO:\n\n1. افحص البرنامج 37 — مفتاح BMS يجب أن يطابق بطاريتك\n2. لبطارية Soleverde الليثيوم: استخدم كابل RS485 (موصل RJ45)\n3. على البطارية الليثيوم: حوّل DIP switch 1 إلى ON\n4. أعد تشغيل الإنفرتر والبطارية\n5. تأكد أن كابل RJ45 سليم\n\n⚡ للبطاريات المتوازية، اضبط DIP switches لعناوين فريدة.' },
+        options: [{ label: { en: '🔌 Full lithium connection guide', ti: '🔌 ምሉእ ናይ ሊቲየም ምትእስሳር መምርሒ', ar: '🔌 دليل توصيل الليثيوم الكامل' }, next: 'lith_connect' }]
+      },
+      inv_pro_noswitch: {
+        msg: { en: '🌙 SV PRO not switching to battery at night:\n\n1. Check Program 01 — Output source priority should be "Solar-Battery-Utility" (SBU)\n2. Check battery voltage — if too low, inverter won\'t use it\n3. Check Program 12 — Low voltage disconnect point\n4. If using lithium, ensure BMS communication is working (no Fault 59)\n5. Check Program 29 — Battery reconnect voltage\n\n💡 If battery is full but inverter stays on grid, Program 01 is likely set wrong.', ti: '🌙 SV PRO ለይቲ ናብ ባተሪ ኣይቕየርን:\n\n1. ፕሮግራም 01 — ኣውትፑት ምንጪ "SBU" ክኸውን ኣለዎ\n2. ናይ ባተሪ ቮልቴጅ ፈትሹ — ትሑት እንተኾይኑ ኣይጥቀመሉን\n3. ፕሮግራም 12 — Low voltage disconnect ፈትሹ\n4. ሊቲየም ዝጥቀሙ BMS ከም ዝሰርሕ ፈትሹ\n5. ፕሮግራም 29 — Battery reconnect voltage ፈትሹ\n\n💡 ባተሪ ምሉእ ኮይኑ ኣብ ግሪድ ዝጸንሕ ፕሮግራም 01 ፈትሹ።', ar: '🌙 SV PRO لا يتحول للبطارية ليلاً:\n\n1. افحص البرنامج 01 — أولوية المصدر يجب أن تكون "SBU"\n2. افحص جهد البطارية — إذا كان منخفضاً لن يستخدمها\n3. افحص البرنامج 12 — نقطة فصل الجهد المنخفض\n4. لليثيوم، تأكد من عمل اتصال BMS\n5. افحص البرنامج 29 — جهد إعادة توصيل البطارية\n\n💡 إذا البطارية ممتلئة والإنفرتر على الشبكة، البرنامج 01 غالباً خاطئ.' },
+        options: [{ label: { en: '📋 View all fault codes', ti: '📋 ኩሎም ኤረር ኮዳት ርአ', ar: '📋 عرض جميع رموز الأعطال' }, action: 'go_faults' }]
+      },
+
+      inv_edge_big: {
+        msg: { en: '📟 SV EDGE 4.2kW / 6kW–11kW common faults:\n\nThese models share similar fault codes:\n• 01 — Fan fault\n• 02 — Over temperature\n• 03 — Battery over voltage\n• 04 — Battery under voltage\n• 05 — Output short circuit\n• 07 — Overload\n• 09 — PV over voltage\n\n✅ Steps for any fault:\n1. Turn off inverter\n2. Wait 1-2 minutes\n3. Check the specific issue (connections, load, ventilation)\n4. Restart\n\nCheck Faults tab for all codes with solutions.', ti: '📟 SV EDGE 4.2kW / 6kW–11kW ልሙዳት ጸገማት:\n\n• 01 — ፋን ጸገም\n• 02 — ልዕሊ ሙቐት\n• 03 — ባተሪ ቮልቴጅ ልዑል\n• 04 — ባተሪ ቮልቴጅ ትሑት\n• 05 — ኣውትፑት ሾርት\n• 07 — ኦቨርሎድ\n• 09 — PV ቮልቴጅ ልዑል\n\n✅ ንዝኾነ ፎልት: ኣጥፍኡ → 1-2 ደቒቕ ጸንሑ → ፈትሹ → ኣብርዩ\n\nFaults tab ኩሎም ኮዳት ርኣዩ።', ar: '📟 أعطال SV EDGE 4.2kW / 6kW–11kW الشائعة:\n\n• 01 — عطل مروحة\n• 02 — حرارة عالية\n• 03 — جهد بطارية مرتفع\n• 04 — جهد بطارية منخفض\n• 05 — قصر في المخرج\n• 07 — حمل زائد\n• 09 — جهد PV زائد\n\n✅ لأي عطل: أطفئ ← انتظر 1-2 دقيقة ← افحص ← أعد التشغيل\n\nراجع تبويب الأعطال لجميع الأكواد.' },
+        options: [{ label: { en: '📋 View all fault codes', ti: '📋 ኩሎም ኤረር ኮዳት ርአ', ar: '📋 عرض جميع رموز الأعطال' }, action: 'go_faults' }]
+      },
+
+      // === BATTERY BRANCH ===
+      batt_type: {
+        msg: { en: 'What type of battery do you have?', ti: 'ኣየናይ ዓይነት ባተሪ ኣለኩም?', ar: 'ما نوع البطارية لديك؟' },
+        options: [
+          { label: { en: '🔋 AGM (Lead-acid) battery', ti: '🔋 AGM (ሊድ-ኣሲድ) ባተሪ', ar: '🔋 بطارية AGM (رصاص-حمض)' }, next: 'batt_agm' },
+          { label: { en: '⚡ Lithium (LiFePO4) battery', ti: '⚡ ሊቲየም (LiFePO4) ባተሪ', ar: '⚡ بطارية ليثيوم (LiFePO4)' }, next: 'batt_lith' }
+        ]
+      },
+      batt_agm: {
+        msg: { en: 'What\'s the issue with your AGM battery?', ti: 'ናይ AGM ባተሪኹም እንታይ ጸገም ኣለዎ?', ar: 'ما مشكلة بطارية AGM لديك؟' },
+        options: [
+          { label: { en: 'Not lasting through the night', ti: 'ለይቲ ኣይጸንሕን', ar: 'لا تكفي طوال الليل' }, next: 'batt_agm_night' },
+          { label: { en: 'Swollen or hot', ti: 'ዝነፍሐ ወይ ዝውዕ', ar: 'منتفخة أو ساخنة' }, next: 'batt_agm_swollen' },
+          { label: { en: 'Charging current settings', ti: 'ናይ ቻርጅ ከረንት ሰቲንግ', ar: 'إعدادات تيار الشحن' }, next: 'batt_agm_charge' }
+        ]
+      },
+      batt_agm_night: {
+        msg: { en: '🌙 AGM battery not lasting through the night:\n\n1. Check battery voltage at sunset — should be ≥12.6V per 12V battery (≥25.2V for 24V, ≥50.4V for 48V)\n2. Reduce nighttime load — check which appliances run at night\n3. Battery may be degraded — AGM batteries lose capacity over time, especially if:\n   • Regularly discharged below 50%\n   • Charging current was too high\n   • Exposed to excessive heat\n\n💡 Use the Health Check tab to assess your battery condition.\n\n📊 Log your sunset voltage daily to track battery health over time.', ti: '🌙 AGM ባተሪ ለይቲ ኣይጸንሕን:\n\n1. ናይ ምዕራብ ጸሓይ ቮልቴጅ ≥12.6V ክኸውን ኣለዎ (ን12V ባተሪ)\n2. ናይ ለይቲ ሎድ ኣጉድሉ\n3. ባተሪ ኣሪጉ ክኸውን ይኽእል — AGM ባተሪ ዓቕሚ ይጎድል:\n   • ካብ 50% ንታሕቲ ብቐጻሊ ዝወርድ\n   • ናይ ቻርጅ ከረንት ልዑል ዝነበረ\n   • ንልዑል ሙቐት ዝተቓልዐ\n\n💡 Health Check tab ተጠቐሙ ባተሪ ክትፍትሹ።', ar: '🌙 بطارية AGM لا تكفي طوال الليل:\n\n1. افحص جهد البطارية عند الغروب — يجب ≥12.6V لبطارية 12V\n2. قلل الحمل الليلي\n3. قد تكون البطارية متدهورة — بطاريات AGM تفقد سعتها مع الوقت خاصة إذا:\n   • تُفرغ بانتظام تحت 50%\n   • كان تيار الشحن مرتفعاً جداً\n   • تعرضت لحرارة عالية\n\n💡 استخدم تبويب فحص النظام لتقييم بطاريتك.' },
+        options: [{ label: { en: '🏥 Run health check', ti: '🏥 ምርመራ ግበር', ar: '🏥 إجراء فحص النظام' }, action: 'go_health' }]
+      },
+      batt_agm_swollen: {
+        msg: { en: '🚨 Swollen or hot AGM battery:\n\n⚠️ This is serious! A swollen battery can be dangerous.\n\n1. STOP charging immediately — turn off inverter\n2. Do NOT open or puncture the battery\n3. Move to a ventilated area if safe to do\n4. Common causes:\n   • Charging voltage too high (over 14.4V per 12V battery)\n   • Charging current too high\n   • Internal short circuit\n   • Old age / end of life\n\n🔴 A swollen battery should be replaced. Do not continue using it.\n\n📞 Contact your technician for safe disposal and replacement.', ti: '🚨 ዝነፍሐ ወይ ዝውዕ AGM ባተሪ:\n\n⚠️ ኣገዳሲ ጸገም! ዝነፍሐ ባተሪ ሓደገኛ ክኸውን ይኽእል።\n\n1. ሕጂ ቻርጂንግ ኣቋርጹ — ኢንቨርተር ኣጥፍኡ\n2. ባተሪ ኣይትኽፈቱ ኣይትውግኡ\n3. ኣየር ዘለዎ ቦታ ኣቐምጡ\n4. ምኽንያታት:\n   • ናይ ቻርጅ ቮልቴጅ ልዑል\n   • ናይ ቻርጅ ከረንት ልዑል\n   • ውሽጣዊ ሾርት\n   • ኣሪጉ\n\n🔴 ዝነፍሐ ባተሪ ይቐየር። ኣይትጠቐሙሉ።\n\n📞 ቴክኒሻንኩም ተወከሱ።', ar: '🚨 بطارية AGM منتفخة أو ساخنة:\n\n⚠️ هذا خطير! البطارية المنتفخة قد تكون خطرة.\n\n1. أوقف الشحن فوراً — أطفئ الإنفرتر\n2. لا تفتح أو تثقب البطارية\n3. انقلها لمكان جيد التهوية\n4. الأسباب الشائعة:\n   • جهد شحن مرتفع جداً\n   • تيار شحن مرتفع\n   • قصر داخلي\n   • انتهاء العمر الافتراضي\n\n🔴 يجب استبدال البطارية المنتفخة. لا تستمر باستخدامها.\n\n📞 اتصل بالفني لاستبدالها بأمان.' },
+        options: [{ label: { en: '📞 Call my technician', ti: '📞 ናብ ቴክኒሻን ደውል', ar: '📞 اتصل بالفني' }, action: 'call_tech' }]
+      },
+      batt_agm_charge: {
+        msg: { en: '⚡ AGM Charging Current — This is Critical!\n\nSet charging current to 10% of battery capacity:\n• 100Ah batteries → 10A\n• 150Ah batteries → 15A\n• 200Ah batteries → 20A\n\n📍 Where to set it:\n• SV EDGE 2kW/3.2kW: Program 02\n• SV MAX 2.4kW: Setting 02\n• SV PRO 3kW/5.5kW: Program 02\n\n⚠️ Factory default is often too high (e.g. 60A). Adjust from the default to match your battery.\n\n✅ Correct charging current makes the biggest difference in battery lifespan — it helps batteries reach their full 5+ year lifespan.', ti: '⚡ AGM ናይ ቻርጅ ከረንት — ኣዝዩ ኣገዳሲ!\n\nናይ ቻርጅ ከረንት 10% ናይ ባተሪ ዓቕሚ ኣቐምጡ:\n• 100Ah → 10A\n• 150Ah → 15A\n• 200Ah → 20A\n\n📍 ኣበይ ክቕየር:\n• SV EDGE 2kW/3.2kW: ፕሮግራም 02\n• SV MAX 2.4kW: ሰቲንግ 02\n• SV PRO 3kW/5.5kW: ፕሮግራም 02\n\n⚠️ ናይ ፋብሪካ ዲፎልት ብዙሕ ግዜ ልዑል (ን.ኣ. 60A)። ናብ ናይ ባተሪ ዓቕሚ ኣቐምጡ።\n\n✅ ልክዕ ናይ ቻርጅ ከረንት ኣብ ባተሪ ዕድመ ዝዓበየ ለውጢ ይገብር — ምሉእ 5+ ዓመት ዕድመ ንኽበጽሕ ይሕግዝ።', ar: '⚡ تيار شحن AGM — هذا حاسم!\n\nاضبط تيار الشحن على 10% من سعة البطارية:\n• 100Ah → 10A\n• 150Ah → 15A\n• 200Ah → 20A\n\n📍 أين تضبطه:\n• SV EDGE 2kW/3.2kW: برنامج 02\n• SV MAX 2.4kW: إعداد 02\n• SV PRO 3kW/5.5kW: برنامج 02\n\n⚠️ الإعداد الافتراضي غالباً مرتفع (مثلاً 60A). اضبطه ليناسب بطاريتك.\n\n✅ تيار الشحن الصحيح يُحدث أكبر فرق في عمر البطارية — يساعدها على بلوغ عمرها الكامل 5+ سنوات.' },
+        options: [{ label: { en: '💡 More battery tips', ti: '💡 ተወሳኺ ናይ ባተሪ ምኽሪ', ar: '💡 مزيد من نصائح البطارية' }, action: 'go_tips' }]
+      },
+
+      batt_lith: {
+        msg: { en: 'What\'s the issue with your lithium battery?', ti: 'ናይ ሊቲየም ባተሪኹም እንታይ ጸገም ኣለዎ?', ar: 'ما مشكلة بطارية الليثيوم لديك؟' },
+        options: [
+          { label: { en: 'No output after turning on', ti: 'ምስ ተኸፍተ ኣውትፑት የብሉን', ar: 'لا يوجد خرج بعد التشغيل' }, next: 'lith_no_output' },
+          { label: { en: 'Red light after connecting to inverter', ti: 'ቀይሕ መብራህቲ ምስ ኢንቨርተር ምስ ተኣሰረ', ar: 'ضوء أحمر بعد التوصيل بالإنفرتر' }, next: 'lith_red_light' },
+          { label: { en: 'Turns off under load', ti: 'ብሎድ ይጠፍእ', ar: 'ينطفئ تحت الحمل' }, next: 'lith_turnoff' },
+          { label: { en: 'Communication error with inverter', ti: 'ናይ ኮሚዩኒኬሽን ጸገም ምስ ኢንቨርተር', ar: 'خطأ اتصال مع الإنفرتر' }, next: 'lith_comm' }
+        ]
+      },
+      lith_no_output: {
+        msg: { en: '🔋 Lithium battery — no output after turning on:\n\n1. Check the ON/OFF button on the side of the battery — press firmly\n2. If still no output, check the air switch (circuit breaker) on the side\n3. Check the LED display — if all lights off, battery may be deeply discharged\n4. If LEDs show charge but no output, the internal BMS may have tripped\n\n✅ Try: Turn off the circular switch on top, wait 1 minute, then press the side ON/OFF button again.\n\n⚡ If battery shows 0 bars, connect to charger/inverter and let it charge for at least 30 minutes before trying again.', ti: '🔋 ሊቲየም ባተሪ — ምስ ተኸፍተ ኣውትፑት የብሉን:\n\n1. ኣብ ጎኒ ዘሎ ON/OFF ቡተን ብጽቡቕ ጠውቑ\n2. ዘይሰርሕ ኣብ ጎኒ ዘሎ ኤር ስዊትች (ሰርኪት ብሬከር) ፈትሹ\n3. LED ዲስፕሌይ ፈትሹ — ኩሉ ጠፊኡ ባተሪ ብዙሕ ወሪዱ ክኸውን ይኽእል\n4. LED ቻርጅ ዝርኢ ግን ኣውትፑት ዘየብሉ BMS ተዓጺዩ ክኸውን ይኽእል\n\n✅ ፈትኑ: ላዕለዋይ ሰርኩላር ስዊትች ኣጥፍኡ 1 ደቒቕ ጸንሑ ጎኒ ON/OFF ደጊምኩም ጠውቑ።\n\n⚡ 0 ባር ዝርኢ ንቻርጀር ኣእትዉ 30 ደቒቕ ቻርጅ ግበሩ።', ar: '🔋 بطارية ليثيوم — لا يوجد خرج بعد التشغيل:\n\n1. افحص زر ON/OFF على جانب البطارية — اضغط بقوة\n2. إذا لم يعمل، افحص مفتاح الهواء (القاطع) على الجانب\n3. افحص شاشة LED — إذا كانت كلها مطفأة، قد تكون البطارية فارغة تماماً\n4. إذا LED يظهر شحن لكن بدون خرج، قد يكون BMS قد فصل\n\n✅ جرّب: أطفئ المفتاح الدائري في الأعلى، انتظر دقيقة، ثم اضغط زر ON/OFF الجانبي مرة أخرى.\n\n⚡ إذا تظهر 0 أشرطة، وصّلها بالشاحن واتركها 30 دقيقة قبل المحاولة.' },
+        options: []
+      },
+      lith_red_light: {
+        msg: { en: '🔴 Red light after connecting lithium to inverter:\n\nThis is a common issue! Follow these steps:\n\n1. Turn OFF the inverter completely\n2. Turn OFF the battery circular switch (on top)\n3. Wait at least 1 minute\n4. Press the side ON/OFF button to restart the battery\n5. Wait for LED to show green/normal\n6. Turn ON the inverter\n\n🔄 Try this process up to 3 times.\n\n⚠️ If red light persists after 3 tries:\n• Check all cable connections between battery and inverter\n• Ensure polarity is correct (+/−)\n• Try a different battery cable\n• Check if battery voltage matches inverter voltage setting', ti: '🔴 ቀይሕ መብራህቲ ሊቲየም ምስ ኢንቨርተር ምስ ተኣሰረ:\n\nልሙድ ጸገም! ስዓቡ:\n\n1. ኢንቨርተር ኣጥፍኡ\n2. ላዕለዋይ ሰርኩላር ስዊትች ኣጥፍኡ\n3. 1 ደቒቕ ጸንሑ\n4. ጎኒ ON/OFF ጠውቑ ባተሪ ክትጅምር\n5. LED ግሪን/ኖርማል ክሳብ ዝኸውን ጸንሑ\n6. ኢንቨርተር ኣብርዩ\n\n🔄 ክሳብ 3 ግዜ ፈትኑ።\n\n⚠️ 3 ግዜ ጸኒሑ ቀይሕ:\n• ኩሎም ኬብል ኮነክሽን ፈትሹ\n• +/− ልክዕ ምዃኑ ፈትሹ\n• ካልእ ኬብል ፈትኑ\n• ናይ ባተሪ ቮልቴጅ ምስ ኢንቨርተር ከም ዝሰማማዕ ፈትሹ', ar: '🔴 ضوء أحمر بعد توصيل الليثيوم بالإنفرتر:\n\nمشكلة شائعة! اتبع الخطوات:\n\n1. أطفئ الإنفرتر تماماً\n2. أطفئ المفتاح الدائري (في الأعلى)\n3. انتظر دقيقة على الأقل\n4. اضغط زر ON/OFF الجانبي لإعادة تشغيل البطارية\n5. انتظر حتى يظهر LED أخضر/طبيعي\n6. شغّل الإنفرتر\n\n🔄 جرّب هذه العملية حتى 3 مرات.\n\n⚠️ إذا استمر الضوء الأحمر:\n• افحص جميع التوصيلات\n• تأكد من صحة القطبية +/−\n• جرّب كابل آخر\n• تأكد أن جهد البطارية يطابق إعداد الإنفرتر' },
+        options: [{ label: { en: '🔌 Full lithium connection guide', ti: '🔌 ምሉእ ናይ ሊቲየም ምትእስሳር መምርሒ', ar: '🔌 دليل توصيل الليثيوم الكامل' }, next: 'lith_connect' }]
+      },
+      lith_turnoff: {
+        msg: { en: '⚡ Lithium battery turns off under load:\n\nThe battery\'s BMS is protecting against over-discharge. Check:\n\n1. Is the inverter load (watts) greater than the battery\'s max output?\n   • LB 100Ah: ~5kW max\n   • LB 230Ah: ~10kW max\n2. If load exceeds battery capacity, add parallel batteries\n3. Check SOC (State of Charge) — battery may be nearly empty\n4. High-surge appliances (AC, pumps) may trip the BMS\n\n✅ Solution: Reduce load, or add parallel batteries for higher output capacity.\n\n💡 Use the Sizing tab to calculate if your total load matches your battery capacity.', ti: '⚡ ሊቲየም ባተሪ ብሎድ ይጠፍእ:\n\nBMS ካብ ኦቨር-ዲስቻርጅ ይከላኸል:\n\n1. ናይ ኢንቨርተር ሎድ ካብ ባተሪ ኣውትፑት ዝዓቢ ድዩ?\n   • LB 100Ah: ~5kW max\n   • LB 230Ah: ~10kW max\n2. ሎድ ካብ ባተሪ ዝዓቢ ፓራለል ባተሪ ወስኹ\n3. SOC ፈትሹ — ባተሪ ጥቓ ባዶ ክኸውን ይኽእል\n4. ከበድቲ ኣቁሑ BMS ከጥፍኡ ይኽእሉ\n\n✅ መፍትሒ: ሎድ ኣጉድሉ ወይ ፓራለል ባተሪ ወስኹ።\n\n💡 Sizing tab ተጠቐሙ ሎድ ምስ ባተሪ ዓቕሚ ከም ዝሰማማዕ ንምፍታሽ።', ar: '⚡ بطارية ليثيوم تنطفئ تحت الحمل:\n\nنظام BMS يحمي من التفريغ الزائد:\n\n1. هل حمل الإنفرتر (واط) أكبر من أقصى خرج للبطارية؟\n   • LB 100Ah: ~5kW حد أقصى\n   • LB 230Ah: ~10kW حد أقصى\n2. إذا تجاوز الحمل السعة، أضف بطاريات متوازية\n3. افحص SOC — قد تكون البطارية فارغة تقريباً\n4. أجهزة عالية التيار قد تفصل BMS\n\n✅ الحل: قلل الحمل أو أضف بطاريات متوازية.\n\n💡 استخدم تبويب الحجم لحساب ما إذا كان حملك يناسب سعة بطاريتك.' },
+        options: [{ label: { en: '📐 Calculate my load', ti: '📐 ሎድ ሕሰብ', ar: '📐 احسب حمولتي' }, action: 'go_sizing' }]
+      },
+      lith_comm: {
+        msg: { en: '🔌 Lithium-Inverter Communication Error:\n\nThis is one of the most common issues. The inverter and battery talk via RS485.\n\n✅ Step-by-step fix:\n1. On the lithium battery: Turn DIP switch 1 to ON\n2. Connect RS485 cable (RJ45) from inverter BMS port → battery communication port\n3. On the inverter, set battery type to "Lithium" (varies by model)\n4. Restart the inverter\n5. Check the RJ45 cable — try a different one if error persists\n\n⚠️ For SV PRO: Set Program 37 (BMS Function Switch) correctly\n⚠️ Make sure the cable connects BMS→BMS, not to the wrong port', ti: '🔌 ሊቲየም-ኢንቨርተር ኮሚዩኒኬሽን ኤረር:\n\nብጣዕሚ ልሙድ ጸገም። ኢንቨርተርን ባተሪን ብ RS485 ይዛረቡ።\n\n✅ ስጉምቲ ብስጉምቲ:\n1. ኣብ ሊቲየም ባተሪ: DIP switch 1 ናብ ON\n2. RS485 ኬብል (RJ45) ካብ ኢንቨርተር BMS → ናብ ባተሪ ኮሚዩኒኬሽን ፖርት\n3. ኣብ ኢንቨርተር ባተሪ ዓይነት "Lithium" ኣቐምጡ\n4. ኢንቨርተር ኣብርዩ\n5. RJ45 ኬብል ፈትሹ — ካልእ ፈትኑ\n\n⚠️ SV PRO: ፕሮግራም 37 (BMS Function Switch) ኣቐምጡ\n⚠️ ኬብል BMS→BMS ክኸውን ኣለዎ', ar: '🔌 خطأ اتصال ليثيوم-إنفرتر:\n\nمن أكثر المشاكل شيوعاً. الإنفرتر والبطارية يتواصلان عبر RS485.\n\n✅ الحل خطوة بخطوة:\n1. على البطارية الليثيوم: حوّل DIP switch 1 إلى ON\n2. وصّل كابل RS485 (RJ45) من منفذ BMS بالإنفرتر → منفذ اتصال البطارية\n3. على الإنفرتر، اضبط نوع البطارية على "Lithium"\n4. أعد تشغيل الإنفرتر\n5. افحص كابل RJ45 — جرّب كابل آخر\n\n⚠️ لـ SV PRO: اضبط البرنامج 37 (مفتاح BMS)\n⚠️ تأكد أن الكابل يصل BMS بـ BMS' },
+        options: [{ label: { en: '🔌 Full lithium connection guide', ti: '🔌 ምሉእ ናይ ሊቲየም ምትእስሳር መምርሒ', ar: '🔌 دليل توصيل الليثيوم الكامل' }, next: 'lith_connect' }]
+      },
+
+      // === LITHIUM CONNECTION GUIDE ===
+      lith_connect: {
+        msg: { en: '🔌 Complete Lithium Battery ↔ Inverter Connection Guide:\n\n📋 What you need:\n• Battery power cables (come with battery)\n• RS485 communication cable (RJ45 connector)\n• DC breaker between battery and inverter\n\n⚡ Connection Steps:\n1. Turn OFF everything first\n2. Connect battery power cables to inverter battery terminals (check +/−!)\n3. Connect RS485 cable: Inverter BMS port → Battery communication port\n4. Turn DIP switch 1 to ON on the battery\n5. Set inverter battery type to "Lithium"\n6. Turn on battery first, then inverter\n\nNeed help with parallel batteries or DIP switches?', ti: '🔌 ምሉእ ናይ ሊቲየም ባተሪ ↔ ኢንቨርተር ምትእስሳር መምርሒ:\n\n📋 ዘድልየኩም:\n• ናይ ባተሪ ሓይሊ ኬብላት\n• RS485 ኮሚዩኒኬሽን ኬብል (RJ45)\n• DC ብሬከር ኣብ ሞንጎ ባተሪን ኢንቨርተርን\n\n⚡ ምትእስሳር ስጉምቲ:\n1. ኩሉ ኣጥፍኡ\n2. ናይ ባተሪ ኬብላት ናብ ኢንቨርተር ተርሚናል ኣእትዉ (+/− ፈትሹ!)\n3. RS485 ኬብል: ኢንቨርተር BMS → ባተሪ ኮሚዩኒኬሽን ፖርት\n4. ኣብ ባተሪ DIP switch 1 ON ግበሩ\n5. ኣብ ኢንቨርተር ባተሪ ዓይነት "Lithium" ኣቐምጡ\n6. ባተሪ ቅድም ኢንቨርተር ድሒሩ ኣብርዩ\n\nፓራለል ባተሪ ወይ DIP switches ሓገዝ ትደልዩ?', ar: '🔌 دليل توصيل بطارية الليثيوم ↔ الإنفرتر الكامل:\n\n📋 ما تحتاجه:\n• كابلات طاقة البطارية\n• كابل اتصال RS485 (موصل RJ45)\n• قاطع DC بين البطارية والإنفرتر\n\n⚡ خطوات التوصيل:\n1. أطفئ كل شيء أولاً\n2. وصّل كابلات طاقة البطارية بأطراف الإنفرتر (تحقق من +/−!)\n3. وصّل كابل RS485: منفذ BMS بالإنفرتر ← منفذ اتصال البطارية\n4. حوّل DIP switch 1 إلى ON على البطارية\n5. اضبط نوع البطارية على "Lithium" في الإنفرتر\n6. شغّل البطارية أولاً ثم الإنفرتر\n\nتحتاج مساعدة في البطاريات المتوازية أو DIP switches؟' },
+        options: [
+          { label: { en: '🔀 Parallel battery DIP switch setup', ti: '🔀 ፓራለል ባተሪ DIP switch ምቕማጥ', ar: '🔀 إعداد DIP switch للبطاريات المتوازية' }, next: 'lith_parallel' },
+          { label: { en: '💡 LED indicator meanings', ti: '💡 ትርጉም LED ኢንዲኬተር', ar: '💡 معاني مؤشرات LED' }, next: 'lith_led' },
+          { label: { en: '❌ Still not working', ti: '❌ ገና ኣይሰርሕን', ar: '❌ لا يزال لا يعمل' }, next: 'lith_still_broken' }
+        ]
+      },
+      lith_parallel: {
+        msg: { en: '🔀 Parallel Lithium Battery DIP Switch Setup:\n\nWhen connecting multiple batteries in parallel, each needs a unique address:\n\n📟 DIP Switch Settings:\n• Battery 1 (Master): Switch 1=ON, 2=OFF, 3=OFF, 4=OFF\n• Battery 2: Switch 1=ON, 2=ON, 3=OFF, 4=OFF\n• Battery 3: Switch 1=ON, 2=OFF, 3=ON, 4=OFF\n• Battery 4: Switch 1=ON, 2=ON, 3=ON, 4=OFF\n\n⚠️ Important:\n• Switch 1 must ALWAYS be ON (enables communication)\n• Only the master battery connects RS485 to inverter\n• Parallel batteries connect to each other via communication port\n• Max 4 batteries in parallel per inverter\n• All batteries should be same model and capacity', ti: '🔀 ፓራለል ሊቲየም ባተሪ DIP Switch ምቕማጥ:\n\nብዙሕ ባተሪ ፓራለል ምስ ተኣሰሩ ነፍሲ ወከፍ ፍሉይ ኣድራሻ የድልዮ:\n\n📟 DIP Switch:\n• ባተሪ 1 (ማስተር): 1=ON, 2=OFF, 3=OFF, 4=OFF\n• ባተሪ 2: 1=ON, 2=ON, 3=OFF, 4=OFF\n• ባተሪ 3: 1=ON, 2=OFF, 3=ON, 4=OFF\n• ባተሪ 4: 1=ON, 2=ON, 3=ON, 4=OFF\n\n⚠️ ኣገዳሲ:\n• Switch 1 ኩሉ ግዜ ON ክኸውን ኣለዎ\n• ማስተር ባተሪ ጥራይ RS485 ናብ ኢንቨርተር\n• ፓራለል ባተሪታት ነንሕድሕዶም ብኮሚዩኒኬሽን ፖርት ይተኣሳሰሩ\n• ክሳብ 4 ባተሪ ንሓደ ኢንቨርተር\n• ኩሎም ባተሪ ሓደ ሞደልን ዓቕምን ክኾኑ', ar: '🔀 إعداد DIP Switch لبطاريات الليثيوم المتوازية:\n\nعند توصيل عدة بطاريات متوازية، كل واحدة تحتاج عنوان فريد:\n\n📟 إعدادات DIP Switch:\n• البطارية 1 (رئيسية): 1=ON, 2=OFF, 3=OFF, 4=OFF\n• البطارية 2: 1=ON, 2=ON, 3=OFF, 4=OFF\n• البطارية 3: 1=ON, 2=OFF, 3=ON, 4=OFF\n• البطارية 4: 1=ON, 2=ON, 3=ON, 4=OFF\n\n⚠️ مهم:\n• المفتاح 1 يجب أن يكون ON دائماً\n• البطارية الرئيسية فقط توصل RS485 بالإنفرتر\n• البطاريات المتوازية تتصل ببعضها عبر منفذ الاتصال\n• حد أقصى 4 بطاريات لكل إنفرتر\n• جميع البطاريات يجب أن تكون نفس الطراز والسعة' },
+        options: []
+      },
+      lith_led: {
+        msg: { en: '💡 Lithium Battery LED Indicators:\n\n🟢 Green bars (1-10): State of Charge (SOC)\n• 10 bars = 100% full\n• 5 bars = ~50%\n• 1 bar = ~10% — charge soon!\n• 0 bars = empty — connect to charger immediately\n\n🟢 Operation light:\n• Steady green = normal operation\n• Flashing green = charging\n\n🔴 Alarm light:\n• Steady red = fault detected\n• Flashing red = warning (over-temp, over-current, etc.)\n\n⚠️ If alarm light is red:\n1. Check if battery is too hot (>60°C)\n2. Check if load is too high\n3. Disconnect and restart', ti: '💡 ሊቲየም ባተሪ LED ኢንዲኬተራት:\n\n🟢 ግሪን ባራት (1-10): SOC\n• 10 = 100% ምሉእ\n• 5 = ~50%\n• 1 = ~10% — ቻርጅ ግበሩ!\n• 0 = ባዶ — ሕጂ ቻርጅ ግበሩ\n\n🟢 ኦፐሬሽን መብራህቲ:\n• ቀጻሊ ግሪን = ኖርማል\n• ዝብልጭ ግሪን = ይቻርጅ ኣሎ\n\n🔴 ኣላርም መብራህቲ:\n• ቀጻሊ ቀይሕ = ጸገም\n• ዝብልጭ ቀይሕ = ምጥንቃቕ\n\n⚠️ ኣላርም ቀይሕ:\n1. ባተሪ ልዑል ሙቐት ከይህሉ ፈትሹ\n2. ሎድ ልዑል ከይኮነ ፈትሹ\n3. ኣፋልዩ ኣብርዩ', ar: '💡 مؤشرات LED لبطارية الليثيوم:\n\n🟢 أشرطة خضراء (1-10): حالة الشحن\n• 10 = 100% ممتلئة\n• 5 = ~50%\n• 1 = ~10% — اشحن قريباً!\n• 0 = فارغة — وصّل الشاحن فوراً\n\n🟢 ضوء التشغيل:\n• أخضر ثابت = تشغيل عادي\n• أخضر وامض = يشحن\n\n🔴 ضوء الإنذار:\n• أحمر ثابت = عطل\n• أحمر وامض = تحذير\n\n⚠️ إذا ضوء الإنذار أحمر:\n1. تحقق من حرارة البطارية\n2. تحقق من الحمل\n3. افصل وأعد التشغيل' },
+        options: []
+      },
+      lith_still_broken: {
+        msg: { en: '❌ If your lithium battery still won\'t connect properly:\n\n1. Try charging the battery alone first (without inverter) until SOC > 20%\n2. Check single cell voltage — if any cell is below 3000mV (3.0V), it needs slow charging first\n3. Check cell voltage difference — all cells should be within 200mV of each other\n4. Ensure inverter cut-off voltage matches lithium specs (not AGM defaults)\n5. Verify the BMS communication cable is RS485 (not CAN or RS232)\n\n📞 If you\'ve tried everything above, contact your Soleverde technician.', ti: '❌ ሊቲየም ባተሪ ገና ኣይሰርሕን:\n\n1. ባተሪ በይኑ ቻርጅ ግበሩ SOC > 20% ክሳብ ዝበጽሕ\n2. ናይ ሴል ቮልቴጅ ፈትሹ — <3000mV ዝኾነ ቀስ ኢሉ ክቻርጅ ኣለዎ\n3. ናይ ሴል ቮልቴጅ ፍልልይ — 200mV ውሽጢ ክኸውን ኣለዎ\n4. ኢንቨርተር cut-off voltage ናይ ሊቲየም ምዃኑ ፈትሹ (AGM ኣይኮነን)\n5. BMS ኬብል RS485 ምዃኑ ፈትሹ (CAN ወይ RS232 ኣይኮነን)\n\n📞 ኩሉ ፈቲንኩም ቴክኒሻን ተወከሱ።', ar: '❌ إذا بطارية الليثيوم لا تزال لا تعمل:\n\n1. اشحن البطارية وحدها أولاً حتى SOC > 20%\n2. افحص جهد الخلية — إذا أي خلية أقل من 3000mV تحتاج شحن بطيء أولاً\n3. فرق جهد الخلايا يجب أن يكون ضمن 200mV\n4. تأكد أن جهد الفصل في الإنفرتر يطابق مواصفات الليثيوم (ليس AGM)\n5. تأكد أن كابل BMS هو RS485 (ليس CAN أو RS232)\n\n📞 إذا جربت كل ما سبق، اتصل بفني Soleverde.' },
+        options: [{ label: { en: '📞 Call my technician', ti: '📞 ናብ ቴክኒሻን ደውል', ar: '📞 اتصل بالفني' }, action: 'call_tech' }]
+      },
+
+      // === SOLAR PANEL BRANCH ===
+      panel_issues: {
+        msg: { en: '☀️ What\'s the issue with your solar panels?', ti: '☀️ ናይ ፓነላት ጸሓይ እንታይ ጸገም ኣለዎ?', ar: '☀️ ما مشكلة ألواحك الشمسية؟' },
+        options: [
+          { label: { en: 'Not charging at all', ti: 'ፈጺሙ ኣይቻርጅን', ar: 'لا يشحن أبداً' }, next: 'panel_nocharge' },
+          { label: { en: 'Low charging current', ti: 'ናይ ቻርጅ ከረንት ትሑት', ar: 'تيار شحن منخفض' }, next: 'panel_low' },
+          { label: { en: 'Panels look damaged', ti: 'ፓነላት ዝተበላሸዉ ይመስሉ', ar: 'الألواح تبدو تالفة' }, next: 'panel_damage' }
+        ]
+      },
+      panel_nocharge: {
+        msg: { en: '☀️ Panels not charging at all:\n\n1. Check PV breaker/isolator — is it ON?\n2. Check MC4 connectors — firmly connected?\n3. Measure PV voltage at inverter input — should match expected range\n4. Check for blown PV fuse\n5. Check wiring polarity (+/−)\n6. Is it actually sunny? Heavy clouds reduce output to near zero\n\n⚠️ MPPT voltage ranges:\n• SV EDGE 2kW/3.2kW: check Products tab\n• SV MAX 2.4kW: 30-50V (24V system only)\n• SV PRO 3kW: 90-450V\n• SV PRO 5.5kW: 120-450V\n\n🔴 Never exceed the maximum PV voltage — it can damage the inverter!', ti: '☀️ ፓነላት ፈጺሞም ኣይቻርጅን:\n\n1. PV ብሬከር ON ድዩ?\n2. MC4 ኮነክተራት ጽቡቕ ተኣሲሮም?\n3. ኣብ ኢንቨርተር PV ቮልቴጅ ልኸዩ\n4. PV ፊውዝ ከይበርሰ ፈትሹ\n5. +/− ልክዕ ድዩ?\n6. ጸሓይ ኣሎ ድዩ? ከቢድ ደመና ኣውትፑት ናብ ዜሮ ይቕንሶ\n\n⚠️ ናይ MPPT ቮልቴጅ:\n• SV MAX 2.4kW: 30-50V (24V ጥራይ)\n• SV PRO 3kW: 90-450V\n• SV PRO 5.5kW: 120-450V\n\n🔴 ዝለዓለ PV ቮልቴጅ ኣይትሕለፉ — ኢንቨርተር ከበላሹ ይኽእል!', ar: '☀️ الألواح لا تشحن أبداً:\n\n1. هل قاطع PV في وضع ON؟\n2. هل موصلات MC4 محكمة التوصيل؟\n3. قِس جهد PV عند مدخل الإنفرتر\n4. افحص فيوز PV\n5. تحقق من القطبية +/−\n6. هل الجو مشمس؟ الغيوم الكثيفة تقلل الإنتاج لقرب الصفر\n\n⚠️ نطاقات MPPT:\n• SV MAX 2.4kW: 30-50V (نظام 24V فقط)\n• SV PRO 3kW: 90-450V\n• SV PRO 5.5kW: 120-450V\n\n🔴 لا تتجاوز جهد PV الأقصى — قد يتلف الإنفرتر!' },
+        options: [{ label: { en: '📦 Check my panel specs', ti: '📦 ናይ ፓነለይ ስፐክ ርአ', ar: '📦 تحقق من مواصفات ألواحي' }, action: 'go_products' }]
+      },
+      panel_low: {
+        msg: { en: '📉 Low charging current from panels:\n\n1. Partial shading — even one shaded panel in a string reduces the whole string\n2. Dirty panels — dust, bird droppings, leaves reduce output by 10-25%\n3. Panel angle — should face north (southern hemisphere) at roughly your latitude angle\n4. Time of day — peak output is 10am-2pm\n5. Temperature — panels lose ~0.4% efficiency per °C above 25°C\n6. Check charging current setting — it may be set lower than panels can provide\n\n✅ Clean panels with water and soft cloth monthly.\n💡 Track your daily output to spot gradual degradation.', ti: '📉 ትሑት ናይ ቻርጅ ከረንት ካብ ፓነላት:\n\n1. ከፊል ጽላል — ሓደ ፓነል ጽላል ኩሉ ስትሪንግ ይቕንስ\n2. ረሳሕ ፓነላት — ሓመድ ኣውትፑት 10-25% ይቕንስ\n3. ናይ ፓነል ኣንግል — ኣብ latitude angle ክኸውን ኣለዎ\n4. ግዜ — ዝለዓለ ኣውትፑት 10am-2pm\n5. ሙቐት — ፓነላት ን1°C ልዕሊ 25°C ~0.4% ይጉድሉ\n6. ናይ ቻርጅ ከረንት ሰቲንግ ትሑት ከይኮነ ፈትሹ\n\n✅ ፓነላት ብማይን ልሙሽ ሓርጭን ኣብ ወርሒ ኣጽርዩ።', ar: '📉 تيار شحن منخفض من الألواح:\n\n1. ظل جزئي — لوح واحد مظلل يقلل إنتاج السلسلة كلها\n2. ألواح متسخة — الغبار يقلل الإنتاج 10-25%\n3. زاوية الألواح — يجب أن تواجه الشمال بزاوية خط العرض تقريباً\n4. وقت اليوم — أعلى إنتاج 10ص-2م\n5. الحرارة — الألواح تفقد ~0.4% لكل درجة فوق 25°م\n6. افحص إعداد تيار الشحن\n\n✅ نظف الألواح بالماء وقماش ناعم شهرياً.' },
+        options: [{ label: { en: '💡 More maintenance tips', ti: '💡 ተወሳኺ ናይ ጽገና ምኽሪ', ar: '💡 مزيد من نصائح الصيانة' }, action: 'go_tips' }]
+      },
+      panel_damage: {
+        msg: { en: '🔍 Checking for panel damage:\n\n• Cracks in glass: Can let moisture in → reduced output over time\n• Discoloration/browning: Cells degrading → still works but lower output\n• Hot spots (one part much hotter): Cell damage, could be fire risk\n• Burnt marks on back: Serious — disconnect and replace\n• Loose junction box: Water can enter → electrical fault\n\n✅ Visual inspection monthly:\n1. Walk along panels and look for cracks, discoloration\n2. Check all MC4 connectors are firm\n3. Ensure mounting is secure (especially after storms)\n4. Check for animal/bird nesting underneath\n\n🔴 Never touch exposed wires on panels during daylight — panels produce voltage whenever there is light!', ti: '🔍 ናይ ፓነል ጉድኣት ምፍታሽ:\n\n• ስባር ኣብ መስትያት: ጠሊ ክኣቱ ይኽእል → ኣውትፑት ይጎድል\n• ዝተቐየረ ሕብሪ: ሴል ይነቅጽ → ይሰርሕ ግን ትሑት\n• ዉዑይ ቦታ: ናይ ሴል ጉድኣት ሓደገኛ\n• ዝነደደ ምልክት ኣብ ድሕሪት: ኣገዳሲ — ኣፋልዩ ቀይሩ\n• ዝተላቐቐ ጃንክሽን ቦክስ: ማይ ክኣቱ ይኽእል\n\n✅ ኣብ ወርሒ ብዓይኒ ፈትሹ።\n\n🔴 ብቐትሪ ፓነል ዋየር ኣይትትንክፉ — ብርሃን ከሎ ቮልቴጅ ኣለዎ!', ar: '🔍 فحص تلف الألواح:\n\n• شقوق في الزجاج: تسمح بدخول الرطوبة ← يقل الإنتاج\n• تغير اللون/اسمرار: تدهور الخلايا ← يعمل لكن بإنتاج أقل\n• نقاط ساخنة: تلف خلية، خطر حريق\n• علامات احتراق في الخلف: خطير — افصل واستبدل\n• صندوق وصلات مفكوك: الماء قد يدخل\n\n✅ افحص بصرياً شهرياً.\n\n🔴 لا تلمس أسلاك الألواح المكشوفة نهاراً — تنتج جهداً بوجود الضوء!' },
+        options: [{ label: { en: '📞 Call my technician', ti: '📞 ናብ ቴክኒሻን ደውል', ar: '📞 اتصل بالفني' }, action: 'call_tech' }]
+      },
+
+      // === MAINTENANCE BRANCH ===
+      maintenance: {
+        msg: { en: '🔧 What maintenance help do you need?', ti: '🔧 ኣየናይ ናይ ጽገና ሓገዝ ትደልዩ?', ar: '🔧 ما نوع مساعدة الصيانة التي تحتاجها؟' },
+        options: [
+          { label: { en: 'Monthly checklist', ti: 'ናይ ወርሒ ቸክሊስት', ar: 'قائمة المهام الشهرية' }, next: 'maint_monthly' },
+          { label: { en: 'Rainy season preparation', ti: 'ናይ ክረምቲ ምድላው', ar: 'الاستعداد لموسم الأمطار' }, next: 'maint_rainy' },
+          { label: { en: 'Inverter settings check', ti: 'ናይ ኢንቨርተር ሰቲንግ ምፍታሽ', ar: 'فحص إعدادات الإنفرتر' }, next: 'maint_settings' }
+        ]
+      },
+      maint_monthly: {
+        msg: { en: '📋 Monthly Maintenance Checklist:\n\n☐ Clean solar panels with water and soft cloth\n☐ Check all cable connections (tighten if loose)\n☐ Inspect battery terminals for corrosion\n☐ Record battery voltage at sunset\n☐ Check inverter ventilation — clear any dust/debris\n☐ Verify inverter display shows normal readings\n☐ Check DC/AC breakers are working\n☐ Inspect panels for physical damage\n☐ Test that the system switches to battery at night\n☐ Check earth rod connection\n\n💡 Tip: Set a monthly reminder. Consistent maintenance extends your system\'s life by 2-3 years.', ti: '📋 ናይ ወርሒ ቸክሊስት:\n\n☐ ፓነላት ብማይ ኣጽርዩ\n☐ ኩሎም ኬብል ኮነክሽን ፈትሹ\n☐ ባተሪ ተርሚናላት ዝለብዕ ከይህሉ ፈትሹ\n☐ ናይ ምዕራብ ጸሓይ ቮልቴጅ ምዝገቡ\n☐ ኢንቨርተር ኣየር ከም ዘለዎ ፈትሹ\n☐ ኢንቨርተር ዲስፕሌይ ኖርማል ምዃኑ ፈትሹ\n☐ DC/AC ብሬከራት ፈትሹ\n☐ ፓነላት ንጉድኣት ፈትሹ\n☐ ለይቲ ናብ ባተሪ ከም ዝቕየር ፈትሹ\n☐ ናይ ኤርዝ ሮድ ኮነክሽን ፈትሹ\n\n💡 ምኽሪ: ቀጻሊ ጽገና ዕድመ ስርዓት 2-3 ዓመት ይውስኽ።', ar: '📋 قائمة الصيانة الشهرية:\n\n☐ نظف الألواح بالماء وقماش ناعم\n☐ افحص جميع التوصيلات\n☐ افحص أطراف البطارية من التآكل\n☐ سجل جهد البطارية عند الغروب\n☐ تأكد من تهوية الإنفرتر\n☐ تحقق من قراءات الإنفرتر\n☐ افحص قواطع DC/AC\n☐ افحص الألواح من التلف\n☐ اختبر تحول النظام للبطارية ليلاً\n☐ افحص توصيل قضيب التأريض\n\n💡 الصيانة المنتظمة تمدد عمر النظام 2-3 سنوات.' },
+        options: [{ label: { en: '💡 More tips', ti: '💡 ተወሳኺ ምኽሪ', ar: '💡 مزيد من النصائح' }, action: 'go_tips' }]
+      },
+      maint_rainy: {
+        msg: { en: '🌧️ Rainy Season Preparation:\n\n1. Install DC SPD (Surge Protection Device) on PV input — protects inverter from lightning\n2. Check all outdoor connections are weatherproofed\n3. Ensure panels are tilted enough for water runoff\n4. Check roof/mounting for loose bolts\n5. Verify earth rod is properly grounded\n6. Move batteries to dry, ventilated area if possible\n7. Check that inverter enclosure keeps water out\n8. Have spare fuses ready\n\n⚡ Lightning is the #1 cause of inverter damage in rainy season. A DC SPD costs little but saves your inverter.', ti: '🌧️ ናይ ክረምቲ ምድላው:\n\n1. DC SPD (Surge Protection) ኣብ PV ግጠሙ — ኢንቨርተር ካብ ባርቅ ይከላኸል\n2. ኩሎም ግዳማዊ ኮነክሽን ካብ ማይ ተኸላኸሉ\n3. ፓነላት ማይ ንኽወርድ ዝኣክል ዘንቢሎም ምዃኖም ፈትሹ\n4. ናይ ጣሕዲ/ማውንቲንግ ቦልት ፈትሹ\n5. ኤርዝ ሮድ ጽቡቕ ከም ዝተኣሰረ ፈትሹ\n6. ባተሪ ንቁጹ ኣየር ዘለዎ ቦታ ኣግዕዙ\n7. ኢንቨርተር ማይ ከየእቱ ፈትሹ\n8. ተወሳኺ ፊውዝ ቀራርቡ\n\n⚡ ባርቅ #1 ምኽንያት ናይ ኢንቨርተር ጉድኣት ኣብ ክረምቲ። DC SPD ኢንቨርተር ይከላኸል።', ar: '🌧️ الاستعداد لموسم الأمطار:\n\n1. ركّب DC SPD (جهاز حماية من التيار الزائد) — يحمي الإنفرتر من البرق\n2. تأكد من عزل جميع التوصيلات الخارجية ضد الماء\n3. تأكد من ميل الألواح لتصريف المياه\n4. افحص براغي التثبيت\n5. تأكد من تأريض قضيب الأرض\n6. انقل البطاريات لمكان جاف جيد التهوية\n7. تأكد من حماية الإنفرتر من الماء\n8. جهّز فيوزات احتياطية\n\n⚡ البرق هو السبب الأول لتلف الإنفرتر في موسم الأمطار. DC SPD يحمي إنفرترك.' },
+        options: [{ label: { en: '💡 More safety tips', ti: '💡 ተወሳኺ ናይ ድሕነት ምኽሪ', ar: '💡 مزيد من نصائح السلامة' }, action: 'go_tips' }]
+      },
+      maint_settings: {
+        msg: { en: '⚙️ Key Inverter Settings to Check:\n\n📍 Most Important:\n• Charging current (Program/Setting 02) — set to 10% of battery Ah for AGM\n• Battery type — must match: AGM or Lithium\n• Output source priority — usually SBU (Solar-Battery-Utility)\n• Charge source priority — Solar first\n\n📍 For Lithium Users:\n• Enable BMS communication\n• Set correct battery voltage cutoffs\n• SV PRO: Program 37 for BMS Function Switch\n\n📍 For AGM Users:\n• Float voltage: ~13.5V per 12V battery\n• Bulk voltage: ~14.2V per 12V battery\n• Low voltage cutoff: don\'t go below 11.5V per 12V battery', ti: '⚙️ ኣገደስቲ ናይ ኢንቨርተር ሰቲንጋት:\n\n📍 ዝኣገደሰ:\n• ናይ ቻርጅ ከረንት (ፕሮግራም 02) — ን AGM 10% ናይ Ah\n• ባተሪ ዓይነት — AGM ወይ Lithium ልክዕ ክኸውን\n• ናይ ኣውትፑት ምንጪ — ብዙሕ ግዜ SBU\n• ናይ ቻርጅ ምንጪ — Solar first\n\n📍 ን ሊቲየም:\n• BMS ኮሚዩኒኬሽን ኣብርዩ\n• ልክዕ ባተሪ ቮልቴጅ cutoff ኣቐምጡ\n• SV PRO: ፕሮግራም 37\n\n📍 ን AGM:\n• Float: ~13.5V ን12V ባተሪ\n• Bulk: ~14.2V ን12V ባተሪ\n• Low cutoff: ካብ 11.5V ኣይትውረዱ', ar: '⚙️ إعدادات الإنفرتر الرئيسية:\n\n📍 الأهم:\n• تيار الشحن (برنامج 02) — 10% من Ah للبطارية AGM\n• نوع البطارية — يجب أن يطابق: AGM أو ليثيوم\n• أولوية مصدر الخرج — عادة SBU\n• أولوية مصدر الشحن — الشمسي أولاً\n\n📍 لمستخدمي الليثيوم:\n• فعّل اتصال BMS\n• اضبط جهود قطع البطارية\n• SV PRO: البرنامج 37\n\n📍 لمستخدمي AGM:\n• Float: ~13.5V لبطارية 12V\n• Bulk: ~14.2V لبطارية 12V\n• قطع منخفض: لا تنزل تحت 11.5V' },
+        options: [{ label: { en: '📋 View all fault codes', ti: '📋 ኩሎም ኤረር ኮዳት ርአ', ar: '📋 عرض جميع رموز الأعطال' }, action: 'go_faults' }]
+      }
+    };
+
+    let chatHistory = [];
+
+    function openChat() {
+      const ov = document.getElementById('svChatOverlay');
+      ov.classList.add('open');
+      document.getElementById('chatTitle').textContent = t('chat_title');
+      document.getElementById('svHelpBtn').style.display = 'none';
+      if (chatHistory.length === 0) { showChatNode('root'); }
+    }
+
+    function closeChat() {
+      document.getElementById('svChatOverlay').classList.remove('open');
+      document.getElementById('svHelpBtn').style.display = 'flex';
+    }
+
+    function resetChat() {
+      chatHistory = [];
+      document.getElementById('svChatBody').innerHTML = '';
+      showChatNode('root');
+    }
+
+    function showChatNode(nodeId) {
+      const node = chatTree[nodeId];
+      if (!node) return;
+      chatHistory.push(nodeId);
+      const body = document.getElementById('svChatBody');
+
+      // Bot message
+      const bubble = document.createElement('div');
+      bubble.className = 'sv-chat-bubble bot';
+      bubble.style.whiteSpace = 'pre-line';
+      bubble.textContent = node.msg[currentLang] || node.msg.en;
+      body.appendChild(bubble);
+
+      // Options
+      if (node.options && node.options.length > 0) {
+        const optWrap = document.createElement('div');
+        optWrap.className = 'sv-chat-options';
+        node.options.forEach(function(opt) {
+          const btn = document.createElement('button');
+          btn.className = 'sv-chat-opt';
+          btn.textContent = opt.label[currentLang] || opt.label.en;
+          btn.onclick = function() { handleChatOption(opt); };
+          optWrap.appendChild(btn);
+        });
+
+        // Back / restart buttons
+        if (nodeId !== 'root') {
+          const restart = document.createElement('button');
+          restart.className = 'sv-chat-opt';
+          restart.style.opacity = '0.6';
+          restart.style.fontSize = '12px';
+          restart.textContent = t('chat_restart');
+          restart.onclick = resetChat;
+          optWrap.appendChild(restart);
+        }
+        body.appendChild(optWrap);
+      } else {
+        // Leaf node — show restart and call tech
+        const optWrap = document.createElement('div');
+        optWrap.className = 'sv-chat-options';
+        const restart = document.createElement('button');
+        restart.className = 'sv-chat-opt';
+        restart.textContent = t('chat_restart');
+        restart.onclick = resetChat;
+        optWrap.appendChild(restart);
+        const callBtn = document.createElement('button');
+        callBtn.className = 'sv-chat-opt';
+        callBtn.textContent = t('chat_call_tech');
+        callBtn.onclick = function() { handleChatOption({ action: 'call_tech' }); };
+        optWrap.appendChild(callBtn);
+        body.appendChild(optWrap);
+      }
+
+      // Scroll to bottom
+      setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
+    }
+
+    function handleChatOption(opt) {
+      const body = document.getElementById('svChatBody');
+
+      // Show user selection as bubble
+      if (opt.label) {
+        const uBubble = document.createElement('div');
+        uBubble.className = 'sv-chat-bubble user';
+        uBubble.textContent = opt.label[currentLang] || opt.label.en;
+        body.appendChild(uBubble);
+      }
+
+      // Remove previous options
+      var prevOpts = body.querySelectorAll('.sv-chat-options');
+      if (prevOpts.length > 0) prevOpts[prevOpts.length - 1].style.display = 'none';
+
+      if (opt.action) {
+        switch(opt.action) {
+          case 'call_tech':
+            var sys = getSystemData();
+            if (sys && sys.techPhone) {
+              window.location.href = 'tel:' + sys.techPhone;
+            } else {
+              var nb = document.createElement('div');
+              nb.className = 'sv-chat-bubble bot';
+              nb.textContent = t('chat_no_tech');
+              body.appendChild(nb);
+              var goSys = document.createElement('div');
+              goSys.className = 'sv-chat-options';
+              var sysBtn = document.createElement('button');
+              sysBtn.className = 'sv-chat-opt';
+              sysBtn.textContent = '⚙️ ' + t('tab_home');
+              sysBtn.onclick = function() { closeChat(); switchTab('home'); };
+              goSys.appendChild(sysBtn);
+              body.appendChild(goSys);
+            }
+            break;
+          case 'go_faults':
+            closeChat(); switchTab('faults'); break;
+          case 'go_products':
+            closeChat(); switchTab('products'); break;
+          case 'go_tips':
+            closeChat(); switchTab('tips'); break;
+          case 'go_sizing':
+            closeChat(); switchTab('sizing'); break;
+          case 'go_health':
+            closeChat(); switchTab('health'); break;
+        }
+      } else if (opt.next) {
+        setTimeout(function() { showChatNode(opt.next); }, 300);
+      }
+      setTimeout(function() { body.scrollTop = body.scrollHeight; }, 100);
     }
 
     window.addEventListener('load', init);
