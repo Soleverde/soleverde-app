@@ -261,7 +261,7 @@
     /* Chatbot */
     .sv-help-btn { position:fixed;bottom:72px;right:16px;z-index:900;width:52px;height:52px;border-radius:50%;background:var(--primary);color:var(--secondary);border:none;font-size:26px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(205,219,34,0.35);cursor:pointer;transition:transform 0.2s;line-height:1; }
     .sv-help-btn:active { transform:scale(0.92); }
-    .sv-chat-overlay { position:fixed;inset:0;z-index:1001;background:var(--bg);display:flex;flex-direction:column;transition:transform 0.3s ease;transform:translateY(100%); }
+    .sv-chat-overlay { position:fixed;top:0;left:0;width:100%;height:100%;z-index:1001;background:var(--bg);display:flex;flex-direction:column;transition:transform 0.3s ease;transform:translateY(100%); }
     .sv-chat-overlay.open { transform:translateY(0); }
     .sv-chat-header { display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--secondary);border-bottom:1px solid rgba(205,219,34,0.12); }
     .sv-chat-header h3 { margin:0;font-size:15px;color:var(--primary);font-weight:700; }
@@ -667,7 +667,7 @@
 
     let currentRegion = localStorage.getItem('soleverde_region') || null;
     // Language version — bump this to force-reset language to English for all users
-    const LANG_VERSION = '2';
+    const LANG_VERSION = '3';
     let currentLang = 'en';
     if (localStorage.getItem('sv_lang_v') === LANG_VERSION) {
       currentLang = localStorage.getItem('soleverde_lang') || 'en';
@@ -2514,21 +2514,37 @@
 
     function openChat() {
       const ov = document.getElementById('svChatOverlay');
-      ov.classList.add('open');
       document.getElementById('chatTitle').textContent = t('chat_title');
       document.getElementById('svHelpBtn').style.display = 'none';
-      if (chatHistory.length === 0) { showChatNode('root'); }
+      // Always start fresh
+      chatHistory = [];
+      document.getElementById('svChatBody').innerHTML = '';
+      ov.classList.add('open');
+      showChatNode('root');
     }
 
     function closeChat() {
       document.getElementById('svChatOverlay').classList.remove('open');
       document.getElementById('svHelpBtn').style.display = 'flex';
+      // Reset state so next open is fresh
+      chatHistory = [];
+      document.getElementById('svChatBody').innerHTML = '';
     }
 
     function resetChat() {
       chatHistory = [];
       document.getElementById('svChatBody').innerHTML = '';
       showChatNode('root');
+    }
+
+    function chatGoBack() {
+      if (chatHistory.length <= 1) return;
+      // Remove current node, go to previous
+      chatHistory.pop();
+      var prevNode = chatHistory.pop(); // pop so showChatNode re-pushes it
+      document.getElementById('svChatBody').innerHTML = '';
+      // Replay from root to prevNode to keep context
+      showChatNode(prevNode);
     }
 
     function showChatNode(nodeId) {
@@ -2556,21 +2572,36 @@
           optWrap.appendChild(btn);
         });
 
-        // Back / restart buttons
+        // Back + restart nav buttons
         if (nodeId !== 'root') {
-          const restart = document.createElement('button');
+          var navRow = document.createElement('div');
+          navRow.style.cssText = 'display:flex;gap:8px;margin-top:4px;';
+          var backBtn = document.createElement('button');
+          backBtn.className = 'sv-chat-opt';
+          backBtn.style.cssText = 'opacity:0.6;font-size:12px;flex:1;justify-content:center;';
+          backBtn.textContent = t('chat_back');
+          backBtn.onclick = chatGoBack;
+          navRow.appendChild(backBtn);
+          var restart = document.createElement('button');
           restart.className = 'sv-chat-opt';
-          restart.style.opacity = '0.6';
-          restart.style.fontSize = '12px';
+          restart.style.cssText = 'opacity:0.6;font-size:12px;flex:1;justify-content:center;';
           restart.textContent = t('chat_restart');
           restart.onclick = resetChat;
-          optWrap.appendChild(restart);
+          navRow.appendChild(restart);
+          optWrap.appendChild(navRow);
         }
         body.appendChild(optWrap);
       } else {
-        // Leaf node — show restart and call tech
+        // Leaf node — show back, restart and call tech
         const optWrap = document.createElement('div');
         optWrap.className = 'sv-chat-options';
+        if (chatHistory.length > 1) {
+          var backBtn2 = document.createElement('button');
+          backBtn2.className = 'sv-chat-opt';
+          backBtn2.textContent = t('chat_back');
+          backBtn2.onclick = chatGoBack;
+          optWrap.appendChild(backBtn2);
+        }
         const restart = document.createElement('button');
         restart.className = 'sv-chat-opt';
         restart.textContent = t('chat_restart');
