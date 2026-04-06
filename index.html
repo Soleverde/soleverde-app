@@ -34,8 +34,7 @@
     .header-left { display:flex; align-items:center; gap:12px; flex:1; }
     .logo-img { height:70px; width:auto; display:block; }
     .header-tagline { font-size:9px; font-weight:400; letter-spacing:1.5px; color:rgba(255,255,255,0.5); text-transform:uppercase; line-height:1.4; border-left:1px solid rgba(255,255,255,0.15); padding-left:12px; }
-    .tab-footer { text-align:center; padding:24px 0 12px; margin-top:8px; opacity:0.35; }
-    .tab-footer img { height:28px; width:auto; }
+    .tab-footer { display:none; }
     .header-badge { font-size:9px; font-weight:600; letter-spacing:1px; background:rgba(205,219,34,0.15); color:var(--primary); padding:3px 8px; border-radius:4px; text-transform:uppercase; border:1px solid rgba(205,219,34,0.2); }
     #langSelect { width:auto !important; min-width:0 !important; max-width:60px !important; margin:0 !important; padding:5px 6px !important; font-size:11px !important; font-weight:600; flex-shrink:0; box-sizing:border-box; background:rgba(205,219,34,0.15) !important; color:#CDDB22 !important; border-radius:6px; border:1px solid rgba(205,219,34,0.2) !important; cursor:pointer; font-family:inherit; -webkit-appearance:auto; }
     .tab-nav { display:flex; gap:0; overflow-x:hidden; background:var(--card-bg); border-bottom:1px solid var(--border); flex-shrink:0; padding:0; }
@@ -75,12 +74,13 @@
     .region-btn .flag { font-size:24px; display:block; margin-bottom:4px; }
     .region-btn.active { border-color:var(--primary); background:var(--primary-soft); font-weight:600; box-shadow:0 0 0 3px rgba(205,219,34,0.08); }
     .region-btn:hover { border-color:rgba(205,219,34,0.4); }
-    .appliance-header { display:grid; grid-template-columns:1fr 52px 80px 70px; gap:4px; font-size:10px; font-weight:600; color:var(--text-muted); padding:8px 0; border-bottom:2px solid rgba(0,0,0,0.04); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.8px; }
-    .appliance-row { display:grid; grid-template-columns:1fr 52px 80px 70px; gap:4px; align-items:center; padding:10px 0; border-bottom:1px solid rgba(0,0,0,0.04); transition:var(--transition); }
-    .use-toggle { display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; width:40px; height:28px; border-radius:6px; border:1.5px solid rgba(0,0,0,0.1); background:var(--card-bg); user-select:none; transition:var(--transition); }
-    .use-toggle.day { background:rgba(255,193,7,0.12); border-color:rgba(255,193,7,0.3); }
-    .use-toggle.night { background:rgba(63,81,181,0.12); border-color:rgba(63,81,181,0.3); }
-    .use-toggle.both { background:rgba(205,219,34,0.12); border-color:rgba(205,219,34,0.3); }
+    .appliance-header { display:grid; grid-template-columns:1fr 56px 80px 70px; gap:4px; font-size:10px; font-weight:600; color:var(--text-muted); padding:8px 0; border-bottom:2px solid rgba(0,0,0,0.04); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.8px; }
+    .appliance-row { display:grid; grid-template-columns:1fr 56px 80px 70px; gap:4px; align-items:center; padding:10px 0; border-bottom:1px solid rgba(0,0,0,0.04); transition:var(--transition); }
+    .use-pill { display:flex; border-radius:8px; overflow:hidden; border:1.5px solid rgba(0,0,0,0.08); background:rgba(0,0,0,0.02); }
+    .use-pill-btn { flex:1; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:13px; width:24px; height:26px; border:none; background:transparent; user-select:none; transition:all 0.2s ease; padding:0; opacity:0.35; }
+    .use-pill-btn.on-day { background:rgba(255,193,7,0.2); opacity:1; box-shadow:inset 0 0 0 1px rgba(255,193,7,0.35); }
+    .use-pill-btn.on-night { background:rgba(100,120,220,0.18); opacity:1; box-shadow:inset 0 0 0 1px rgba(100,120,220,0.3); }
+    .use-pill-btn:active { transform:scale(0.9); }
     .appliance-row:hover { background:var(--secondary-soft); margin:0 -8px; padding:10px 8px; border-radius:6px; }
     .app-name { font-size:13px; font-weight:500; color:var(--text); }
     .app-watts { font-size:11px; color:var(--text-muted); }
@@ -840,7 +840,7 @@
       // Faults
       faults_title: { en: 'Fault Code Guide', ti: 'ናይ ጸገም ኮድ ምፍላይ', ar: 'دليل أكواد الأعطال' },
       faults_desc: { en: 'Search your inverter\'s error code to understand what it means and how to fix it.', ti: 'ኮድ ወይ ጸገም ጸሓፉ — ናይ Soleverde ኢንቨርተር ፍታሕ ክንሕብረኩም።', ar: 'ابحث برمز العطل أو الوصف لمعرفة خطوات حل المشكلة.' },
-      tagline: { en: 'POWERING A<br>SUSTAINABLE FUTURE', ti: 'ጸዓት ጸሓይ<br>ንዘላቒ መጻኢ', ar: 'طاقة شمسية<br>لمستقبل مستدام' },
+      tagline: { en: 'POWERING A<br>SUSTAINABLE FUTURE', ti: 'ጸሓያዊ ጽዓት<br>ንቐዋሚ መጻኢ', ar: 'طاقة شمسية<br>لمستقبل مستدام' },
       // Appliance names
       app_led: { en: 'LED Light', ti: 'LED መብራህቲ', ar: 'إضاءة LED' },
       app_cfl: { en: 'CFL / Fluorescent Light', ti: 'CFL / ፍሎረሰንት መብራህቲ', ar: 'إضاءة فلورسنت' },
@@ -2071,18 +2071,39 @@
       else{appState.forEach(s=>{if(!s.use)s.use='day';});}
       const l=document.getElementById('applianceList'); if(!l)return;
       l.innerHTML=`<div class="appliance-header"><span>${t('hdr_appliance')}</span><span style="text-align:center;">${t('hdr_use')}</span><span style="text-align:center;">${t('hdr_qty')}</span><span style="text-align:center;">${t('hdr_hrs')}</span></div>`;
-      appliances.forEach((a,i)=>{const r=document.createElement('div');r.className='appliance-row';const u=appState[i].use||'day';const uIcon=u==='day'?'☀️':u==='night'?'🌙':'☀️🌙';const uClass=u;r.innerHTML=`<div><div class="app-name">${appKeys[i]?t(appKeys[i]):a.name}</div><div class="app-watts">${a.watts}W${a.note?' — '+a.note:''}</div></div><div style="text-align:center;"><div class="use-toggle ${uClass}" id="use${i}" onclick="toggleUse(${i})" title="${t('use_'+u)}">${uIcon}</div></div><div class="qty-control"><button type="button" class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-val" id="qty${i}">${appState[i].qty}</span><button type="button" class="qty-btn" onclick="changeQty(${i},1)">+</button></div><div style="text-align:center;"><input type="number" class="hrs-input" id="hrs${i}" value="${appState[i].hours}" min="0" max="24" step="0.5" onchange="changeHours(${i},this.value)"></div>`;l.appendChild(r);});
+      appliances.forEach((a,i)=>{const r=document.createElement('div');r.className='appliance-row';const u=appState[i].use||'day';const dOn=u==='day'||u==='both'?'on-day':'';const nOn=u==='night'||u==='both'?'on-night':'';r.innerHTML=`<div><div class="app-name">${appKeys[i]?t(appKeys[i]):a.name}</div><div class="app-watts">${a.watts}W${a.note?' — '+a.note:''}</div></div><div style="text-align:center;"><div class="use-pill"><div class="use-pill-btn ${dOn}" id="uday${i}" onclick="toggleUseBtn(${i},'day')">☀️</div><div class="use-pill-btn ${nOn}" id="unit${i}" onclick="toggleUseBtn(${i},'night')">🌙</div></div></div><div class="qty-control"><button type="button" class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-val" id="qty${i}">${appState[i].qty}</span><button type="button" class="qty-btn" onclick="changeQty(${i},1)">+</button></div><div style="text-align:center;"><input type="number" class="hrs-input" id="hrs${i}" value="${appState[i].hours}" min="0" max="24" step="0.5" onchange="changeHours(${i},this.value)"></div>`;l.appendChild(r);});
     }
     function changeQty(i,d) { appState[i].qty=Math.max(0,Math.min(20,appState[i].qty+d)); document.getElementById('qty'+i).textContent=appState[i].qty; }
     function changeHours(i,v) { appState[i].hours=Math.max(0,Math.min(24,parseFloat(v)||0)); }
-    function toggleUse(i) { const modes=['day','night','both']; const cur=appState[i].use||'day'; const next=modes[(modes.indexOf(cur)+1)%3]; appState[i].use=next; const el=document.getElementById('use'+i); if(el){el.className='use-toggle '+next; el.textContent=next==='day'?'☀️':next==='night'?'🌙':'☀️🌙'; el.title=t('use_'+next);} }
+    function toggleUseBtn(i, which) {
+      const s=appState[i], cur=s.use||'day';
+      const dayOn=cur==='day'||cur==='both', nightOn=cur==='night'||cur==='both';
+      let newDay=dayOn, newNight=nightOn;
+      if(which==='day') newDay=!newDay;
+      else newNight=!newNight;
+      if(!newDay&&!newNight) newDay=true;
+      s.use=newDay&&newNight?'both':newDay?'day':'night';
+      const dEl=document.getElementById('uday'+i), nEl=document.getElementById('unit'+i);
+      if(dEl){dEl.className='use-pill-btn'+(newDay?' on-day':'');}
+      if(nEl){nEl.className='use-pill-btn'+(newNight?' on-night':'');}
+    }
 
     function addCustomAppliance() { const n=document.getElementById('customAppName'),w=document.getElementById('customAppWatts'); if(!n.value.trim()){n.focus();return;} if(!w.value||parseInt(w.value)<1){w.focus();return;} customApps.push({name:n.value.trim(),watts:parseInt(w.value),qty:1,hours:4,use:'day'}); n.value='';w.value=''; renderCustomAppliances(); }
     function removeCustomAppliance(i) { customApps.splice(i,1); renderCustomAppliances(); }
     function changeCustomQty(i,d) { customApps[i].qty=Math.max(0,Math.min(20,customApps[i].qty+d)); document.getElementById('cqty'+i).textContent=customApps[i].qty; }
     function changeCustomHours(i,v) { customApps[i].hours=Math.max(0,Math.min(24,parseFloat(v)||0)); }
-    function renderCustomAppliances() { const c=document.getElementById('customAppliancesList'); c.innerHTML=''; customApps.forEach((a,i)=>{if(!a.use)a.use='day';const r=document.createElement('div');r.className='appliance-row';const u=a.use;const uIcon=u==='day'?'☀️':u==='night'?'🌙':'☀️🌙';r.innerHTML=`<div><div class="app-name">${a.name}<span class="custom-tag">Custom</span><button class="remove-custom" onclick="removeCustomAppliance(${i})" title="Remove">×</button></div><div class="app-watts">${a.watts}W</div></div><div style="text-align:center;"><div class="use-toggle ${u}" id="cuse${i}" onclick="toggleCustomUse(${i})" title="${t('use_'+u)}">${uIcon}</div></div><div class="qty-control"><button type="button" class="qty-btn" onclick="changeCustomQty(${i},-1)">−</button><span class="qty-val" id="cqty${i}">${a.qty}</span><button type="button" class="qty-btn" onclick="changeCustomQty(${i},1)">+</button></div><div style="text-align:center;"><input type="number" class="hrs-input" id="chrs${i}" value="${a.hours}" min="0" max="24" step="0.5" onchange="changeCustomHours(${i},this.value)"></div>`;c.appendChild(r);}); }
-    function toggleCustomUse(i) { const modes=['day','night','both']; const cur=customApps[i].use||'day'; const next=modes[(modes.indexOf(cur)+1)%3]; customApps[i].use=next; const el=document.getElementById('cuse'+i); if(el){el.className='use-toggle '+next; el.textContent=next==='day'?'☀️':next==='night'?'🌙':'☀️🌙'; el.title=t('use_'+next);} }
+    function renderCustomAppliances() { const c=document.getElementById('customAppliancesList'); c.innerHTML=''; customApps.forEach((a,i)=>{if(!a.use)a.use='day';const r=document.createElement('div');r.className='appliance-row';const u=a.use;const dOn=u==='day'||u==='both'?'on-day':'';const nOn=u==='night'||u==='both'?'on-night':'';r.innerHTML=`<div><div class="app-name">${a.name}<span class="custom-tag">Custom</span><button class="remove-custom" onclick="removeCustomAppliance(${i})" title="Remove">×</button></div><div class="app-watts">${a.watts}W</div></div><div style="text-align:center;"><div class="use-pill"><div class="use-pill-btn ${dOn}" id="cuday${i}" onclick="toggleCustomUseBtn(${i},'day')">☀️</div><div class="use-pill-btn ${nOn}" id="cunit${i}" onclick="toggleCustomUseBtn(${i},'night')">🌙</div></div></div><div class="qty-control"><button type="button" class="qty-btn" onclick="changeCustomQty(${i},-1)">−</button><span class="qty-val" id="cqty${i}">${a.qty}</span><button type="button" class="qty-btn" onclick="changeCustomQty(${i},1)">+</button></div><div style="text-align:center;"><input type="number" class="hrs-input" id="chrs${i}" value="${a.hours}" min="0" max="24" step="0.5" onchange="changeCustomHours(${i},this.value)"></div>`;c.appendChild(r);}); }
+    function toggleCustomUseBtn(i, which) {
+      const a=customApps[i], cur=a.use||'day';
+      const dayOn=cur==='day'||cur==='both', nightOn=cur==='night'||cur==='both';
+      let newDay=dayOn, newNight=nightOn;
+      if(which==='day') newDay=!newDay; else newNight=!newNight;
+      if(!newDay&&!newNight) newDay=true;
+      a.use=newDay&&newNight?'both':newDay?'day':'night';
+      const dEl=document.getElementById('cuday'+i), nEl=document.getElementById('cunit'+i);
+      if(dEl){dEl.className='use-pill-btn'+(newDay?' on-day':'');}
+      if(nEl){nEl.className='use-pill-btn'+(newNight?' on-night':'');}
+    }
 
     // ===== SOLEVERDE DATA COLLECTION SYSTEM =====
     // Offline-first: stores everything locally, syncs when internet appears
@@ -2608,9 +2629,9 @@
 
     function shareApp(){
       const msgs={
-        en:'Soleverde — Free Solar Energy Assistant\n\nSize your solar system, troubleshoot inverter faults, and get battery care tips. Works completely offline!\n\nAsk me to share it to you via ShareIt, Bluetooth, or Xender.',
-        ti:'Soleverde — ነጻ ናይ ጸሓያዊ ሓይሊ ሓጋዚ\n\nናይ ጸሓይ ስርዓት ዐቐን፣ ናይ ኢንቨርተር ጸገም ፍታሕ፣ ናይ ባተሪ ክንክን ምኽሪ። ብዘይ ኢንተርነት ይሰርሕ!\n\nብ ShareIt፣ Bluetooth ወይ Xender ክለኣኸልኩም ሕተቱኒ።',
-        ar:'Soleverde — مساعد الطاقة الشمسية المجاني\n\nحجّم نظامك الشمسي، حل أعطال الإنفرتر، ونصائح العناية بالبطارية. يعمل بدون إنترنت!\n\nاطلب مني أرسله لك عبر ShareIt أو Bluetooth أو Xender.'
+        en:'Soleverde — Solar Energy Assistant\n\nFree app to size your solar system, troubleshoot inverter faults, and get battery care tips. Works completely offline!\n\nAsk your Soleverde dealer for the app.',
+        ti:'Soleverde — ናይ ጸሓያዊ ጸዓት ሓጋዚ\n\nነጻ ኣፕ — ናይ ጸሓይ ስርዓት ዐቐን፣ ናይ ኢንቨርተር ጸገም ፍታሕ፣ ናይ ባተሪ ክንክን ምኽሪ። ብዘይ ኢንተርነት ይሰርሕ!\n\nንናይ Soleverde ወኪል ሕተቱ።',
+        ar:'Soleverde — مساعد الطاقة الشمسية\n\nتطبيق مجاني لتحجيم نظامك الشمسي، حل أعطال الإنفرتر، ونصائح العناية بالبطارية. يعمل بدون إنترنت!\n\nاطلب التطبيق من وكيل Soleverde.'
       };
       const shareText=msgs[currentLang]||msgs.en;
       const shareData={title:'Soleverde — Solar Energy Assistant',text:shareText};
