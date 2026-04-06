@@ -670,7 +670,6 @@
       { en: "AGM batteries should never discharge below 50%. Going below regularly reduces lifespan from 5+ years to 1–2.", ti: "AGM ባተሪ ካብ 50% ትሕቲ ኣይተውርዱ። ብተደጋጋሚ ምውራድ ዕድመ ባተሪ ካብ 5+ ናብ 1–2 ዓመት ይሓጽሮ።", ar: "بطاريات AGM يجب ألا تنخفض عن 50%. الاستنزاف المتكرر يقلل العمر من 5+ سنوات إلى 1-2." },
       { en: "Your fridge compressor cycles on and off. A small fridge uses ~800Wh/day, not full rated watts × 24.", ti: "ፍሪጅ ይወልዕን ይጠፍእን። ንእሽቶ ፍሪጅ ~800Wh ኣብ መዓልቲ ይጥቀም።", ar: "ضاغط الثلاجة يعمل ويتوقف. ثلاجة صغيرة تستهلك ~800Wh يومياً." },
       { en: "Fast beeping (every half second) means overload. Turn off the heaviest appliance immediately.", ti: "ቅልጡፍ ድምጺ (ኣብ ፍርቂ ሰከንድ) ኦቨርሎድ ማለት እዩ። ዝኸበደ ኣቕሓ ሽዑ ንሽዑ ኣጥፍኡ።", ar: "صفير سريع (كل نصف ثانية) يعني حمل زائد. أطفئ أثقل جهاز فوراً." },
-      { en: "Lithium batteries last 6,000+ cycles vs 500–800 for AGM. More upfront, cheaper over lifetime.", ti: "ሊቲየም ባተሪ 6,000+ ዙር ይገልግል — AGM 500–800 ጥራይ። ዝያዳ ይኽፈል ግን ኣብ ነዊሕ ይሓስር።", ar: "بطاريات الليثيوم تدوم 6000+ دورة مقابل 500-800 للـAGM. أغلى مبدئياً لكن أوفر على المدى الطويل." },
       { en: "Place your inverter in a ventilated, shaded area. Never in an enclosed cabinet without airflow.", ti: "ኢንቨርተር ኣብ ንፋስ ዝረኽቦ ጽላሎት ግበሩ። ኣብ ዕጹው ቦታ ኣይትግበሩ።", ar: "ضع الإنفرتر في مكان مظلل وجيد التهوية. لا تضعه في خزانة مغلقة." },
       { en: "LED lights use 80% less energy than incandescent bulbs. Switching to LEDs is the easiest way to cut consumption.", ti: "LED 80% ዝወሓደ ሓይሊ ይጥቀም። ናብ LED ምቕያር ቀሊል መንገዲ ምቕናስ እዩ።", ar: "إضاءة LED تستهلك 80% أقل. التحويل لـLED أسهل طريقة لتقليل الاستهلاك." },
       { en: "If using lithium batteries, always connect the BMS communication cable to the inverter.", ti: "ሊቲየም ባተሪ ትጥቀሙ እንተሃሊኹም BMS ኬብል ናብ ኢንቨርተር ኣራኽቡ።", ar: "إذا كنت تستخدم بطاريات ليثيوم، اربط كابل BMS بالإنفرتر دائماً." },
@@ -1107,7 +1106,7 @@
       install_rooftop: { en: 'Delivering Solar Panels', ti: 'ምብጻሕ ናይ ሶላር ፓነላት', ar: 'توصيل الألواح الشمسية' },
       install_iraq: { en: 'Lithium Installation', ti: 'ምትካል ሊቲየም', ar: 'تركيب ليثيوم' },
       install_technician: { en: 'Soleverde at Exhibition in Sudan', ti: 'ሶለቨርዴ ኣብ ኤግዚቢሽን ሱዳን', ar: 'سوليفيردي في معرض السودان' },
-      install_eritrea_wall: { en: 'Lithium Battery Wall — Eritrea', ti: 'ሊቲየም ባተሪ መንደቕ — ኤርትራ', ar: 'حائط بطاريات ليثيوم — إريتريا' },
+      install_eritrea_wall: { en: 'Lithium Battery & Inverter System — Eritrea', ti: 'ስርዓት ሊቲየም ባተርን ኢንቨርተርን — ኤርትራ', ar: 'نظام بطارية ليثيوم وإنفرتر — إريتريا' },
       install_agm: { en: 'Testing AGM Batteries', ti: 'ምፍታን AGM ባተሪታት', ar: 'اختبار بطاريات AGM' },
       install_showroom: { en: 'Solar Panel Installation in a Rural Area', ti: 'ምትካል ሶላር ፓነል ኣብ ገጠር', ar: 'تركيب ألواح شمسية في منطقة ريفية' },
       install_exhibition: { en: 'Soleverde Showroom', ti: 'ናይ ሶለቨርዴ ሾውሩም', ar: 'صالة عرض سوليفيردي' },
@@ -2258,7 +2257,7 @@
       if(resultBox){
         try{svTrack('share_result',{sizing:lastSizingData||{}});}catch(e){}
         const allText=resultBox.innerText;
-        let txt=`☀️ Soleverde - ${t('recommendation')}\n━━━━━━━━━━━━━━━━━━━━\n${allText.split('Integrated System')[0].trim()}\n━━━━━━━━━━━━━━━━━━━━\nsoleverde.github.io/soleverde-app`;
+        let txt=`☀️ Soleverde - ${t('recommendation')}\n━━━━━━━━━━━━━━━━━━━━\n${allText.split('Integrated System')[0].trim()}\n━━━━━━━━━━━━━━━━━━━━\nSoleverde — Solar Energy Assistant`;
         if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(()=>{const b=document.getElementById('copyResultBtn');b.textContent=t('copied');setTimeout(()=>{b.textContent=t('share_result_btn');},2000);});}else{
           const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
           const b=document.getElementById('copyResultBtn');b.textContent=t('copied');setTimeout(()=>{b.textContent=t('share_result_btn');},2000);
@@ -2270,7 +2269,7 @@
       const r=document.getElementById('healthResults');
       if(!r||!r.textContent.trim())return;
       const allText=r.innerText;
-      let txt=`☀️ Soleverde - ${t('hr_title')}\n━━━━━━━━━━━━━━━━━━━━\n${allText.split(t('hr_need_help'))[0].trim()}\n━━━━━━━━━━━━━━━━━━━━\nsoleverde.github.io/soleverde-app`;
+      let txt=`☀️ Soleverde - ${t('hr_title')}\n━━━━━━━━━━━━━━━━━━━━\n${allText.split(t('hr_need_help'))[0].trim()}\n━━━━━━━━━━━━━━━━━━━━\nSoleverde — Solar Energy Assistant`;
       if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(()=>{const b=document.getElementById('copyHealthBtn');b.textContent=t('copied');setTimeout(()=>{b.textContent=t('health_copy_btn');},2000);});}else{
         const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
         const b=document.getElementById('copyHealthBtn');b.textContent=t('copied');setTimeout(()=>{b.textContent=t('health_copy_btn');},2000);
