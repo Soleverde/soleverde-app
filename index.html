@@ -21,9 +21,9 @@
       --white: #FFFFFF; --dark: #1a1a1a;
       --text: #2d3436; --text-light: #636e72; --text-muted: #b2bec3;
       --bg: #f8f9fa; --card-bg: #ffffff; --border: rgba(0,0,0,0.06);
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+      --shadow: 0 2px 8px rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.07), 0 8px 28px rgba(0,0,0,0.05);
       --radius: 12px; --radius-sm: 8px; --radius-xs: 6px;
       --error: #e74c3c; --warning: #f39c12; --success: #27ae60; --info: #3498db;
       --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -56,9 +56,9 @@
     .tab-content { display:none; padding:20px; min-height:100%; animation:fadeIn 0.25s ease-out; }
     .tab-content.active { display:block; }
     @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-    .section { background:var(--card-bg); border-radius:var(--radius); padding:20px; margin-bottom:16px; box-shadow:var(--shadow); border:1px solid var(--border); transition:transform 0.2s ease, box-shadow 0.2s ease; }
+    .section { background:var(--card-bg); border-radius:var(--radius); padding:22px; margin-bottom:18px; box-shadow:var(--shadow); border:1px solid var(--border); transition:transform 0.2s ease, box-shadow 0.2s ease; }
     h1 { font-size:22px; font-weight:700; color:var(--secondary); margin-bottom:8px; letter-spacing:-0.3px; }
-    h2 { font-size:17px; font-weight:700; color:var(--secondary); margin-bottom:14px; margin-top:0; padding-bottom:10px; border-bottom:2px solid var(--primary); letter-spacing:-0.2px; }
+    h2 { font-size:17px; font-weight:700; color:var(--secondary); margin-bottom:16px; margin-top:0; padding-bottom:12px; border-bottom:2px solid var(--primary); letter-spacing:-0.2px; }
     h3 { font-size:15px; font-weight:600; color:var(--secondary); margin-bottom:8px; margin-top:12px; }
     h4 { font-size:14px; font-weight:600; color:var(--secondary); margin-bottom:10px; }
     p { line-height:1.65; color:var(--text); margin-bottom:8px; font-size:14px; }
@@ -98,11 +98,11 @@
     .custom-tag { display:inline-block; font-size:9px; font-weight:600; background:rgba(52,152,219,0.1); color:var(--info); padding:1px 6px; border-radius:3px; margin-left:6px; text-transform:uppercase; letter-spacing:0.5px; }
     .remove-custom { width:20px; height:20px; border-radius:50%; background:rgba(231,76,60,0.1); color:var(--error); border:none; cursor:pointer; font-size:12px; display:inline-flex; align-items:center; justify-content:center; padding:0; margin-left:4px; transition:var(--transition); }
     .remove-custom:hover { background:rgba(231,76,60,0.2); transform:none; box-shadow:none; }
-    .result-box { background:linear-gradient(135deg, var(--primary-soft) 0%, var(--secondary-soft) 100%); padding:18px; border-radius:var(--radius); margin-bottom:16px; border:1px solid rgba(205,219,34,0.15); }
+    .result-box { background:linear-gradient(135deg, var(--primary-soft) 0%, var(--secondary-soft) 100%); padding:20px; border-radius:var(--radius); margin-bottom:18px; border:1px solid rgba(205,219,34,0.15); }
     .result-value { font-size:32px; font-weight:800; color:var(--secondary); margin-bottom:2px; letter-spacing:-0.5px; }
     .result-label { font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1.5px; font-weight:600; }
-    .fault-card { background:var(--card-bg); border:1px solid var(--border); padding:16px; border-radius:var(--radius-sm); margin-bottom:10px; cursor:pointer; transition:var(--transition); border-left:3px solid var(--primary); }
-    .fault-card:hover { box-shadow:var(--shadow); transform:translateY(-1px); }
+    .fault-card { background:var(--card-bg); border:1px solid var(--border); padding:18px; border-radius:var(--radius-sm); margin-bottom:12px; cursor:pointer; transition:var(--transition); border-left:3px solid var(--primary); }
+    .fault-card:hover { box-shadow:var(--shadow-md); transform:translateY(-1px); }
     .fault-code { font-weight:700; color:var(--secondary); font-size:15px; margin-bottom:4px; font-family:'SF Mono','Fira Code',monospace; }
     .fault-type { display:inline-block; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; padding:2px 8px; border-radius:4px; margin-right:8px; margin-bottom:8px; }
     .fault-type.alarm { background:rgba(243,156,18,0.12); color:var(--warning); }
@@ -113,17 +113,17 @@
     .fault-beep { font-size:12px; color:var(--text-muted); margin-bottom:6px; }
     .fault-details { display:none; font-size:13px; line-height:1.65; color:var(--text); margin-top:12px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.06); }
     .fault-details.active { display:block; }
-    .batt-tip { background:var(--card-bg); border:1px solid var(--border); border-left:3px solid var(--primary); padding:16px; border-radius:var(--radius-sm); margin-bottom:10px; transition:var(--transition); }
-    .batt-tip:hover { box-shadow:var(--shadow-sm); }
+    .batt-tip { background:var(--card-bg); border:1px solid var(--border); border-left:3px solid var(--primary); padding:18px; border-radius:var(--radius-sm); margin-bottom:12px; transition:var(--transition); }
+    .batt-tip:hover { box-shadow:var(--shadow); }
     .batt-tip .tip-icon { font-size:24px; margin-bottom:8px; display:block; }
     .batt-tip .tip-title { font-weight:600; color:var(--secondary); margin-bottom:6px; font-size:14px; }
     .batt-tip .tip-body { font-size:13px; line-height:1.65; color:var(--text); }
-    .daily-tip { background:linear-gradient(135deg, var(--secondary) 0%, #1a4440 100%); color:var(--white); padding:18px; border-radius:var(--radius); margin-bottom:16px; font-size:14px; font-weight:400; line-height:1.65; position:relative; overflow:hidden; }
+    .daily-tip { background:linear-gradient(135deg, var(--secondary) 0%, #1a4440 100%); color:var(--white); padding:20px; border-radius:var(--radius); margin-bottom:18px; font-size:14px; font-weight:400; line-height:1.7; position:relative; overflow:hidden; }
     .daily-tip::before { content:"\1F4A1"; margin-right:10px; font-size:18px; }
     .daily-tip::after { content:''; position:absolute; top:-20px; right:-20px; width:80px; height:80px; background:rgba(205,219,34,0.08); border-radius:50%; }
     .product-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:16px; margin-bottom:16px; }
     .product-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:var(--transition); }
-    .product-card:hover { box-shadow:var(--shadow-md); transform:translateY(-3px); }
+    .product-card:hover { box-shadow:var(--shadow-md); transform:translateY(-2px); }
     .product-image { width:100%; height:200px; background:linear-gradient(180deg, #f8f9fa 0%, #fff 100%); display:flex; align-items:center; justify-content:center; overflow:hidden; padding:12px; }
     .product-image img { max-width:100%; max-height:100%; object-fit:contain; }
     .product-info { padding:16px; }
@@ -154,7 +154,7 @@
     .health-score-red .health-score-number { color:var(--error); }
     .health-score-text { font-size:15px; font-weight:600; margin-bottom:4px; color:var(--secondary); }
     .health-score-subtext { font-size:12px; color:var(--text-muted); }
-    .check-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; margin-bottom:10px; }
+    .check-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-sm); padding:18px; margin-bottom:12px; }
     .check-card.green { border-left:4px solid var(--success); }
     .check-card.yellow { border-left:4px solid var(--warning); }
     .check-card.orange { border-left:4px solid var(--warning); }
@@ -173,8 +173,8 @@
     .wiring-subsection h4 { color:var(--secondary); font-weight:600; margin-bottom:10px; font-size:14px; }
     .wiring-subsection ul,.wiring-subsection ol { margin-left:20px; margin-bottom:12px; }
     .wiring-subsection li { line-height:1.7; margin-bottom:6px; font-size:13px; color:var(--text); }
-    .tip-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:12px; cursor:pointer; transition:all 0.2s; }
-    .tip-card:hover { border-color:var(--primary); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+    .tip-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:14px; cursor:pointer; transition:all 0.25s ease; }
+    .tip-card:hover { border-color:var(--primary); box-shadow:var(--shadow); }
     .tip-card-header { display:flex; align-items:center; padding:16px; gap:14px; }
     .tip-card-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
     .tip-card-info { flex:1; min-width:0; }
@@ -305,25 +305,39 @@
 
   <div id="onboardingOverlay" style="display:none;position:fixed;inset:0;z-index:1000;background:var(--secondary);color:white;overflow:hidden;">
     <div id="onboardSlides" style="display:flex;transition:transform 0.4s ease;height:100%;width:100%;">
-      <div style="flex:0 0 100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 20px;text-align:center;">
-        <div style="font-size:64px;margin-bottom:20px;">☀️</div>
-        <h2 style="font-size:28px;font-weight:700;margin-bottom:12px;color:var(--primary);" data-i18n="onboard_slide1_title">Your Solar Assistant</h2>
-        <p style="font-size:16px;line-height:1.6;color:rgba(255,255,255,0.8);" data-i18n="onboard_sub1">Everything you need to design, maintain, and protect your solar system.</p>
+      <div style="flex:0 0 100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 24px;text-align:center;">
+        <div style="font-size:56px;margin-bottom:16px;">☀️</div>
+        <h2 style="font-size:26px;font-weight:800;margin-bottom:10px;color:var(--primary);letter-spacing:-0.3px;" data-i18n="onboard_slide1_title">Your Solar Assistant</h2>
+        <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.75);max-width:300px;" data-i18n="onboard_sub1">Size systems, diagnose faults, track battery health — all in one app.</p>
+        <div style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;justify-content:center;">
+          <div style="background:rgba(205,219,34,0.1);border:1px solid rgba(205,219,34,0.2);border-radius:10px;padding:12px 14px;text-align:center;width:90px;">
+            <div style="font-size:22px;margin-bottom:4px;">⚡</div>
+            <div style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.7);letter-spacing:0.3px;" data-i18n="onboard_feat_size">Size Systems</div>
+          </div>
+          <div style="background:rgba(205,219,34,0.1);border:1px solid rgba(205,219,34,0.2);border-radius:10px;padding:12px 14px;text-align:center;width:90px;">
+            <div style="font-size:22px;margin-bottom:4px;">⚠️</div>
+            <div style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.7);letter-spacing:0.3px;" data-i18n="onboard_feat_fix">Fix Faults</div>
+          </div>
+          <div style="background:rgba(205,219,34,0.1);border:1px solid rgba(205,219,34,0.2);border-radius:10px;padding:12px 14px;text-align:center;width:90px;">
+            <div style="font-size:22px;margin-bottom:4px;">🔋</div>
+            <div style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.7);letter-spacing:0.3px;" data-i18n="onboard_feat_care">Battery Care</div>
+          </div>
+        </div>
       </div>
-      <div style="flex:0 0 100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 20px;text-align:center;">
-        <div style="font-size:64px;margin-bottom:20px;">📡</div>
-        <h2 style="font-size:28px;font-weight:700;margin-bottom:12px;color:var(--primary);" data-i18n="onboard_slide2_title">Works Offline</h2>
-        <p style="font-size:16px;line-height:1.6;color:rgba(255,255,255,0.8);" data-i18n="onboard_slide2_desc">No internet needed. All features work anywhere, anytime.</p>
+      <div style="flex:0 0 100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 24px;text-align:center;">
+        <div style="font-size:56px;margin-bottom:16px;">📡</div>
+        <h2 style="font-size:26px;font-weight:800;margin-bottom:10px;color:var(--primary);letter-spacing:-0.3px;" data-i18n="onboard_slide2_title">Works Offline</h2>
+        <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.75);max-width:300px;" data-i18n="onboard_slide2_desc">No internet needed. Every feature works anywhere, anytime — even in the field.</p>
       </div>
-      <div style="flex:0 0 100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 20px;text-align:center;">
-        <div style="font-size:64px;margin-bottom:20px;">✓</div>
-        <h2 style="font-size:28px;font-weight:700;margin-bottom:12px;color:var(--primary);" data-i18n="onboard_slide3_title">Get Started</h2>
-        <p style="font-size:16px;line-height:1.6;color:rgba(255,255,255,0.8);" data-i18n="onboard_slide3_desc">Select your region and explore tools built for your climate.</p>
+      <div style="flex:0 0 100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 24px;text-align:center;">
+        <div style="font-size:56px;margin-bottom:16px;">🚀</div>
+        <h2 style="font-size:26px;font-weight:800;margin-bottom:10px;color:var(--primary);letter-spacing:-0.3px;" data-i18n="onboard_slide3_title">Get Started</h2>
+        <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.75);max-width:300px;" data-i18n="onboard_slide3_desc">Pick your region, then explore the tools. A quick tour will show you around.</p>
       </div>
     </div>
     <div style="position:fixed;bottom:40px;left:0;right:0;text-align:center;z-index:1001;">
       <div id="onboardDots" style="margin-bottom:20px;"></div>
-      <button id="onboardBtn" onclick="nextOnboardSlide()" style="padding:14px 36px;background:var(--primary);color:var(--secondary);border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;" data-i18n="btn_next">Next</button>
+      <button id="onboardBtn" onclick="nextOnboardSlide()" style="padding:14px 40px;background:var(--primary);color:var(--secondary);border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.2px;box-shadow:0 4px 16px rgba(205,219,34,0.3);" data-i18n="btn_next">Next</button>
     </div>
   </div>
 
@@ -664,34 +678,34 @@
     };
 
     const tips = [
-      { en: "Never run your iron and water pump at the same time. Stagger heavy appliances.", ti: "ምስሪ (iron) ን ፓምፓ ማይን ብሓንሳብ ኣይትስርሑ። ከበድቲ ኣቑሑ ብተራ ስርሑ።", ar: "لا تشغّل المكواة ومضخة الماء في نفس الوقت. شغّل الأجهزة الثقيلة بالتناوب." },
+      { en: "For best performance, stagger heavy appliances — run the iron and water pump at separate times.", ti: "ንዝሓሸ ብቕዓት ከበድቲ ኣቑሑ ብተራ ስርሑ — ምስሪን ፓምፓ ማይን ኣብ ዝተፈላለየ ግዜ ስርሑ።", ar: "لأفضل أداء، شغّل الأجهزة الثقيلة بالتناوب — المكواة ومضخة الماء في أوقات مختلفة." },
       { en: "Clean solar panels every 2 weeks with water and a soft cloth. Dust can reduce output by 20–50% depending on your region.", ti: "ፓነላት ኣብ ክልተ ሰሙን ሓደ ግዜ ብማይን ልስሉስ ጨርቅን ኣጽርዩ። ሓመድ ብዞባ 20–50% ሓይሊ ይንኪ።", ar: "نظّف الألواح كل أسبوعين بماء وقماش ناعم. الغبار قد يقلل الإنتاج 20-50% حسب منطقتك." },
       { en: "Run your washing machine during peak solar hours (10am–2pm) so power comes from panels, not batteries.", ti: "ማሽን ሕጽቦ ኣብ ዝለዓለ ሰዓታት ጸሓይ (10am–2pm) ስርሑ — ሓይሊ ካብ ፓነል ይመጽእ።", ar: "شغّل الغسالة خلال ذروة الشمس (10ص-2م) لاستخدام طاقة الألواح مباشرة." },
-      { en: "AGM batteries should never discharge below 50%. Going below regularly reduces lifespan from 5+ years to 1–2.", ti: "AGM ባተሪ ካብ 50% ትሕቲ ኣይተውርዱ። ብተደጋጋሚ ምውራድ ዕድመ ባተሪ ካብ 5+ ናብ 1–2 ዓመት ይሓጽሮ።", ar: "بطاريات AGM يجب ألا تنخفض عن 50%. الاستنزاف المتكرر يقلل العمر من 5+ سنوات إلى 1-2." },
+      { en: "To ensure your AGM batteries last 5+ years, keep them above 50% charge. This simple habit protects your investment.", ti: "AGM ባተሪ 5+ ዓመት ንኽገልግል ካብ 50% ንላዕሊ ሓልዉ። እዚ ቀሊል ልምዲ ወፍሪኹም ይሕሉ።", ar: "لضمان عمر 5+ سنوات لبطاريات AGM، حافظ على الشحن فوق 50%. هذه العادة البسيطة تحمي استثمارك." },
       { en: "Your fridge compressor cycles on and off. A small fridge uses ~800Wh/day, not full rated watts × 24.", ti: "ፍሪጅ ይወልዕን ይጠፍእን። ንእሽቶ ፍሪጅ ~800Wh ኣብ መዓልቲ ይጥቀም።", ar: "ضاغط الثلاجة يعمل ويتوقف. ثلاجة صغيرة تستهلك ~800Wh يومياً." },
-      { en: "Fast beeping (every half second) means overload. Turn off the heaviest appliance immediately.", ti: "ቅልጡፍ ድምጺ (ኣብ ፍርቂ ሰከንድ) ኦቨርሎድ ማለት እዩ። ዝኸበደ ኣቕሓ ሽዑ ንሽዑ ኣጥፍኡ።", ar: "صفير سريع (كل نصف ثانية) يعني حمل زائد. أطفئ أثقل جهاز فوراً." },
-      { en: "Place your inverter in a ventilated, shaded area. Never in an enclosed cabinet without airflow.", ti: "ኢንቨርተር ኣብ ንፋስ ዝረኽቦ ጽላሎት ግበሩ። ኣብ ዕጹው ቦታ ኣይትግበሩ።", ar: "ضع الإنفرتر في مكان مظلل وجيد التهوية. لا تضعه في خزانة مغلقة." },
+      { en: "If you hear fast beeping (every half second), your system is telling you there's too much load. Simply turn off the heaviest appliance to restore normal operation.", ti: "ቅልጡፍ ድምጺ (ኣብ ፍርቂ ሰከንድ) ትሰምዑ እንተሃሊኹም ኣብ ስርዓትኩም ብዙሕ ጻዕቂ ኣሎ። ዝኸበደ ኣቕሓ ብምጥፋእ ንቡር ስራሕ ይምለስ።", ar: "إذا سمعت صفيراً سريعاً (كل نصف ثانية)، فنظامك يخبرك بوجود حمل زائد. ببساطة أطفئ أثقل جهاز لاستعادة التشغيل الطبيعي." },
+      { en: "Your inverter performs best in a ventilated, shaded area with good airflow — this keeps it running cool and efficient.", ti: "ኢንቨርተር ኣብ ንፋስ ዝረኽቦ ጽላሎት ዝለዓለ ብቕዓት ይህብ — ዝሑል ኮይኑ ይሰርሕ።", ar: "الإنفرتر يعمل بأفضل أداء في مكان مظلل وجيد التهوية — هذا يبقيه بارداً وكفؤاً." },
       { en: "LED lights use 80% less energy than incandescent bulbs. Switching to LEDs is the easiest way to cut consumption.", ti: "LED 80% ዝወሓደ ሓይሊ ይጥቀም። ናብ LED ምቕያር ቀሊል መንገዲ ምቕናስ እዩ።", ar: "إضاءة LED تستهلك 80% أقل. التحويل لـLED أسهل طريقة لتقليل الاستهلاك." },
       { en: "If using lithium batteries, always connect the BMS communication cable to the inverter.", ti: "ሊቲየም ባተሪ ትጥቀሙ እንተሃሊኹም BMS ኬብል ናብ ኢንቨርተር ኣራኽቡ።", ar: "إذا كنت تستخدم بطاريات ليثيوم، اربط كابل BMS بالإنفرتر دائماً." },
       { en: "During dusty conditions, check MC4 connectors for buildup that can cause poor contact.", ti: "ኣብ ሓመድ ዝበዝሖ ግዜ MC4 connectors ኣጽርዩ።", ar: "في الأجواء المغبرة، افحص موصلات MC4 من التراكمات." },
       { en: "A 5kWh lithium battery can power 6 LED lights and a TV for about 12 hours without solar.", ti: "5kWh ሊቲየም ባተሪ 6 LED ን TV ን ንኣስታት 12 ሰዓት ይኸውን።", ar: "بطارية ليثيوم 5kWh تشغّل 6 إضاءات LED وتلفاز لمدة 12 ساعة بدون شمس." },
-      { en: "Never mix batteries of different ages, types, or capacities. This damages all of them.", ti: "ዝተፈላለየ ዕድመ፣ ዓይነት ወይ ዓቐን ባተሪ ኣይትሓዋውሱ — ንኹለን ይበላሽወን።", ar: "لا تخلط بطاريات مختلفة العمر أو النوع أو السعة — هذا يتلفها جميعاً." },
+      { en: "For maximum battery life, always match batteries by age, type, and capacity. Matched batteries perform better together.", ti: "ንዝለዓለ ዕድመ ባተሪ ተመሳሳሊ ዕድመ፣ ዓይነትን ዓቐንን ባተሪ ጠቐሙ። ዝተመሳሰላ ባተሪ ዝሓሸ ብቕዓት ይህባ።", ar: "لأطول عمر للبطارية، استخدم بطاريات متطابقة في العمر والنوع والسعة. البطاريات المتطابقة تعمل أفضل معاً." },
       { en: "Starting a fridge or pump creates a 3–5x surge for a split second. Size your inverter accordingly.", ti: "ፍሪጅ ወይ ፓምፓ ክጅምር 3–5x ሓይሊ ይሓትት። ኢንቨርተር ብግቡእ ምረጹ።", ar: "تشغيل الثلاجة أو المضخة يسبب ارتفاعاً 3-5 أضعاف لحظياً." },
-      { en: "If your system suddenly stops, check the battery fuse first — it's the most commonly overlooked fix.", ti: "ስርዓት ሃንደበት ጠፊኡ? ቅድም ባተሪ ፊውዝ ርኣዩ።", ar: "إذا توقف النظام فجأة، افحص فيوز البطارية أولاً." },
+      { en: "Quick fix: if your system stops suddenly, start with the battery fuse — it's the easiest thing to check and often the solution.", ti: "ቅልጡፍ ፍታሕ: ስርዓት ሃንደበት ደው ኢሉ? ባተሪ ፊውዝ ቅድም ርኣዩ — ቀሊል ኮይኑ ብዙሕ ግዜ ፍታሕ እዩ።", ar: "حل سريع: إذا توقف النظام فجأة، ابدأ بفيوز البطارية — أسهل شيء للفحص وغالباً هو الحل." },
       { en: "Use a timer for water pumps: fill a tank during peak solar hours for later use.", ti: "ፓምፓ ማይ ብ timer ተጠቐሙ — ታንኪ ኣብ ሰዓታት ጸሓይ ምልኡ።", ar: "استخدم مؤقت لمضخة الماء: املأ خزان خلال ذروة الشمس." },
       { en: "30 minutes of ironing uses ~600Wh — equivalent to 10 LED lights for 6 hours. Iron during daytime.", ti: "30 ደቒቕ ምስራይ ~600Wh ይጥቀም — 10 LED ን 6 ሰዓት ማለት እዩ። ኣብ ቀትሪ ስርሑ።", ar: "30 دقيقة كي تستهلك ~600Wh — تعادل 10 إضاءات LED لمدة 6 ساعات. استخدم المكواة نهاراً." },
       { en: "Check battery terminals every few months for corrosion. Clean with a wire brush and apply petroleum jelly.", ti: "ናይ ባተሪ ተርሚናል ኣብ ገለ ኣዋርሕ ርኣዩ — ብ wire brush ኣጽርዩ።", ar: "افحص أطراف البطارية كل بضعة أشهر. نظّفها بفرشاة سلكية وضع فازلين." },
       { en: "Optimal panel tilt depends on your latitude. Use the region selector for guidance.", ti: "ዝንባለ ፓነል ኣብ ኬክሮስ ይምርኮስ። ዞባ ብምምራጽ ሓገዝ ርኸቡ።", ar: "ميل اللوح الأمثل يعتمد على خط العرض. استخدم اختيار المنطقة للتوجيه." },
       { en: "A ceiling fan running 10 hours uses 750Wh per day. Use only when needed.", ti: "ናሕሲ ፋን 10 ሰዓት 750Wh ኣብ መዓልቲ ይጥቀም። ኣብ ዘድልየኩም ጥራይ ስርሑ።", ar: "مروحة سقف تعمل 10 ساعات تستهلك 750Wh يومياً. استخدمها عند الحاجة فقط." },
-      { en: "Track battery voltage at sunset and sunrise. If it drops faster than usual, battery may be aging.", ti: "ቮልቴጅ ባተሪ ኣብ ጸሓይ ዕራብን ምብራቕን ተኸታተሉ።", ar: "تتبع فولتية البطارية عند الغروب والشروق. إذا انخفضت أسرع من المعتاد، البطارية قد تتقادم." },
-      { en: "Don't oversize panels beyond your inverter's max PV input. Check the datasheet.", ti: "ፓነል ካብ ዝለዓለ PV input ናይ ኢንቨርተር ኣይትበዝሑ።", ar: "لا تزد حجم الألواح عن أقصى مدخل PV للإنفرتر." },
-      { en: "For AGM, float voltage should be 13.6–13.8V per 12V battery. Wrong settings destroy the battery.", ti: "AGM float voltage 13.6–13.8V ኣብ 12V ባተሪ ክኸውን ኣለዎ።", ar: "لبطاريات AGM، فولتية التعويم 13.6-13.8V لكل 12V. الإعدادات الخاطئة تدمر البطارية." },
+      { en: "Pro tip: track battery voltage at sunset and sunrise. Consistent readings mean your batteries are healthy.", ti: "ምኽሪ: ቮልቴጅ ባተሪ ኣብ ጸሓይ ዕራብን ምብራቕን ተኸታተሉ። ቀዋሚ ንባብ ጥዕና ባተሪ የረጋግጽ።", ar: "نصيحة: تتبع فولتية البطارية عند الغروب والشروق. القراءات المستقرة تعني بطاريات سليمة." },
+      { en: "Best practice: match your total panel wattage to your inverter's max PV input for optimal performance.", ti: "ዝሓሸ ኣሰራርሓ: ጠቕላላ ዋት ፓነል ምስ ዝለዓለ PV input ናይ ኢንቨርተር ኣመዓራርዩ።", ar: "أفضل ممارسة: طابق إجمالي واطية الألواح مع أقصى مدخل PV للإنفرتر لأفضل أداء." },
+      { en: "For AGM batteries, set float voltage to 13.6–13.8V per 12V battery. Correct settings keep your batteries in top condition.", ti: "AGM ባተሪ float voltage 13.6–13.8V ኣብ 12V ግበሩ። ቅኑዕ ሰቲንግ ባተሪ ኣብ ዝለዓለ ኩነታት ይሕዝ።", ar: "لبطاريات AGM، اضبط فولتية التعويم على 13.6-13.8V لكل 12V. الإعدادات الصحيحة تحافظ على بطارياتك بأفضل حال." },
       { en: "Set inverter to solar-first mode to prioritize panel energy and preserve battery life.", ti: "ኢንቨርተር ናብ solar-first mode ግበሩ — ሓይሊ ፓነል ቅድሚ ባተሪ ይጥቀም።", ar: "اضبط الإنفرتر على وضع الشمس أولاً لتوفير عمر البطارية." },
       { en: "A small inverter at 80% capacity is more efficient than a large one at 20%. Right-size your system.", ti: "ንእሽቶ ኢንቨርተር ኣብ 80% ዓቐን ካብ ዓቢ ኣብ 20% ይሓይሽ።", ar: "إنفرتر صغير بسعة 80% أكفأ من كبير بسعة 20%. اختر الحجم المناسب." },
-      { en: "Don't put anything on top of batteries or inverter. Good airflow is essential.", ti: "ኣብ ልዕሊ ባተሪ ወይ ኢንቨርተር ገለ ነገር ኣይትግበሩ። ንፋስ ኣገዳሲ እዩ።", ar: "لا تضع أي شيء فوق البطاريات أو الإنفرتر. التهوية الجيدة ضرورية." },
-      { en: "If using a generator, let the inverter manage charging — don't connect generator directly to battery.", ti: "ጀነሬተር ትጥቀሙ እንተሃሊኹም ኢንቨርተር ክቻርጅ ሕደግዎ — ጀነሬተር ብቐጥታ ናብ ባተሪ ኣይተራኽቡ።", ar: "إذا استخدمت مولد، دع الإنفرتر يدير الشحن — لا تربط المولد بالبطارية مباشرة." },
-      { en: "If AGM batteries are 4+ years old and not holding charge, have them tested. They may need replacing.", ti: "AGM ባተሪ 4+ ዓመት ኮይኑ ቻርጅ ዘይሕዝ? ኣፈትሹ — ምቕያር ከድልየኩም ይኽእል።", ar: "إذا كانت بطاريات AGM عمرها 4+ سنوات ولا تحتفظ بالشحن، افحصها. قد تحتاج استبدال." },
-      { en: "During rainy season, check wiring for water damage. Moisture causes corrosion and shorts.", ti: "ኣብ ክረምቲ ዋየር ኣፈትሹ — ማይ ኣብ ኬብል ምብስባስን ሾርት ሰርኪትን ይፈጥር።", ar: "في موسم الأمطار، افحص الأسلاك من أضرار الماء. الرطوبة تسبب التآكل والماس الكهربائي." },
+      { en: "Keep the area around your batteries and inverter clear — good airflow helps them run cooler and last longer.", ti: "ኣብ ከባቢ ባተሪን ኢንቨርተርን ንጹህ ሓልዉ — ጽቡቕ ንፋስ ዝሑል ኮይኖም ነዊሕ ንኽገልግሉ ይሕግዝ።", ar: "حافظ على المنطقة حول البطاريات والإنفرتر نظيفة — التهوية الجيدة تساعدها على العمل بأقل حرارة وأطول عمر." },
+      { en: "Using a generator? Connect it through the inverter — this way the inverter manages safe, optimal charging.", ti: "ጀነሬተር ትጥቀሙ? ብኢንቨርተር ኣቢልኩም ኣራኽቡ — ኢንቨርተር ውሑስን ዝሓሸን ቻርጅ ይኣሊ።", ar: "تستخدم مولد؟ اربطه عبر الإنفرتر — هكذا يدير الإنفرتر شحناً آمناً ومثالياً." },
+      { en: "AGM batteries perform best for 4–5 years. If you notice shorter backup times, a quick test can tell you if it's time for an upgrade.", ti: "AGM ባተሪ 4-5 ዓመት ዝለዓለ ብቕዓት ይህብ። ሓጺር ባክኣፕ ትርእዩ? ቅልጡፍ ምፍታሽ ግዜ ምቕያር ድዩ የፍልጠኩም።", ar: "بطاريات AGM تعمل بأفضل أداء لمدة 4-5 سنوات. إذا لاحظت أوقات احتياطي أقصر، فحص سريع يخبرك إن حان وقت الترقية." },
+      { en: "Rainy season tip: a quick wiring check keeps your connections clean and your system running reliably.", ti: "ናይ ክረምቲ ምኽሪ: ቅልጡፍ ናይ ዋየር ምፍታሽ ርክብ ንጹህ ኮይኑ ስርዓትኩም ብኣተኣማምኖ ይሰርሕ።", ar: "نصيحة موسم الأمطار: فحص سريع للأسلاك يحافظ على توصيلات نظيفة وتشغيل موثوق." },
       { en: "Keep this app saved on your phone. Share it with family and neighbours via ShareIt or Bluetooth.", ti: "ነዚ app ኣብ ተሌፎንኩም ዓቅቡ። ንስድራን ጎረባብትን ብ ShareIt ወይ Bluetooth ኣካፍሉ።", ar: "احفظ هذا التطبيق على هاتفك. شاركه مع العائلة والجيران عبر ShareIt أو Bluetooth." }
     ];
 
@@ -989,9 +1003,9 @@
       img_not_available: { en: 'Image not available', ti: 'ስእሊ ኣይተረኽበን', ar: 'الصورة غير متوفرة' },
       onboard_slide1_title: { en: 'Your Solar Assistant', ti: 'ናይ ጸሓይ ሓይሊ ረዳኢኹም', ar: 'مساعدك الشمسي' },
       onboard_slide2_title: { en: 'Works Offline', ti: 'ብዘይ ኢንተርነት ይሰርሕ', ar: 'يعمل بدون إنترنت' },
-      onboard_slide2_desc: { en: 'No internet needed. All features work anywhere, anytime.', ti: 'ኢንተርነት ኣየድልን። ኩሉ ኣገልግሎት ኣብ ዝኾነ ቦታን ግዜን ይሰርሕ።', ar: 'لا حاجة للإنترنت. جميع الميزات تعمل في أي مكان وزمان.' },
+      onboard_slide2_desc: { en: 'No internet needed. Every feature works anywhere, anytime — even in the field.', ti: 'ኢንተርነት ኣየድልን። ኩሉ ኣገልግሎት ኣብ ዝኾነ ቦታ ይሰርሕ — ኣብ ሜዳ እውን።', ar: 'لا حاجة للإنترنت. كل ميزة تعمل في أي مكان — حتى في الميدان.' },
       onboard_slide3_title: { en: 'Get Started', ti: 'ጀምሩ', ar: 'ابدأ' },
-      onboard_slide3_desc: { en: 'Select your region and explore tools built for your climate.', ti: 'ዞባኹም ምረጹ ንኣየር ኩነታትኩም ዝተሰርሑ መሳርሒታት ተጠቐሙ።', ar: 'اختر منطقتك واستكشف الأدوات المصممة لمناخك.' },
+      onboard_slide3_desc: { en: 'Pick your region, then explore the tools. A quick tour will show you around.', ti: 'ዞባኹም ምረጹ መሳርሒታት ፈትሹ። ቅልጡፍ ዙረት ከነርእየኩም።', ar: 'اختر منطقتك ثم استكشف الأدوات. جولة سريعة ستعرّفك على كل شيء.' },
       sys_setup_title: { en: 'Set Up Your System', ti: 'ምድላው ጽሓያዊ ጸዓት', ar: 'إعداد نظامك' },
       sys_setup_desc: { en: 'Your technician will enter your system details to personalize this app for you.', ti: 'ቴክንሻንኩም ዝርዝር ሃልኪ ኣብ ፎርም ብምእታው ዝሓሸ ገምጋም ይወስድ', ar: 'سيدخل الفني تفاصيل نظامك لتخصيص هذا التطبيق لك.' },
       sys_customer_name: { en: 'Customer Name', ti: 'ስም ዓማዊል', ar: 'اسم العميل' },
@@ -1024,7 +1038,10 @@
       sys_maint_desc: { en: 'Keep your system running at peak performance.', ti: 'ስርዓትኩም ኣብ ዝለዓለ ብቕዓት ይሰርሕ ሓልዉ።', ar: 'حافظ على نظامك يعمل بأعلى أداء.' },
       sys_done: { en: 'Done', ti: 'ተገይሩ', ar: 'تم' },
       offline_msg: { en: "You're offline — all features still work ✓", ti: 'ኦፍላይን ኢኹም — ኩሉ ባህርያት ይሰርሕ ✓', ar: 'أنت غير متصل — جميع الميزات تعمل ✓' },
-      onboard_sub1: { en: 'Everything you need to design, maintain, and protect your solar system.', ti: 'ንስርዓት ጸሓይኩም ንምድላው ንምክንኻንን ንምሕላውን ዘድልየኩም ኩሉ።', ar: 'كل ما تحتاجه لتصميم وصيانة وحماية نظامك الشمسي.' },
+      onboard_sub1: { en: 'Size systems, diagnose faults, track battery health — all in one app.', ti: 'ስርዓት ዐቅኑ፣ ጸገም ፍለዩ፣ ጥዕና ባተሪ ተኸታተሉ — ኣብ ሓንቲ ኣፕ።', ar: 'حجّم الأنظمة، شخّص الأعطال، تابع صحة البطارية — في تطبيق واحد.' },
+      onboard_feat_size: { en: 'Size Systems', ti: 'ስርዓት ዐቅኑ', ar: 'حجّم الأنظمة' },
+      onboard_feat_fix: { en: 'Fix Faults', ti: 'ጸገም ኣልዩ', ar: 'حل الأعطال' },
+      onboard_feat_care: { en: 'Battery Care', ti: 'ክንክን ባተሪ', ar: 'رعاية البطارية' },
       tour_next: { en: 'Next', ti: 'ዝቕጽል', ar: 'التالي' },
       tour_done: { en: 'Got it!', ti: 'ተረዲአ!', ar: 'فهمت!' },
       tour_skip: { en: 'Skip tour', ti: 'ዝለል', ar: 'تخطي' },
