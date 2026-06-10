@@ -30,7 +30,7 @@
     }
     html, body { width:100%; height:100%; font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans',sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; }
     body { display:flex; flex-direction:column; overflow:hidden; }
-    header { background:var(--secondary); color:var(--white); padding:14px 20px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; box-shadow:0 2px 12px rgba(0,0,0,0.15); position:relative; z-index:10; direction:ltr !important; }
+    header { background:var(--secondary); color:var(--white); padding:calc(14px + env(safe-area-inset-top)) 20px 14px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; box-shadow:0 2px 12px rgba(0,0,0,0.15); position:relative; z-index:10; direction:ltr !important; }
     .header-left { display:flex; align-items:center; gap:12px; flex:1; }
     .logo-img { height:70px; width:auto; display:block; }
     .header-tagline { font-size:9px; font-weight:400; letter-spacing:1.5px; color:rgba(255,255,255,0.5); text-transform:uppercase; line-height:1.4; border-left:1px solid rgba(255,255,255,0.15); padding-left:12px; }
@@ -46,9 +46,9 @@
     .tab-btn.active { color:var(--primary); font-weight:600; border-bottom-color:var(--primary); opacity:1; }
     .tab-btn:active { background:var(--secondary-soft); }
 
-    .offline-bar { position:fixed; top:0; left:0; right:0; background:var(--secondary); color:rgba(255,255,255,0.85); text-align:center; padding:8px 20px; font-size:12px; font-weight:500; z-index:999; transform:translateY(-100%); transition:transform 0.3s ease; border-bottom:1px solid rgba(205,219,34,0.2); }
+    .offline-bar { position:fixed; top:0; left:0; right:0; background:var(--secondary); color:rgba(255,255,255,0.85); text-align:center; padding:calc(8px + env(safe-area-inset-top)) 20px 8px; font-size:12px; font-weight:500; z-index:999; transform:translateY(-100%); transition:transform 0.3s ease; border-bottom:1px solid rgba(205,219,34,0.2); }
     .offline-bar.show { transform:translateY(0); }
-    .fab-help { position:fixed; bottom:70px; right:16px; width:56px; height:56px; border-radius:50%; background:var(--primary); color:var(--secondary); border:none; box-shadow:0 4px 16px rgba(0,0,0,0.2), 0 2px 6px rgba(0,0,0,0.1); cursor:pointer; z-index:900; display:flex; align-items:center; justify-content:center; transition:all 0.3s cubic-bezier(0.4,0,0.2,1); font-size:24px; padding:0; }
+    .fab-help { position:fixed; bottom:calc(70px + env(safe-area-inset-bottom)); right:16px; width:56px; height:56px; border-radius:50%; background:var(--primary); color:var(--secondary); border:none; box-shadow:0 4px 16px rgba(0,0,0,0.2), 0 2px 6px rgba(0,0,0,0.1); cursor:pointer; z-index:900; display:flex; align-items:center; justify-content:center; transition:all 0.3s cubic-bezier(0.4,0,0.2,1); font-size:24px; padding:0; }
     .fab-help:hover { transform:scale(1.08); box-shadow:0 6px 20px rgba(0,0,0,0.25); }
     .fab-help:active { transform:scale(0.95); }
     .fab-help svg { width:28px; height:28px; fill:none; stroke:var(--secondary); stroke-width:2.2; }
@@ -56,7 +56,7 @@
     .tips-mode-btn { background:transparent; color:var(--text-muted); }
     .tips-mode-btn.active { background:var(--primary); color:var(--secondary); }
 
-    .main-content { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; background:var(--bg); }
+    .main-content { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; background:var(--bg); padding-bottom:env(safe-area-inset-bottom); }
     .tab-content { display:none; padding:20px; min-height:100%; animation:fadeIn 0.25s ease-out; }
     .tab-content.active { display:block; }
     @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
@@ -333,7 +333,7 @@
     @keyframes helpPulse { 0%,100%{box-shadow:0 4px 20px rgba(205,219,34,0.5);} 50%{box-shadow:0 4px 30px rgba(205,219,34,0.85),0 0 0 8px rgba(205,219,34,0.15);} }
     .sv-chat-overlay { position:fixed;top:0;left:0;width:100%;height:100%;z-index:1001;background:var(--bg);display:flex;flex-direction:column;transition:transform 0.3s ease;transform:translateY(100%); }
     .sv-chat-overlay.open { transform:translateY(0); }
-    .sv-chat-header { display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--secondary);border-bottom:1px solid rgba(205,219,34,0.12); }
+    .sv-chat-header { display:flex;align-items:center;justify-content:space-between;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;background:var(--secondary);border-bottom:1px solid rgba(205,219,34,0.12); }
     .sv-chat-header h3 { margin:0;font-size:15px;color:var(--primary);font-weight:700; }
     .sv-chat-close { background:none;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;padding:4px 8px;line-height:1; }
     .sv-chat-body { flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px; }
@@ -447,12 +447,13 @@
     <div id="svChatBody" class="sv-chat-body"></div>
   </div>
 
-  <div id="onboardingOverlay" style="display:none;position:fixed;inset:0;z-index:1000;background:var(--secondary);color:white;overflow:hidden;">
+  <div id="onboardingOverlay" style="display:none;position:fixed;inset:0;z-index:1000;background:var(--secondary);color:white;overflow:hidden;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box;">
     <div id="onboardSlides" style="display:flex;transition:transform 0.4s ease;height:100%;width:100%;">
       <div style="flex:0 0 100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 24px;text-align:center;">
         <div style="font-size:56px;margin-bottom:16px;">☀️</div>
         <h2 style="font-size:26px;font-weight:800;margin-bottom:10px;color:var(--primary);letter-spacing:-0.3px;" data-i18n="onboard_slide1_title">Your Solar Assistant</h2>
         <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.75);max-width:300px;" data-i18n="onboard_sub1">Size systems, diagnose faults, track battery health — all in one app.</p>
+        <div style="margin-top:22px;"><div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:10px;text-align:center;">Language · ቋንቋ · اللغة</div><div id="onboardLangRow" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;"><button type="button" class="ob-lang" data-l="en" onclick="onboardLang('en')" style="padding:10px 16px;border-radius:20px;border:1.5px solid rgba(205,219,34,0.3);background:transparent;color:#fff;font-size:14px;font-weight:600;min-height:44px;cursor:pointer;">English</button><button type="button" class="ob-lang" data-l="ti" onclick="onboardLang('ti')" style="padding:10px 16px;border-radius:20px;border:1.5px solid rgba(205,219,34,0.3);background:transparent;color:#fff;font-size:14px;font-weight:600;min-height:44px;cursor:pointer;">ትግርኛ</button><button type="button" class="ob-lang" data-l="ar" onclick="onboardLang('ar')" style="padding:10px 16px;border-radius:20px;border:1.5px solid rgba(205,219,34,0.3);background:transparent;color:#fff;font-size:14px;font-weight:600;min-height:44px;cursor:pointer;">العربية</button><button type="button" class="ob-lang" data-l="it" onclick="onboardLang('it')" style="padding:10px 16px;border-radius:20px;border:1.5px solid rgba(205,219,34,0.3);background:transparent;color:#fff;font-size:14px;font-weight:600;min-height:44px;cursor:pointer;">Italiano</button></div></div>
         <div style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;justify-content:center;">
           <div style="background:rgba(205,219,34,0.1);border:1px solid rgba(205,219,34,0.2);border-radius:10px;padding:12px 14px;text-align:center;width:90px;">
             <div style="font-size:22px;margin-bottom:4px;">⚡</div>
@@ -2167,10 +2168,12 @@
 
     let onboardCurrentSlide = 0;
     
+    function onboardLang(l){ setLang(l); document.querySelectorAll('#onboardLangRow .ob-lang').forEach(function(b){var on=b.getAttribute('data-l')===l;b.style.background=on?'var(--primary)':'transparent';b.style.color=on?'var(--secondary)':'#fff';b.style.borderColor=on?'var(--primary)':'rgba(205,219,34,0.3)';}); }
     function showOnboarding() {
       if (!localStorage.getItem('sv_onboarded')) {
         document.getElementById('onboardingOverlay').style.display = 'flex';
         renderOnboardDots();
+        try{onboardLang(currentLang);}catch(e){}
       } else if (!localStorage.getItem('sv_toured')) {
         // Already onboarded but hasn't seen the tour yet (e.g. updated app)
         setTimeout(startTour, 600);

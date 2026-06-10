@@ -1,4 +1,4 @@
-const CACHE_NAME = 'soleverde-v6';
+const CACHE_NAME = 'soleverde-v7';
 const ASSETS = [
   './',
   './index.html',
