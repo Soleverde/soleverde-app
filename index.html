@@ -570,6 +570,10 @@
       <div class="section"><h1 data-i18n="sizing_title">System Sizing Calculator</h1><p data-i18n="sizing_desc">Select the appliances you use daily and we'll recommend the right inverter, battery, and panels for your needs.</p><p style="font-size:12px;color:var(--primary);background:var(--secondary);padding:10px 14px;border-radius:8px;margin-top:10px;margin-bottom:0;line-height:1.5;" data-i18n="sizing_step1">Step 1: Set your appliances and hours below</p></div>
       <div class="section">
         <h2 data-i18n="daily_appliances">Your Daily Appliances</h2>
+        <div id="sizingDayNightHint" style="background:rgba(100,120,220,0.1);border:1px solid rgba(100,120,220,0.2);border-radius:10px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px;">
+          <div style="font-size:20px;flex-shrink:0;line-height:1;">💡</div>
+          <div style="font-size:12px;color:var(--text);line-height:1.5;" data-i18n="sizing_daynight_hint" data-i18n-html>Tap ☀️ for appliances used during <strong>daytime</strong> and 🌙 for <strong>nighttime</strong>. You can select both! Night use determines your battery size.</div>
+        </div>
         <div id="applianceList"></div>
         <div id="customAppliancesList"></div>
         <div class="custom-appliance-form">
@@ -1156,6 +1160,8 @@
       health_copy_btn: { en: 'Copy Health Report', it: 'Copia rapporto salute', ti: 'ናይ ጥዕና ጸብጻብ ቅዳሕ', ar: 'نسخ تقرير الصحة' },
       no_region_warning: { en: 'Please select your region first on the Home tab.', it: 'Per favore, seleziona prima la tua regione nella scheda Home.', ti: 'ኣቐዲምኩም ዞባኹም ኣብ መበገሲ ገጽ ምረጹ።', ar: 'يرجى اختيار منطقتك أولاً في الصفحة الرئيسية.' },
       sizing_step1: { en: 'Step 1: Set your appliances and hours below', it: 'Passaggio 1: imposta le tue apparecchiature e le ore qui sotto', ti: 'ስጉምቲ 1: ኣቕሑኹምን ሰዓታትን ኣብ ታሕቲ ኣቐምጡ', ar: 'الخطوة 1: حدد أجهزتك وساعات الاستخدام أدناه' },
+      sizing_daynight_hint: { en: 'Tap ☀️ for appliances used during <strong>daytime</strong> and 🌙 for <strong>nighttime</strong>. You can select both! Night use determines your battery size.', it: 'Tocca ☀️ per gli elettrodomestici usati di <strong>giorno</strong> e 🌙 per la <strong>notte</strong>. Puoi selezionare entrambi! L\'uso notturno determina la dimensione della batteria.', ti: 'ኣብ <strong>ቀትሪ</strong> ዝጥቀሙሉ ☀️ ኣብ <strong>ለይቲ</strong> ዝጥቀሙሉ 🌙 ጠውቑ። ክልቲኡ ክትመርጹ ትኽእሉ! ናይ ለይቲ ኣጠቓቕማ ዓቐን ባተሪ ይውስን።', ar: 'اضغط ☀️ للأجهزة المستخدمة <strong>نهاراً</strong> و🌙 <strong>ليلاً</strong>. يمكنك اختيار كليهما! الاستخدام الليلي يحدد حجم البطارية.' },
+      sizing_no_night_warn: { en: 'You haven\'t selected any nighttime 🌙 appliances. This means no battery backup for lights, TV, fans, or phone charging at night.\n\nAre you sure?', it: 'Non hai selezionato alcun elettrodomestico notturno 🌙. Questo significa nessuna batteria per luci, TV, ventilatori o ricarica di notte.\n\nSei sicuro?', ti: 'ናይ ለይቲ 🌙 ኣቕሑ ኣይመረጽኩምን። መብራህቲ፣ ቲቪ፣ ፋን ወይ ሞባይል ኣብ ለይቲ ባተሪ የብልኩምን ማለት እዩ።\n\nርግጸኛ ዲኹም?', ar: 'لم تحدد أي أجهزة ليلية 🌙. هذا يعني عدم وجود بطارية احتياطية للإضاءة والتلفاز والمراوح أو شحن الهاتف ليلاً.\n\nهل أنت متأكد؟' },
       sizing_step2: { en: 'Step 2: Choose battery type and calculate', it: 'Passaggio 2: scegli il tipo di batteria e calcola', ti: 'ስጉምቲ 2: ዓይነት ባተሪ ምረጹ ሕሰቡ', ar: 'الخطوة 2: اختر نوع البطارية واحسب' },
       lead_results_ready: { en: 'Your results are ready!', it: 'I tuoi risultati sono pronti!', ti: 'ውጽኢትኩም ድሉው እዩ!', ar: 'نتائجك جاهزة!' },
       lead_unlock_desc: { en: 'Enter your details below to see your personalized solar system recommendation.', it: 'Inserisci i tuoi dettagli qui sotto per vedere la tua raccomandazione di sistema solare personalizzata.', ti: 'ውጽኢትኩም ንምርኣይ ዝርዝርኩም ኣእትዉ።', ar: 'أدخل بياناتك أدناه لعرض توصية نظامك الشمسي.' },
@@ -2788,8 +2794,15 @@
       }
     }
 
-    function calculateSize() {
+    function calculateSize(skipNightCheck) {
       if(!currentRegion){ currentRegion='ER'; localStorage.setItem('soleverde_region','ER'); renderRegions(); displaySunHours(); displayDailyTip(); }
+      // Check if user forgot to select any nighttime appliances
+      if(!skipNightCheck) {
+        const anyNight = appState.some(s => s.use === 'night' || s.use === 'both') || customApps.some(a => a.use === 'night' || a.use === 'both');
+        if(!anyNight) {
+          if(!confirm(t('sizing_no_night_warn'))) return;
+        }
+      }
       const battPref=document.getElementById('batteryType').value, sunHours=getCurrentRegion().sunHours, loss=1.25, heatDerate=0.9;
       let totalDailyWh=0, backupWh=0, dayWh=0, peakLoad=0, loads=[];
       let maxSurge=0;appliances.forEach((a,i)=>{const q=appState[i].qty,h=appState[i].hours,u=appState[i].use||'day';if(q>0&&h>0){const wh=a.watts*q*h;totalDailyWh+=wh;peakLoad+=a.watts*q;if(a.surge)maxSurge=Math.max(maxSurge,a.watts*q*a.surge);if(u==='night')backupWh+=wh;else if(u==='both'){backupWh+=wh*0.5;dayWh+=wh*0.5;}else dayWh+=wh;loads.push({name:a.name,watts:a.watts*q,wh,use:u});}});
